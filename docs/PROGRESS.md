@@ -163,3 +163,106 @@ The new project structure, tooling, and documentation were captured in commit `c
 - Phase 3 ingestion: re-derive a validated Parquet snapshot from `data/raw` with documented provenance, or formally quarantine untraceable values.
 - Add the ASGI application and `uvicorn` entry point in the API phase.
 - Keep the legacy canonical CSV read-only and uncleared until the snapshot policy is approved and implemented.
+
+### Phase 3 — Reproducible ingestion, validation, and data quality
+
+#### What was done
+
+- Verified the Phase 2 base: tag `phase-2-complete`, 25 passing tests, and a clean working tree before Phase 3 changes.
+- Re-inspected the legacy canonical CSV and all raw files. Confirmed that all 450 Schema A/B rows join one-to-one to the canonical CSV and that every physical measurement column matches exactly. Confirmed that the remaining 442 canonical rows have no faithful raw source.
+- Added an explicit, versioned source policy in `src/flame/ingestion/mappings/source_policy.yaml`:
+  - 18 families / 450 rows rebuilt from 11 immutable Schema A/B files under `data/raw`.
+  - 12 families / 442 rows carried from `data/processed/canonical_experiments.csv`.
+  - Six legacy raw files are declared unused for rebuild because reconstructing their rows would require authored descriptions, constants, or notes that are not in the raw columns.
+- Added the Pydantic v2 `Experiment` and `DatasetRecord` models in `src/flame/schemas/experiment.py`, covering all 28 canonical columns with units in field metadata and structural optionality.
+- Implemented pure cleaning functions in `src/flame/ingestion/clean.py`:
+  - ISO date parsing for `YYYY-MM-DD`, `M/D/YYYY`, and `M/D/YY`, with an explicit two-digit-year pivot; campaign ranges are nulled with `TEST_DATE_CAMPAIGN_RANGE`.
+  - Explicit vocabulary normalisation for `extinction_outcome`, `material_category`, `fuel_material`, and `gravity_condition`, with originals preserved in `*_raw`.
+  - Airflow quarantine above 1000 cm/s; raw values preserved in `airflow_velocity_cms_raw`.
+  - Flags, without edits, for zero/implausible burn times and zero/missing pressure values.
+- Implemented enrichment in `src/flame/ingestion/enrich.py`:
+  - `is_modeled` selected only by family and gravity-descriptor rules; exactly 52 rows (50 partial-g bounded + 2 LUCI/FM2 references).
+  - Text-only extraction for SAFFIRE specimen dimensions and flow direction, GRC Drop Tower microgravity duration, and BASS-II PI surnames. Every pattern is verified against all candidate rows; two SAFFIRE pre-test placeholder rows are documented exceptions.
+  - `data_quality_flags` finalised as a sorted list per row.
+- Implemented hard and soft validation in `src/flame/ingestion/validate.py`: Pandera hard contracts fail the build; soft range violations become flags only.
+- Implemented the end-to-end orchestration in `src/flame/ingestion/pipeline.py` and the CLI in `scripts/build_dataset.py`.
+- Added `docs/data_dictionary.md` covering all 44 output columns, units, family applicability, caveats, flags, mappings, and explicit `UNVERIFIED` items.
+- Generated the artifacts:
+  - `data/processed/experiments.parquet` (892 rows x 44 columns)
+  - `data/processed/provenance_manifest.json`
+  - `data/reports/quality_report.md`
+  - `data/reports/canonical_diff.csv` (502 differing cells against the legacy canonical CSV)
+
+#### Files changed
+
+New files:
+
+- `src/flame/ingestion/canonicalize.py`, `clean.py`, `enrich.py`, `errors.py`, `pipeline.py`, `validate.py`
+- `src/flame/ingestion/mappings/__init__.py`, `source_policy.yaml`, `vocabularies.yaml`, `modeled_rows.yaml`
+- `src/flame/schemas/experiment.py`
+- `scripts/build_dataset.py`
+- `tests/unit/test_clean_dates.py`, `test_clean_numeric.py`, `test_clean_vocab.py`, `test_enrich.py`, `test_schemas.py`, `test_validate.py`
+- `tests/integration/test_build_dataset.py`
+- `docs/data_dictionary.md`
+- `data/processed/experiments.parquet`, `data/processed/provenance_manifest.json`
+- `data/reports/quality_report.md`, `data/reports/canonical_diff.csv`
+
+Modified files:
+
+- `pyproject.toml` (added `pyyaml>=6.0` at runtime; `pandas-stubs` and `types-PyYAML` for strict typing)
+- `uv.lock`
+- `src/flame/config.py` (artifact paths and ingestion thresholds)
+- `.env.example` (new paths and thresholds)
+- `docs/PROGRESS.md` (this report)
+
+No file under `data/raw` and no `data/processed/canonical_experiments.csv` was modified; `git diff phase-2-complete -- data/raw data/processed/canonical_experiments.csv` is empty.
+
+#### Tests run and results
+
+- `uv run pytest` — **PASS**: 71 passed, total coverage 91% (`config.py` 94%, `canonicalize.py` 88%, `clean.py` 94%, `enrich.py` 94%, `pipeline.py` 88%, `validate.py` 94%, `logging.py` 95%).
+- `uv run ruff check .` — **PASS**.
+- `uv run ruff format --check .` — **PASS** (38 files formatted).
+- `uv run mypy` — **PASS**: no issues in 18 source files.
+- `SOURCE_DATE_EPOCH=1763070000 uv run python scripts/build_dataset.py` twice — **PASS**: all four artifacts byte-identical between runs.
+- Final artifact hashes:
+  - `experiments.parquet`: `4b3139dc07546aa01ab89b3a0b02411a25c02be681275b9619bda57aba7b33cf`
+  - `provenance_manifest.json`: `89904fb69c84bf2cb821a66ab375145dbd3b2cc759b52e62323a52ba4330ac0a`
+  - `quality_report.md`: `67db68e2b48f33689f77c0b3685cc9c7fdd5f61dab16478751a8f115180f6e16`
+  - `canonical_diff.csv`: `4acf80fe5537150ae77da7af4d7c2b7e31abfa7df48438ffc6a7e820c33aa3d4`
+- Pipeline summary from each run: 892 rows, `is_modeled=52`, `quarantined_airflow=42`, 892 unique `experiment_id` values.
+- Hard validation passed on the full dataset; no soft range violations fired.
+
+#### Acceptance criteria checked
+
+1. **CLI twice produces identical output** — **Met**. All artifacts are byte-identical with a fixed `SOURCE_DATE_EPOCH`. The Parquet content is deterministic regardless; only the manifest/report timestamp changes without a fixed epoch.
+2. **892 rows or a justified documented count** — **Met**: exactly 892 rows (450 raw-rebuild + 442 legacy-carried), matching the legacy canonical shape. The split and family counts are in the manifest and quality report.
+3. **`is_modeled` exactly 52** — **Met**: 50 partial-g bounded rows plus 2 LUCI/FM2 reference rows, selected by family and gravity-descriptor rules.
+4. **All 42 corrupt airflow values quarantined with raw retained** — **Met**: 42 rows flagged `AIRFLOW_QUARANTINED`, clean values nulled, originals retained in `airflow_velocity_cms_raw` (max `5,105,204,962,494,442.0` cm/s).
+5. **Quality report lists every mapping and flag** — **Met**: the report lists each applied mapping with counts, identity values, every flag, every quarantined row, modeled rows, null rates per family, and input checksums.
+6. **Tests, ruff, and mypy pass** — **Met**: 71 tests pass; ruff and mypy are clean.
+7. **Pydantic schema, data dictionary, deterministic pipeline** — **Met**. The schema covers all 28 canonical columns; the data dictionary covers all 44 output columns and marks `UNVERIFIED` items; artifacts are deterministic.
+8. **Commit locally and tag `phase-3-complete`** — **Met at phase close**. The code and documentation are committed as `c03126a` (`phase 3: ingestion, validation and data quality`); the regenerated artifacts and this report are committed immediately after, and `phase-3-complete` tags the final tree.
+
+#### Issues found
+
+- **External commit during the phase.** Commit `b89048e` (“Implement dataset validation and schema for experiment records”) was created by an external process and captured the earlier Phase 3 implementation. Per the agent rules, history was not reset or rewritten. The remaining fixes and this report were committed on top as `c03126a` and the final artifact commit.
+- **Determinism and timestamps.** The pipeline writes `generated_at` into the manifest and report. Byte-identical artifacts therefore require a fixed `SOURCE_DATE_EPOCH`; the Parquet itself is deterministic without it.
+- **Null representation.** Pandas may expose missing string values as `NaN` rather than `None` in memory; Parquet stores them as nulls. Tests use `pd.isna` rather than identity checks.
+- **Flag persistence under copy-on-write.** An intermediate implementation stored flags in a Series view, which copy-on-write discarded. Flags now update the parent DataFrame directly; the integration test catches regressions.
+- **Legacy fidelity.** The 442 legacy-carried rows cannot be rebuilt faithfully from their raw logs without inventing authored descriptions, constants, and notes. They are explicitly sourced from the legacy canonical CSV and flagged in the report and dictionary.
+- **Known data defects retained, not fixed.** Seven zero burn times, one 10003.4 s burn time, one zero/mmHg pressure row with missing kPa, eight zero extinction diameters, zero burning rates in NASA-STD-6001/SLICE/SOFIE, and campaign-level constants in several families are preserved and documented. No imputation or silent repair was performed.
+- **SLICE metadata drift.** The raw SLICE file lacks the longer `source_name` and facility-suffixed `notes` present in the legacy canonical CSV. The pipeline uses the raw values; the difference is counted in the 502-cell final diff.
+- **Dependency additions.** `pyyaml` is required to read the versioned mapping tables. `pandas-stubs` and `types-PyYAML` are dev-only typing dependencies needed for strict mypy. No other dependency was added.
+
+#### Deviations from the prompt
+
+- `gravity_condition` was added to the explicit vocabulary mapping alongside the three named columns. The only applied rule is the case/label normalisation `microgravity` → `Microgravity (~0g)` (28 rows); the original value is preserved in `gravity_condition_raw` in memory.
+- `original_test_id` and `pressure_mmhg` are derived for raw-rebuild rows. Both were verified to reproduce the legacy canonical values exactly for all 450 rows; the derivations are documented in the source policy and data dictionary.
+- The 442 non-rebuildable rows use `data/processed/canonical_experiments.csv` as their declared source, as permitted by the Phase 3 prompt. The six unused legacy raw files are recorded in the source policy.
+- No database, retrieval, or LLM code was added.
+
+#### Remaining work
+
+- Owner approval is required for the vocabulary mappings, the 1000 cm/s airflow quarantine threshold, the 3600 s burn-time plausibility maximum, and the `UNVERIFIED` items in `docs/data_dictionary.md`.
+- Later phases must not treat `is_modeled` rows as direct partial-gravity measurements, must not compare `burning_rate_mms` across families without source definitions, and must not treat legacy-carried fields as raw-verified measurements.
+- Database loading, retrieval indices, and LLM/RAG components remain out of scope until their phases.

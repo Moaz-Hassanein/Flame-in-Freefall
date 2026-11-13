@@ -8,7 +8,7 @@
     "TEST_DATE_CAMPAIGN_RANGE": 23
   },
   "generated_at": "2025-11-13T21:40:00+00:00",
-  "git_commit": "b89048e694713f8f685fa6fad991a37ec59f6693",
+  "git_commit": "c03126af689d3e769cc7b362705950d6f2dcef94",
   "inputs": [
     {
       "kind": "canonical_legacy",
