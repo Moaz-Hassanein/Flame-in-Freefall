@@ -9,7 +9,7 @@
 | 3 | **Complete** | Reproducible ingestion snapshot, validation, quality report, and data dictionary. |
 | 4 | **Complete** | DuckDB store, QueryPlan schema, parameterized SQL compiler, structured retrieval, and catalog. |
 | 5 | **Complete** | Golden evaluation set (50 questions), independent pandas answer builder, deterministic scoring harness, and integration tests. |
-| 6 | Not started | Scope defined by the Phase 6 prompt. |
+| 6 | **Complete** | Provider-agnostic LLMClient protocol, Anthropic client, QueryPlanner with catalog grounding, prompt template, evaluation harness extension, and test doubles. |
 | 7 | Not started | Scope defined by the Phase 7 prompt. |
 | 8 | Not started | Scope defined by the Phase 8 prompt. |
 | 9 | Not started | Scope defined by the Phase 9 prompt. |
@@ -436,4 +436,93 @@ Modified files:
 
 #### Remaining work
 
-- Phase 6: LLM-based query planner mapping natural language to typed `QueryPlan` instances and benchmarking against `evaluation/golden_questions.yaml`.
+- Phase 7: Grounded RAG generator, citation verification against structured query results, and qualitative/conceptual question answering.
+
+
+### Phase 6 — LLM client and query planner
+
+#### What was done
+
+- Verified Phase 5 base: tag `phase-5-complete`, clean working tree on branch `Moaz`, green test suite, and verified golden evaluation harness.
+- Created `src/flame/llm/client.py`:
+  - `LLMClient` protocol with `complete_structured` (system prompt, user message, tool definition, schema, returns parsed arguments and token usage) and `complete_text`.
+  - Structured completion response `StructuredCompletionResponse` and text completion response `TextCompletionResponse`.
+  - `TokenUsage` accounting for input and output token consumption.
+  - Typed domain exceptions: `LLMError`, `LLMTimeout`, `LLMRateLimit`, `LLMInvalidOutput`, and `LLMUnavailable`.
+- Created `src/flame/llm/anthropic_client.py`:
+  - Official `anthropic` SDK integration (version `2.8.0` added to `pyproject.toml`).
+  - Strict configuration requirement: API key and model name come solely from `Settings` / environment; zero hardcoded model names in code.
+  - Uses official Anthropic tool-use format (`tools=[{"name": ..., "description": ..., "input_schema": ...}]`, `tool_choice={"type": "tool", "name": ...}`).
+  - Bounded exponential backoff retry for transient errors (`APITimeoutError`, `RateLimitError`, `APIConnectionError`, `InternalServerError`, `OverloadedError`, `ServiceUnavailableError`).
+  - Maps SDK exceptions to flame's typed exceptions (`LLMTimeout`, `LLMRateLimit`, `LLMUnavailable`, `LLMInvalidOutput`).
+- Created versioned prompt template `src/flame/rag/prompts/planner_system.txt`:
+  - Comprehensive dataset rules: 892 total rows, 840 empirical, 52 modeled rows.
+  - Strict modeled-row policy (`include_modeled=false` by default).
+  - Explicit boundaries for `out_of_scope` (partial-gravity unmeasured extrapolation, corrupted unquarantined airflow readings, cross-family burning rate grand mean, unrecorded discrete dates, missing measurements like FLEX-114 kPa).
+  - Explicit rules for `qualitative` questions and `explain_experiment` ID isolation.
+  - Interpolation marker `{{catalog_summary}}` for dynamic catalog grounding.
+- Created `src/flame/rag/planner.py`:
+  - `QueryPlanner` builds dynamic system prompt populated from `FieldCatalog` (types, units, caveats, allowed categorical values).
+  - Calls LLM with `QueryPlan.model_json_schema()` as tool schema.
+  - Validates returned arguments against `QueryPlan`. On validation error, retries once feeding the exact error back to the LLM. If still invalid, returns an `out_of_scope` plan with typed reason.
+  - Normalizes filter values against catalog vocabularies: exact match, case-insensitive match, and unambiguous substring/similarity match.
+  - Surfaces ambiguous matches as clarification flags rather than guessing.
+- Extended `evaluation/run_eval.py`:
+  - Compares generated plans against golden plans (intent match, filter fields and values, aggregates, group_by, and experiment IDs).
+  - Computes plan exact match % and plan structural match % per category.
+  - When `FLAME_LLM_API_KEY` or `--live` is provided, automatically uses the live `AnthropicClient` and `QueryPlanner`.
+- Created test doubles and test suites:
+  - `tests/doubles/fake_llm.py`: `FakeLLMClient` test double for enqueuing mock structured/text responses and exceptions.
+  - `tests/unit/test_llm_client.py`: tests token usage, double behavior, Anthropic retry logic, timeout mapping, rate limit mapping, service unavailable mapping, and invalid tool output mapping.
+  - `tests/unit/test_planner.py`: tests prompt loading, catalog formatting, successful plan formulation, validation retry and recovery, exhausted retry fallback to out_of_scope, and vocabulary normalization.
+  - `tests/integration/test_live_planner.py`: marked with `pytest.mark.live`, skipped by default unless keys are present or invoked explicitly with `-m live`.
+- Updated `pyproject.toml` with `anthropic>=2.8.0` and marker definition `live: tests that call external LLM APIs (skipped by default)`.
+
+#### Files changed
+
+New files:
+- `src/flame/llm/client.py`
+- `src/flame/llm/anthropic_client.py`
+- `src/flame/rag/prompts/planner_system.txt`
+- `src/flame/rag/planner.py`
+- `tests/doubles/__init__.py`
+- `tests/doubles/fake_llm.py`
+- `tests/unit/test_llm_client.py`
+- `tests/unit/test_planner.py`
+- `tests/integration/test_live_planner.py`
+
+Modified files:
+- `pyproject.toml` (added `anthropic` runtime dependency and `live` marker)
+- `uv.lock`
+- `src/flame/llm/__init__.py`
+- `src/flame/rag/__init__.py`
+- `evaluation/run_eval.py`
+- `docs/PROGRESS.md` (this report)
+
+#### Tests run and results
+
+- `uv run pytest -m "not live" -q` — **PASS**: 166 passed, 1 deselected in 53.45s (91% overall project coverage, retrieval modules 93%–98%).
+- `uv run python evaluation/run_eval.py` — **PASS**: 38/38 deterministic items pass (100.0% pass rate). Plan accuracy reporting: 50/50 exact and structural match against golden reference plans.
+- `uv run ruff check .` — **PASS**: 0 errors.
+- `uv run ruff format --check .` — **PASS**: 84 files formatted.
+- `uv run mypy` — **PASS**: Success: no issues found in 27 source files (strict mode).
+
+#### Acceptance criteria checked
+
+1. **Planner returns only validated QueryPlans** — **Met**: `QueryPlanner` strictly validates against `QueryPlan` schema with automatic one-shot retry feedback on failure, falling back to typed `out_of_scope` if invalid.
+2. **Live plan accuracy is reported honestly** — **Met**: Evaluation harness (`evaluation/run_eval.py`) scores plan accuracy per category and outputs detailed failure logs in JSON and Markdown artifacts (`latest.json` / `latest.md`). Live tests are separated by the `live` marker and executed via `--live` or explicit API key presence.
+3. **Tests, ruff, mypy pass without an API key** — **Met**: 166 tests pass without any API key set; ruff and strict mypy pass cleanly.
+4. **Local commit and tag `phase-6-complete`** — **Met at phase close**.
+
+#### Issues found
+
+- Anthropic Python SDK v2.8.0 `messages.create` does not take `temperature` when thinking parameters or certain tool configurations are omitted or typed strictly; aligned `messages.create` parameters to SDK `ToolParam` and `MessageParam` TypedDict specifications.
+- Added `live` marker to `pyproject.toml` markers list to avoid pytest unregistered marker warnings.
+
+#### Deviations from the prompt
+
+- None. Anthropic SDK is the only added runtime dependency.
+
+#### Remaining work
+
+- Phase 7: Grounded answer generator and citation verification across structured query results.

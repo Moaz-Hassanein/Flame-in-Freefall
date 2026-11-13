@@ -16,6 +16,7 @@ dependencies = [
     "pyyaml>=6.0",
     "fastapi>=0.115",
     "uvicorn[standard]>=0.30",
+    "anthropic>=2.8.0",
 ]
 
 [dependency-groups]
@@ -60,7 +61,10 @@ show_error_codes = true
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-ra --strict-markers --cov=flame --cov-report=term-missing"
-markers = ["integration: tests that exercise more than one module"]
+markers = [
+    "integration: tests that exercise more than one module",
+    "live: tests that call external LLM APIs (skipped by default)",
+]
 pythonpath = ["."]
 
 [tool.coverage.run]

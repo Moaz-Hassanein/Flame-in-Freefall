@@ -1,9 +1,44 @@
 {
-  "timestamp": "20261113T230805Z",
+  "timestamp": "20261113T232902Z",
+  "is_live_planner": false,
   "total_questions": 50,
   "total_deterministic": 38,
   "total_passed": 38,
   "deterministic_pass_rate_pct": 100.0,
+  "plan_accuracy": {
+    "total_plans": 50,
+    "exact_matches": 50,
+    "exact_match_pct": 100.0,
+    "structural_matches": 50,
+    "structural_match_pct": 100.0,
+    "per_category": {
+      "lookup": {
+        "total": 15,
+        "exact_match": 15,
+        "structural_match": 15
+      },
+      "aggregation": {
+        "total": 15,
+        "exact_match": 15,
+        "structural_match": 15
+      },
+      "explain_experiment": {
+        "total": 8,
+        "exact_match": 8,
+        "structural_match": 8
+      },
+      "qualitative": {
+        "total": 6,
+        "exact_match": 6,
+        "structural_match": 6
+      },
+      "out_of_scope": {
+        "total": 6,
+        "exact_match": 6,
+        "structural_match": 6
+      }
+    }
+  },
   "category_stats": {
     "lookup": {
       "total": 15,
@@ -48,7 +83,49 @@
       "question": "Which non-modeled experiments tested Methanol fuel in the FLEX dataset family?",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "lookup",
+        "exp_intent": "lookup",
+        "gen_filter_count": 2,
+        "exp_filter_count": 2
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "lookup",
+        "filters": [
+          {
+            "field": "dataset_family",
+            "op": "eq",
+            "value": "FLEX"
+          },
+          {
+            "field": "fuel_material",
+            "op": "eq",
+            "value": "Methanol"
+          }
+        ],
+        "group_by": [],
+        "aggregates": [],
+        "select_fields": [
+          "experiment_id"
+        ],
+        "sort": [
+          {
+            "field": "experiment_id",
+            "direction": "asc"
+          }
+        ],
+        "limit": 1000,
+        "include_modeled": false,
+        "experiment_ids": null,
+        "allow_cross_family_aggregate": false
+      },
       "count_matched": 157
     },
     {
@@ -57,7 +134,44 @@
       "question": "List all experiments conducted under Normal Gravity (1.0g \u2014 WSTF Upward Screening Bound).",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "lookup",
+        "exp_intent": "lookup",
+        "gen_filter_count": 1,
+        "exp_filter_count": 1
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "lookup",
+        "filters": [
+          {
+            "field": "gravity_condition",
+            "op": "eq",
+            "value": "Normal Gravity (1.0g \u2014 WSTF Upward Screening Bound)"
+          }
+        ],
+        "group_by": [],
+        "aggregates": [],
+        "select_fields": [
+          "experiment_id"
+        ],
+        "sort": [
+          {
+            "field": "experiment_id",
+            "direction": "asc"
+          }
+        ],
+        "limit": 1000,
+        "include_modeled": false,
+        "experiment_ids": null,
+        "allow_cross_family_aggregate": false
+      },
       "count_matched": 59
     },
     {
@@ -66,7 +180,44 @@
       "question": "Find all experiments in the BASS-I dataset family.",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "lookup",
+        "exp_intent": "lookup",
+        "gen_filter_count": 1,
+        "exp_filter_count": 1
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "lookup",
+        "filters": [
+          {
+            "field": "dataset_family",
+            "op": "eq",
+            "value": "BASS-I"
+          }
+        ],
+        "group_by": [],
+        "aggregates": [],
+        "select_fields": [
+          "experiment_id"
+        ],
+        "sort": [
+          {
+            "field": "experiment_id",
+            "direction": "asc"
+          }
+        ],
+        "limit": 1000,
+        "include_modeled": false,
+        "experiment_ids": null,
+        "allow_cross_family_aggregate": false
+      },
       "count_matched": 8
     },
     {
@@ -75,7 +226,44 @@
       "question": "Which experiments have an extinction outcome of 'Disruption'?",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "lookup",
+        "exp_intent": "lookup",
+        "gen_filter_count": 1,
+        "exp_filter_count": 1
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "lookup",
+        "filters": [
+          {
+            "field": "extinction_outcome",
+            "op": "eq",
+            "value": "Disruption"
+          }
+        ],
+        "group_by": [],
+        "aggregates": [],
+        "select_fields": [
+          "experiment_id"
+        ],
+        "sort": [
+          {
+            "field": "experiment_id",
+            "direction": "asc"
+          }
+        ],
+        "limit": 1000,
+        "include_modeled": false,
+        "experiment_ids": null,
+        "allow_cross_family_aggregate": false
+      },
       "count_matched": 61
     },
     {
@@ -84,7 +272,44 @@
       "question": "Find all experiments where test_date is null due to campaign range or lack of exact date.",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "lookup",
+        "exp_intent": "lookup",
+        "gen_filter_count": 1,
+        "exp_filter_count": 1
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "lookup",
+        "filters": [
+          {
+            "field": "test_date",
+            "op": "is_null",
+            "value": null
+          }
+        ],
+        "group_by": [],
+        "aggregates": [],
+        "select_fields": [
+          "experiment_id"
+        ],
+        "sort": [
+          {
+            "field": "experiment_id",
+            "direction": "asc"
+          }
+        ],
+        "limit": 1000,
+        "include_modeled": false,
+        "experiment_ids": null,
+        "allow_cross_family_aggregate": false
+      },
       "count_matched": 23
     },
     {
@@ -93,7 +318,49 @@
       "question": "Which experiments have a quarantined airflow reading (raw value >= 1000 cm/s)?",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "lookup",
+        "exp_intent": "lookup",
+        "gen_filter_count": 2,
+        "exp_filter_count": 2
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "lookup",
+        "filters": [
+          {
+            "field": "airflow_velocity_cms",
+            "op": "is_null",
+            "value": null
+          },
+          {
+            "field": "airflow_velocity_cms_raw",
+            "op": "gte",
+            "value": 1000.0
+          }
+        ],
+        "group_by": [],
+        "aggregates": [],
+        "select_fields": [
+          "experiment_id"
+        ],
+        "sort": [
+          {
+            "field": "experiment_id",
+            "direction": "asc"
+          }
+        ],
+        "limit": 1000,
+        "include_modeled": false,
+        "experiment_ids": null,
+        "allow_cross_family_aggregate": false
+      },
       "count_matched": 42
     },
     {
@@ -102,7 +369,44 @@
       "question": "Find all experiments tested on or after 2022-01-01.",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "lookup",
+        "exp_intent": "lookup",
+        "gen_filter_count": 1,
+        "exp_filter_count": 1
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "lookup",
+        "filters": [
+          {
+            "field": "test_date",
+            "op": "gte",
+            "value": "2022-01-01"
+          }
+        ],
+        "group_by": [],
+        "aggregates": [],
+        "select_fields": [
+          "experiment_id"
+        ],
+        "sort": [
+          {
+            "field": "experiment_id",
+            "direction": "asc"
+          }
+        ],
+        "limit": 1000,
+        "include_modeled": false,
+        "experiment_ids": null,
+        "allow_cross_family_aggregate": false
+      },
       "count_matched": 88
     },
     {
@@ -111,7 +415,44 @@
       "question": "Find all experiments tested on or before 2010-12-31.",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "lookup",
+        "exp_intent": "lookup",
+        "gen_filter_count": 1,
+        "exp_filter_count": 1
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "lookup",
+        "filters": [
+          {
+            "field": "test_date",
+            "op": "lte",
+            "value": "2010-12-31"
+          }
+        ],
+        "group_by": [],
+        "aggregates": [],
+        "select_fields": [
+          "experiment_id"
+        ],
+        "sort": [
+          {
+            "field": "experiment_id",
+            "direction": "asc"
+          }
+        ],
+        "limit": 1000,
+        "include_modeled": false,
+        "experiment_ids": null,
+        "allow_cross_family_aggregate": false
+      },
       "count_matched": 186
     },
     {
@@ -120,7 +461,49 @@
       "question": "Which experiments in the GRC Drop Tower family used Ethanol Droplet as fuel?",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "lookup",
+        "exp_intent": "lookup",
+        "gen_filter_count": 2,
+        "exp_filter_count": 2
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "lookup",
+        "filters": [
+          {
+            "field": "dataset_family",
+            "op": "eq",
+            "value": "GRC Drop Tower"
+          },
+          {
+            "field": "fuel_material",
+            "op": "eq",
+            "value": "Ethanol Droplet"
+          }
+        ],
+        "group_by": [],
+        "aggregates": [],
+        "select_fields": [
+          "experiment_id"
+        ],
+        "sort": [
+          {
+            "field": "experiment_id",
+            "direction": "asc"
+          }
+        ],
+        "limit": 1000,
+        "include_modeled": false,
+        "experiment_ids": null,
+        "allow_cross_family_aggregate": false
+      },
       "count_matched": 18
     },
     {
@@ -129,7 +512,44 @@
       "question": "List all experiments that tested PMMA (Acrylic) fuel.",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "lookup",
+        "exp_intent": "lookup",
+        "gen_filter_count": 1,
+        "exp_filter_count": 1
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "lookup",
+        "filters": [
+          {
+            "field": "fuel_material",
+            "op": "eq",
+            "value": "PMMA (Acrylic)"
+          }
+        ],
+        "group_by": [],
+        "aggregates": [],
+        "select_fields": [
+          "experiment_id"
+        ],
+        "sort": [
+          {
+            "field": "experiment_id",
+            "direction": "asc"
+          }
+        ],
+        "limit": 1000,
+        "include_modeled": false,
+        "experiment_ids": null,
+        "allow_cross_family_aggregate": false
+      },
       "count_matched": 42
     },
     {
@@ -138,7 +558,44 @@
       "question": "Retrieve all experiments with fuel_material containing the substring 'Heptane'.",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "lookup",
+        "exp_intent": "lookup",
+        "gen_filter_count": 1,
+        "exp_filter_count": 1
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "lookup",
+        "filters": [
+          {
+            "field": "fuel_material",
+            "op": "contains",
+            "value": "Heptane"
+          }
+        ],
+        "group_by": [],
+        "aggregates": [],
+        "select_fields": [
+          "experiment_id"
+        ],
+        "sort": [
+          {
+            "field": "experiment_id",
+            "direction": "asc"
+          }
+        ],
+        "limit": 1000,
+        "include_modeled": false,
+        "experiment_ids": null,
+        "allow_cross_family_aggregate": false
+      },
       "count_matched": 145
     },
     {
@@ -147,7 +604,47 @@
       "question": "Find all experiments with an oxygen percentage between 20.0% and 30.0% inclusive.",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "lookup",
+        "exp_intent": "lookup",
+        "gen_filter_count": 1,
+        "exp_filter_count": 1
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "lookup",
+        "filters": [
+          {
+            "field": "oxygen_pct",
+            "op": "between",
+            "value": [
+              20.0,
+              30.0
+            ]
+          }
+        ],
+        "group_by": [],
+        "aggregates": [],
+        "select_fields": [
+          "experiment_id"
+        ],
+        "sort": [
+          {
+            "field": "experiment_id",
+            "direction": "asc"
+          }
+        ],
+        "limit": 1000,
+        "include_modeled": false,
+        "experiment_ids": null,
+        "allow_cross_family_aggregate": false
+      },
       "count_matched": 463
     },
     {
@@ -156,7 +653,44 @@
       "question": "Which experiment has a missing pressure_kpa and zero pressure_mmhg?",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "lookup",
+        "exp_intent": "lookup",
+        "gen_filter_count": 1,
+        "exp_filter_count": 1
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "lookup",
+        "filters": [
+          {
+            "field": "pressure_kpa",
+            "op": "is_null",
+            "value": null
+          }
+        ],
+        "group_by": [],
+        "aggregates": [],
+        "select_fields": [
+          "experiment_id"
+        ],
+        "sort": [
+          {
+            "field": "experiment_id",
+            "direction": "asc"
+          }
+        ],
+        "limit": 1000,
+        "include_modeled": false,
+        "experiment_ids": null,
+        "allow_cross_family_aggregate": false
+      },
       "count_matched": 1
     },
     {
@@ -165,7 +699,44 @@
       "question": "List all modeled engineering bounding and reference rows.",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "lookup",
+        "exp_intent": "lookup",
+        "gen_filter_count": 1,
+        "exp_filter_count": 1
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "lookup",
+        "filters": [
+          {
+            "field": "is_modeled",
+            "op": "eq",
+            "value": true
+          }
+        ],
+        "group_by": [],
+        "aggregates": [],
+        "select_fields": [
+          "experiment_id"
+        ],
+        "sort": [
+          {
+            "field": "experiment_id",
+            "direction": "asc"
+          }
+        ],
+        "limit": 1000,
+        "include_modeled": true,
+        "experiment_ids": null,
+        "allow_cross_family_aggregate": false
+      },
       "count_matched": 52
     },
     {
@@ -174,7 +745,44 @@
       "question": "Find all experiments in the SOFIE flight dataset family.",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "lookup",
+        "exp_intent": "lookup",
+        "gen_filter_count": 1,
+        "exp_filter_count": 1
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "lookup",
+        "filters": [
+          {
+            "field": "dataset_family",
+            "op": "eq",
+            "value": "SOFIE"
+          }
+        ],
+        "group_by": [],
+        "aggregates": [],
+        "select_fields": [
+          "experiment_id"
+        ],
+        "sort": [
+          {
+            "field": "experiment_id",
+            "direction": "asc"
+          }
+        ],
+        "limit": 1000,
+        "include_modeled": false,
+        "experiment_ids": null,
+        "allow_cross_family_aggregate": false
+      },
       "count_matched": 12
     },
     {
@@ -183,7 +791,47 @@
       "question": "What is the mean burning rate for Heptane droplets in the FLEX family?",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "aggregate",
+        "exp_intent": "aggregate",
+        "gen_filter_count": 2,
+        "exp_filter_count": 2
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "aggregate",
+        "filters": [
+          {
+            "field": "dataset_family",
+            "op": "eq",
+            "value": "FLEX"
+          },
+          {
+            "field": "fuel_material",
+            "op": "eq",
+            "value": "Heptane"
+          }
+        ],
+        "group_by": [],
+        "aggregates": [
+          {
+            "fn": "mean",
+            "field": "burning_rate_mms"
+          }
+        ],
+        "select_fields": [],
+        "sort": [],
+        "limit": 100,
+        "include_modeled": false,
+        "experiment_ids": null,
+        "allow_cross_family_aggregate": false
+      },
       "comparisons": [
         {
           "fn": "mean",
@@ -204,7 +852,47 @@
       "question": "What is the mean burning rate for Methanol droplets in the FLEX family?",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "aggregate",
+        "exp_intent": "aggregate",
+        "gen_filter_count": 2,
+        "exp_filter_count": 2
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "aggregate",
+        "filters": [
+          {
+            "field": "dataset_family",
+            "op": "eq",
+            "value": "FLEX"
+          },
+          {
+            "field": "fuel_material",
+            "op": "eq",
+            "value": "Methanol"
+          }
+        ],
+        "group_by": [],
+        "aggregates": [
+          {
+            "fn": "mean",
+            "field": "burning_rate_mms"
+          }
+        ],
+        "select_fields": [],
+        "sort": [],
+        "limit": 100,
+        "include_modeled": false,
+        "experiment_ids": null,
+        "allow_cross_family_aggregate": false
+      },
       "comparisons": [
         {
           "fn": "mean",
@@ -225,7 +913,52 @@
       "question": "What is the mean burning rate for Methanol droplets at 21% O2 in the FLEX family?",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "aggregate",
+        "exp_intent": "aggregate",
+        "gen_filter_count": 3,
+        "exp_filter_count": 3
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "aggregate",
+        "filters": [
+          {
+            "field": "dataset_family",
+            "op": "eq",
+            "value": "FLEX"
+          },
+          {
+            "field": "fuel_material",
+            "op": "eq",
+            "value": "Methanol"
+          },
+          {
+            "field": "oxygen_pct",
+            "op": "eq",
+            "value": 21.0
+          }
+        ],
+        "group_by": [],
+        "aggregates": [
+          {
+            "fn": "mean",
+            "field": "burning_rate_mms"
+          }
+        ],
+        "select_fields": [],
+        "sort": [],
+        "limit": 100,
+        "include_modeled": false,
+        "experiment_ids": null,
+        "allow_cross_family_aggregate": false
+      },
       "comparisons": [
         {
           "fn": "mean",
@@ -246,7 +979,47 @@
       "question": "What is the maximum burning rate for Heptane droplets in the FLEX family?",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "aggregate",
+        "exp_intent": "aggregate",
+        "gen_filter_count": 2,
+        "exp_filter_count": 2
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "aggregate",
+        "filters": [
+          {
+            "field": "dataset_family",
+            "op": "eq",
+            "value": "FLEX"
+          },
+          {
+            "field": "fuel_material",
+            "op": "eq",
+            "value": "Heptane"
+          }
+        ],
+        "group_by": [],
+        "aggregates": [
+          {
+            "fn": "max",
+            "field": "burning_rate_mms"
+          }
+        ],
+        "select_fields": [],
+        "sort": [],
+        "limit": 100,
+        "include_modeled": false,
+        "experiment_ids": null,
+        "allow_cross_family_aggregate": false
+      },
       "comparisons": [
         {
           "fn": "max",
@@ -267,7 +1040,47 @@
       "question": "What is the minimum burning rate for Heptane droplets in the FLEX family?",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "aggregate",
+        "exp_intent": "aggregate",
+        "gen_filter_count": 2,
+        "exp_filter_count": 2
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "aggregate",
+        "filters": [
+          {
+            "field": "dataset_family",
+            "op": "eq",
+            "value": "FLEX"
+          },
+          {
+            "field": "fuel_material",
+            "op": "eq",
+            "value": "Heptane"
+          }
+        ],
+        "group_by": [],
+        "aggregates": [
+          {
+            "fn": "min",
+            "field": "burning_rate_mms"
+          }
+        ],
+        "select_fields": [],
+        "sort": [],
+        "limit": 100,
+        "include_modeled": false,
+        "experiment_ids": null,
+        "allow_cross_family_aggregate": false
+      },
       "comparisons": [
         {
           "fn": "min",
@@ -288,7 +1101,47 @@
       "question": "What is the median burning rate for Heptane droplets in the FLEX family?",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "aggregate",
+        "exp_intent": "aggregate",
+        "gen_filter_count": 2,
+        "exp_filter_count": 2
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "aggregate",
+        "filters": [
+          {
+            "field": "dataset_family",
+            "op": "eq",
+            "value": "FLEX"
+          },
+          {
+            "field": "fuel_material",
+            "op": "eq",
+            "value": "Heptane"
+          }
+        ],
+        "group_by": [],
+        "aggregates": [
+          {
+            "fn": "median",
+            "field": "burning_rate_mms"
+          }
+        ],
+        "select_fields": [],
+        "sort": [],
+        "limit": 100,
+        "include_modeled": false,
+        "experiment_ids": null,
+        "allow_cross_family_aggregate": false
+      },
       "comparisons": [
         {
           "fn": "median",
@@ -309,7 +1162,42 @@
       "question": "What is the mean burn time for NASA-STD-6001 upward flammability screening tests?",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "aggregate",
+        "exp_intent": "aggregate",
+        "gen_filter_count": 1,
+        "exp_filter_count": 1
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "aggregate",
+        "filters": [
+          {
+            "field": "dataset_family",
+            "op": "eq",
+            "value": "NASA-STD-6001"
+          }
+        ],
+        "group_by": [],
+        "aggregates": [
+          {
+            "fn": "mean",
+            "field": "burn_time_s"
+          }
+        ],
+        "select_fields": [],
+        "sort": [],
+        "limit": 100,
+        "include_modeled": false,
+        "experiment_ids": null,
+        "allow_cross_family_aggregate": false
+      },
       "comparisons": [
         {
           "fn": "mean",
@@ -330,7 +1218,42 @@
       "question": "What is the mean burning rate for all tests in the GRC Drop Tower family?",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "aggregate",
+        "exp_intent": "aggregate",
+        "gen_filter_count": 1,
+        "exp_filter_count": 1
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "aggregate",
+        "filters": [
+          {
+            "field": "dataset_family",
+            "op": "eq",
+            "value": "GRC Drop Tower"
+          }
+        ],
+        "group_by": [],
+        "aggregates": [
+          {
+            "fn": "mean",
+            "field": "burning_rate_mms"
+          }
+        ],
+        "select_fields": [],
+        "sort": [],
+        "limit": 100,
+        "include_modeled": false,
+        "experiment_ids": null,
+        "allow_cross_family_aggregate": false
+      },
       "comparisons": [
         {
           "fn": "mean",
@@ -351,7 +1274,42 @@
       "question": "What is the mean microgravity duration in seconds for GRC Drop Tower experiments?",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "aggregate",
+        "exp_intent": "aggregate",
+        "gen_filter_count": 1,
+        "exp_filter_count": 1
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "aggregate",
+        "filters": [
+          {
+            "field": "dataset_family",
+            "op": "eq",
+            "value": "GRC Drop Tower"
+          }
+        ],
+        "group_by": [],
+        "aggregates": [
+          {
+            "fn": "mean",
+            "field": "microgravity_duration_s"
+          }
+        ],
+        "select_fields": [],
+        "sort": [],
+        "limit": 100,
+        "include_modeled": false,
+        "experiment_ids": null,
+        "allow_cross_family_aggregate": false
+      },
       "comparisons": [
         {
           "fn": "mean",
@@ -372,7 +1330,42 @@
       "question": "What is the maximum microgravity duration in seconds recorded for GRC Drop Tower tests?",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "aggregate",
+        "exp_intent": "aggregate",
+        "gen_filter_count": 1,
+        "exp_filter_count": 1
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "aggregate",
+        "filters": [
+          {
+            "field": "dataset_family",
+            "op": "eq",
+            "value": "GRC Drop Tower"
+          }
+        ],
+        "group_by": [],
+        "aggregates": [
+          {
+            "fn": "max",
+            "field": "microgravity_duration_s"
+          }
+        ],
+        "select_fields": [],
+        "sort": [],
+        "limit": 100,
+        "include_modeled": false,
+        "experiment_ids": null,
+        "allow_cross_family_aggregate": false
+      },
       "comparisons": [
         {
           "fn": "max",
@@ -393,7 +1386,42 @@
       "question": "What is the mean igniter power in Watts for MGM smoldering experiments?",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "aggregate",
+        "exp_intent": "aggregate",
+        "gen_filter_count": 1,
+        "exp_filter_count": 1
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "aggregate",
+        "filters": [
+          {
+            "field": "dataset_family",
+            "op": "eq",
+            "value": "MGM (Smoldering)"
+          }
+        ],
+        "group_by": [],
+        "aggregates": [
+          {
+            "fn": "mean",
+            "field": "ignition_power_w"
+          }
+        ],
+        "select_fields": [],
+        "sort": [],
+        "limit": 100,
+        "include_modeled": false,
+        "experiment_ids": null,
+        "allow_cross_family_aggregate": false
+      },
       "comparisons": [
         {
           "fn": "mean",
@@ -414,7 +1442,42 @@
       "question": "What is the mean flame temperature in Kelvin for FLARE (JAXA/Kibo) experiments?",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "aggregate",
+        "exp_intent": "aggregate",
+        "gen_filter_count": 1,
+        "exp_filter_count": 1
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "aggregate",
+        "filters": [
+          {
+            "field": "dataset_family",
+            "op": "eq",
+            "value": "FLARE (JAXA/Kibo)"
+          }
+        ],
+        "group_by": [],
+        "aggregates": [
+          {
+            "fn": "mean",
+            "field": "flame_temp_k"
+          }
+        ],
+        "select_fields": [],
+        "sort": [],
+        "limit": 100,
+        "include_modeled": false,
+        "experiment_ids": null,
+        "allow_cross_family_aggregate": false
+      },
       "comparisons": [
         {
           "fn": "mean",
@@ -435,7 +1498,47 @@
       "question": "What is the mean burning rate for PMMA Cylinder specimens in the SOFIE family?",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "aggregate",
+        "exp_intent": "aggregate",
+        "gen_filter_count": 2,
+        "exp_filter_count": 2
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "aggregate",
+        "filters": [
+          {
+            "field": "dataset_family",
+            "op": "eq",
+            "value": "SOFIE"
+          },
+          {
+            "field": "fuel_material",
+            "op": "eq",
+            "value": "PMMA Cylinder (Cast Acrylic)"
+          }
+        ],
+        "group_by": [],
+        "aggregates": [
+          {
+            "fn": "mean",
+            "field": "burning_rate_mms"
+          }
+        ],
+        "select_fields": [],
+        "sort": [],
+        "limit": 100,
+        "include_modeled": false,
+        "experiment_ids": null,
+        "allow_cross_family_aggregate": false
+      },
       "comparisons": [
         {
           "fn": "mean",
@@ -456,7 +1559,42 @@
       "question": "What is the mean airflow velocity in BASS-II excluding quarantined readings?",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "aggregate",
+        "exp_intent": "aggregate",
+        "gen_filter_count": 1,
+        "exp_filter_count": 1
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "aggregate",
+        "filters": [
+          {
+            "field": "dataset_family",
+            "op": "eq",
+            "value": "BASS-II"
+          }
+        ],
+        "group_by": [],
+        "aggregates": [
+          {
+            "fn": "mean",
+            "field": "airflow_velocity_cms"
+          }
+        ],
+        "select_fields": [],
+        "sort": [],
+        "limit": 100,
+        "include_modeled": false,
+        "experiment_ids": null,
+        "allow_cross_family_aggregate": false
+      },
       "comparisons": [
         {
           "fn": "mean",
@@ -477,7 +1615,44 @@
       "question": "Count the number of experiments in FLEX grouped by extinction outcome.",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "aggregate",
+        "exp_intent": "aggregate",
+        "gen_filter_count": 1,
+        "exp_filter_count": 1
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "aggregate",
+        "filters": [
+          {
+            "field": "dataset_family",
+            "op": "eq",
+            "value": "FLEX"
+          }
+        ],
+        "group_by": [
+          "extinction_outcome"
+        ],
+        "aggregates": [
+          {
+            "fn": "count",
+            "field": "experiment_id"
+          }
+        ],
+        "select_fields": [],
+        "sort": [],
+        "limit": 100,
+        "include_modeled": false,
+        "experiment_ids": null,
+        "allow_cross_family_aggregate": false
+      },
       "comparisons": [
         {
           "fn": "count",
@@ -526,7 +1701,33 @@
       "question": "Explain the experimental conditions and results for BASS-II test 'BASS-B1'.",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "explain_experiment",
+        "exp_intent": "explain_experiment",
+        "gen_filter_count": 0,
+        "exp_filter_count": 0
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "explain_experiment",
+        "filters": [],
+        "group_by": [],
+        "aggregates": [],
+        "select_fields": [],
+        "sort": [],
+        "limit": 100,
+        "include_modeled": false,
+        "experiment_ids": [
+          "BASS-B1"
+        ],
+        "allow_cross_family_aggregate": false
+      },
       "count_matched": 1
     },
     {
@@ -535,7 +1736,33 @@
       "question": "Explain droplet burning test 'FLEX-001' including burning rate and extinction outcome.",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "explain_experiment",
+        "exp_intent": "explain_experiment",
+        "gen_filter_count": 0,
+        "exp_filter_count": 0
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "explain_experiment",
+        "filters": [],
+        "group_by": [],
+        "aggregates": [],
+        "select_fields": [],
+        "sort": [],
+        "limit": 100,
+        "include_modeled": false,
+        "experiment_ids": [
+          "FLEX-001"
+        ],
+        "allow_cross_family_aggregate": false
+      },
       "count_matched": 1
     },
     {
@@ -544,7 +1771,33 @@
       "question": "Explain the anomalies and quality flags for test 'FLEX-114'.",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "explain_experiment",
+        "exp_intent": "explain_experiment",
+        "gen_filter_count": 0,
+        "exp_filter_count": 0
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "explain_experiment",
+        "filters": [],
+        "group_by": [],
+        "aggregates": [],
+        "select_fields": [],
+        "sort": [],
+        "limit": 100,
+        "include_modeled": false,
+        "experiment_ids": [
+          "FLEX-114"
+        ],
+        "allow_cross_family_aggregate": false
+      },
       "count_matched": 1
     },
     {
@@ -553,7 +1806,33 @@
       "question": "Explain the drop tower test conditions for 'GRC-DROP-001'.",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "explain_experiment",
+        "exp_intent": "explain_experiment",
+        "gen_filter_count": 0,
+        "exp_filter_count": 0
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "explain_experiment",
+        "filters": [],
+        "group_by": [],
+        "aggregates": [],
+        "select_fields": [],
+        "sort": [],
+        "limit": 100,
+        "include_modeled": false,
+        "experiment_ids": [
+          "GRC-DROP-001"
+        ],
+        "allow_cross_family_aggregate": false
+      },
       "count_matched": 1
     },
     {
@@ -562,7 +1841,33 @@
       "question": "Explain the smoldering combustion test 'MGM-ISS-001' on polyurethane foam.",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "explain_experiment",
+        "exp_intent": "explain_experiment",
+        "gen_filter_count": 0,
+        "exp_filter_count": 0
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "explain_experiment",
+        "filters": [],
+        "group_by": [],
+        "aggregates": [],
+        "select_fields": [],
+        "sort": [],
+        "limit": 100,
+        "include_modeled": false,
+        "experiment_ids": [
+          "MGM-ISS-001"
+        ],
+        "allow_cross_family_aggregate": false
+      },
       "count_matched": 1
     },
     {
@@ -571,7 +1876,33 @@
       "question": "Explain the flight test 'SOFIE-001' conducted on a PMMA cylinder.",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "explain_experiment",
+        "exp_intent": "explain_experiment",
+        "gen_filter_count": 0,
+        "exp_filter_count": 0
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "explain_experiment",
+        "filters": [],
+        "group_by": [],
+        "aggregates": [],
+        "select_fields": [],
+        "sort": [],
+        "limit": 100,
+        "include_modeled": false,
+        "experiment_ids": [
+          "SOFIE-001"
+        ],
+        "allow_cross_family_aggregate": false
+      },
       "count_matched": 1
     },
     {
@@ -580,7 +1911,33 @@
       "question": "Explain the solid polymer combustion test 'FLARE-KIBO-001' on the ISS Kibo module.",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "explain_experiment",
+        "exp_intent": "explain_experiment",
+        "gen_filter_count": 0,
+        "exp_filter_count": 0
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "explain_experiment",
+        "filters": [],
+        "group_by": [],
+        "aggregates": [],
+        "select_fields": [],
+        "sort": [],
+        "limit": 100,
+        "include_modeled": false,
+        "experiment_ids": [
+          "FLARE-KIBO-001"
+        ],
+        "allow_cross_family_aggregate": false
+      },
       "count_matched": 1
     },
     {
@@ -589,7 +1946,33 @@
       "question": "Explain the preflight partial-gravity reference model 'FM2-BOUND-002'.",
       "needs_expert": false,
       "status": "pass",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "explain_experiment",
+        "exp_intent": "explain_experiment",
+        "gen_filter_count": 0,
+        "exp_filter_count": 0
+      },
       "errors": [],
+      "generated_plan": {
+        "intent": "explain_experiment",
+        "filters": [],
+        "group_by": [],
+        "aggregates": [],
+        "select_fields": [],
+        "sort": [],
+        "limit": 100,
+        "include_modeled": true,
+        "experiment_ids": [
+          "FM2-BOUND-002"
+        ],
+        "allow_cross_family_aggregate": false
+      },
       "count_matched": 1
     },
     {
@@ -598,6 +1981,18 @@
       "question": "Why are modeled rows excluded by default from retrieval and aggregation results?",
       "needs_expert": false,
       "status": "skipped_qualitative",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "qualitative",
+        "exp_intent": "qualitative",
+        "gen_filter_count": 0,
+        "exp_filter_count": 0
+      },
       "errors": []
     },
     {
@@ -606,6 +2001,18 @@
       "question": "What is the reason for quarantining 42 airflow velocity readings in BASS-II?",
       "needs_expert": false,
       "status": "skipped_qualitative",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "qualitative",
+        "exp_intent": "qualitative",
+        "gen_filter_count": 0,
+        "exp_filter_count": 0
+      },
       "errors": []
     },
     {
@@ -614,6 +2021,18 @@
       "question": "Why is burning_rate_mms marked as semantically different across families?",
       "needs_expert": false,
       "status": "skipped_qualitative",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "qualitative",
+        "exp_intent": "qualitative",
+        "gen_filter_count": 0,
+        "exp_filter_count": 0
+      },
       "errors": []
     },
     {
@@ -622,6 +2041,18 @@
       "question": "Why are campaign-range dates like '2019-2022' nulled in test_date?",
       "needs_expert": false,
       "status": "skipped_qualitative",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "qualitative",
+        "exp_intent": "qualitative",
+        "gen_filter_count": 0,
+        "exp_filter_count": 0
+      },
       "errors": []
     },
     {
@@ -630,6 +2061,18 @@
       "question": "What is the basis and provenance caution regarding he_pct in the dataset?",
       "needs_expert": false,
       "status": "skipped_qualitative",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "qualitative",
+        "exp_intent": "qualitative",
+        "gen_filter_count": 0,
+        "exp_filter_count": 0
+      },
       "errors": []
     },
     {
@@ -638,6 +2081,18 @@
       "question": "How does the retrieval engine handle null values and quarantined values in aggregates?",
       "needs_expert": false,
       "status": "skipped_qualitative",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "qualitative",
+        "exp_intent": "qualitative",
+        "gen_filter_count": 0,
+        "exp_filter_count": 0
+      },
       "errors": []
     },
     {
@@ -646,6 +2101,18 @@
       "question": "Extrapolate the burning rate of PMMA to partial gravity of 0.25g on Mars.",
       "needs_expert": true,
       "status": "needs_expert",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "out_of_scope",
+        "exp_intent": "out_of_scope",
+        "gen_filter_count": 0,
+        "exp_filter_count": 0
+      },
       "errors": [],
       "message": "Marked as requiring expert or unanswerable / out of scope."
     },
@@ -655,6 +2122,18 @@
       "question": "What was the exact raw airflow velocity for BASS-II test BASS-M5 without quarantine?",
       "needs_expert": true,
       "status": "needs_expert",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "out_of_scope",
+        "exp_intent": "out_of_scope",
+        "gen_filter_count": 0,
+        "exp_filter_count": 0
+      },
       "errors": [],
       "message": "Marked as requiring expert or unanswerable / out of scope."
     },
@@ -664,6 +2143,18 @@
       "question": "Compute the average burning rate across all 30 families combined into a single grand mean.",
       "needs_expert": true,
       "status": "needs_expert",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "out_of_scope",
+        "exp_intent": "out_of_scope",
+        "gen_filter_count": 0,
+        "exp_filter_count": 0
+      },
       "errors": [],
       "message": "Marked as requiring expert or unanswerable / out of scope."
     },
@@ -673,6 +2164,18 @@
       "question": "What is the exact single calendar date for ACME test ACME-BRE-01?",
       "needs_expert": true,
       "status": "needs_expert",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "out_of_scope",
+        "exp_intent": "out_of_scope",
+        "gen_filter_count": 0,
+        "exp_filter_count": 0
+      },
       "errors": [],
       "message": "Marked as requiring expert or unanswerable / out of scope."
     },
@@ -682,6 +2185,18 @@
       "question": "What is the absolute pressure in kPa for test FLEX-114?",
       "needs_expert": true,
       "status": "needs_expert",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "out_of_scope",
+        "exp_intent": "out_of_scope",
+        "gen_filter_count": 0,
+        "exp_filter_count": 0
+      },
       "errors": [],
       "message": "Marked as requiring expert or unanswerable / out of scope."
     },
@@ -691,6 +2206,18 @@
       "question": "Predict the soot concentration and radiative emission spectrum for a hypothetical fuel.",
       "needs_expert": true,
       "status": "needs_expert",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "out_of_scope",
+        "exp_intent": "out_of_scope",
+        "gen_filter_count": 0,
+        "exp_filter_count": 0
+      },
       "errors": [],
       "message": "Marked as requiring expert or unanswerable / out of scope."
     }

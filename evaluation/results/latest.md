@@ -1,21 +1,24 @@
-# Golden Set Evaluation Report — 20261113T230805Z
+# Golden Set Evaluation Report — 20261113T232902Z
 
-- **Timestamp:** `20261113T230805Z`
-- **Raw JSON Artifact:** `evaluation/results/20261113T230805Z.json`
+- **Timestamp:** `20261113T232902Z`
+- **Planner Mode:** `Golden Reference Plans`
+- **Raw JSON Artifact:** `evaluation/results/20261113T232902Z.json`
 - **Total Questions:** 50
 - **Deterministic Questions Evaluated:** 38
 - **Passed:** 38 / 38
 - **Deterministic Pass Rate:** **100.0%**
+- **Plan Exact Accuracy:** 50/50 (100.0%)
+- **Plan Structural Accuracy:** 50/50 (100.0%)
 
 ## Category Performance Breakdown
 
-| Category | Total | Pass | Fail | Needs Expert | Skipped | Pass Rate (Det) |
-|:---|---:|---:|---:|---:|---:|---:|
-| `lookup` | 15 | 15 | 0 | 0 | 0 | 100.0% |
-| `aggregation` | 15 | 15 | 0 | 0 | 0 | 100.0% |
-| `explain_experiment` | 8 | 8 | 0 | 0 | 0 | 100.0% |
-| `qualitative` | 6 | 0 | 0 | 0 | 6 | N/A |
-| `out_of_scope` | 6 | 0 | 0 | 6 | 0 | N/A |
+| Category | Total | Pass | Fail | Needs Expert | Skipped | Pass Rate (Det) | Plan Exact % | Plan Struct % |
+|:---|---:|---:|---:|---:|---:|---:|---:|---:|
+| `lookup` | 15 | 15 | 0 | 0 | 0 | 100.0% | 100.0% | 100.0% |
+| `aggregation` | 15 | 15 | 0 | 0 | 0 | 100.0% | 100.0% | 100.0% |
+| `explain_experiment` | 8 | 8 | 0 | 0 | 0 | 100.0% | 100.0% | 100.0% |
+| `qualitative` | 6 | 0 | 0 | 0 | 6 | N/A | 100.0% | 100.0% |
+| `out_of_scope` | 6 | 0 | 0 | 6 | 0 | N/A | 100.0% | 100.0% |
 
 ## Questions Marked `needs_expert` (Unanswerable / Out of Scope)
 

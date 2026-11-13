@@ -1,4 +1,17 @@
-"""Grounded answer generation and citation verification.
+"""RAG modules: structured query planning and prompts."""
 
-Implementation arrives in a later phase; this package is intentionally empty.
-"""
+from __future__ import annotations
+
+from flame.rag.planner import (
+    PlannerResult,
+    QueryPlanner,
+    format_catalog_summary,
+    load_planner_system_prompt,
+)
+
+__all__ = [
+    "PlannerResult",
+    "QueryPlanner",
+    "format_catalog_summary",
+    "load_planner_system_prompt",
+]
