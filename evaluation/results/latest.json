@@ -1,0 +1,698 @@
+{
+  "timestamp": "20261113T230805Z",
+  "total_questions": 50,
+  "total_deterministic": 38,
+  "total_passed": 38,
+  "deterministic_pass_rate_pct": 100.0,
+  "category_stats": {
+    "lookup": {
+      "total": 15,
+      "pass": 15,
+      "fail": 0,
+      "needs_expert": 0,
+      "skipped": 0
+    },
+    "aggregation": {
+      "total": 15,
+      "pass": 15,
+      "fail": 0,
+      "needs_expert": 0,
+      "skipped": 0
+    },
+    "explain_experiment": {
+      "total": 8,
+      "pass": 8,
+      "fail": 0,
+      "needs_expert": 0,
+      "skipped": 0
+    },
+    "qualitative": {
+      "total": 6,
+      "pass": 0,
+      "fail": 0,
+      "needs_expert": 0,
+      "skipped": 6
+    },
+    "out_of_scope": {
+      "total": 6,
+      "pass": 0,
+      "fail": 0,
+      "needs_expert": 6,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "id": "q01",
+      "category": "lookup",
+      "question": "Which non-modeled experiments tested Methanol fuel in the FLEX dataset family?",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "count_matched": 157
+    },
+    {
+      "id": "q02",
+      "category": "lookup",
+      "question": "List all experiments conducted under Normal Gravity (1.0g \u2014 WSTF Upward Screening Bound).",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "count_matched": 59
+    },
+    {
+      "id": "q03",
+      "category": "lookup",
+      "question": "Find all experiments in the BASS-I dataset family.",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "count_matched": 8
+    },
+    {
+      "id": "q04",
+      "category": "lookup",
+      "question": "Which experiments have an extinction outcome of 'Disruption'?",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "count_matched": 61
+    },
+    {
+      "id": "q05",
+      "category": "lookup",
+      "question": "Find all experiments where test_date is null due to campaign range or lack of exact date.",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "count_matched": 23
+    },
+    {
+      "id": "q06",
+      "category": "lookup",
+      "question": "Which experiments have a quarantined airflow reading (raw value >= 1000 cm/s)?",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "count_matched": 42
+    },
+    {
+      "id": "q07",
+      "category": "lookup",
+      "question": "Find all experiments tested on or after 2022-01-01.",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "count_matched": 88
+    },
+    {
+      "id": "q08",
+      "category": "lookup",
+      "question": "Find all experiments tested on or before 2010-12-31.",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "count_matched": 186
+    },
+    {
+      "id": "q09",
+      "category": "lookup",
+      "question": "Which experiments in the GRC Drop Tower family used Ethanol Droplet as fuel?",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "count_matched": 18
+    },
+    {
+      "id": "q10",
+      "category": "lookup",
+      "question": "List all experiments that tested PMMA (Acrylic) fuel.",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "count_matched": 42
+    },
+    {
+      "id": "q11",
+      "category": "lookup",
+      "question": "Retrieve all experiments with fuel_material containing the substring 'Heptane'.",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "count_matched": 145
+    },
+    {
+      "id": "q12",
+      "category": "lookup",
+      "question": "Find all experiments with an oxygen percentage between 20.0% and 30.0% inclusive.",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "count_matched": 463
+    },
+    {
+      "id": "q13",
+      "category": "lookup",
+      "question": "Which experiment has a missing pressure_kpa and zero pressure_mmhg?",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "count_matched": 1
+    },
+    {
+      "id": "q14",
+      "category": "lookup",
+      "question": "List all modeled engineering bounding and reference rows.",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "count_matched": 52
+    },
+    {
+      "id": "q15",
+      "category": "lookup",
+      "question": "Find all experiments in the SOFIE flight dataset family.",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "count_matched": 12
+    },
+    {
+      "id": "q16",
+      "category": "aggregation",
+      "question": "What is the mean burning rate for Heptane droplets in the FLEX family?",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "comparisons": [
+        {
+          "fn": "mean",
+          "field": "burning_rate_mms",
+          "group_key": null,
+          "got_value": 0.544766355140187,
+          "expected_value": 0.5447663551401869,
+          "got_n_used": 107,
+          "expected_n_used": 107,
+          "value_match": true,
+          "used_match": true
+        }
+      ]
+    },
+    {
+      "id": "q17",
+      "category": "aggregation",
+      "question": "What is the mean burning rate for Methanol droplets in the FLEX family?",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "comparisons": [
+        {
+          "fn": "mean",
+          "field": "burning_rate_mms",
+          "group_key": null,
+          "got_value": 0.47152317880794703,
+          "expected_value": 0.47152317880794714,
+          "got_n_used": 151,
+          "expected_n_used": 151,
+          "value_match": true,
+          "used_match": true
+        }
+      ]
+    },
+    {
+      "id": "q18",
+      "category": "aggregation",
+      "question": "What is the mean burning rate for Methanol droplets at 21% O2 in the FLEX family?",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "comparisons": [
+        {
+          "fn": "mean",
+          "field": "burning_rate_mms",
+          "group_key": null,
+          "got_value": 0.4965384615384616,
+          "expected_value": 0.4965384615384615,
+          "got_n_used": 26,
+          "expected_n_used": 26,
+          "value_match": true,
+          "used_match": true
+        }
+      ]
+    },
+    {
+      "id": "q19",
+      "category": "aggregation",
+      "question": "What is the maximum burning rate for Heptane droplets in the FLEX family?",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "comparisons": [
+        {
+          "fn": "max",
+          "field": "burning_rate_mms",
+          "group_key": null,
+          "got_value": 1.06,
+          "expected_value": 1.06,
+          "got_n_used": 107,
+          "expected_n_used": 107,
+          "value_match": true,
+          "used_match": true
+        }
+      ]
+    },
+    {
+      "id": "q20",
+      "category": "aggregation",
+      "question": "What is the minimum burning rate for Heptane droplets in the FLEX family?",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "comparisons": [
+        {
+          "fn": "min",
+          "field": "burning_rate_mms",
+          "group_key": null,
+          "got_value": 0.05,
+          "expected_value": 0.05,
+          "got_n_used": 107,
+          "expected_n_used": 107,
+          "value_match": true,
+          "used_match": true
+        }
+      ]
+    },
+    {
+      "id": "q21",
+      "category": "aggregation",
+      "question": "What is the median burning rate for Heptane droplets in the FLEX family?",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "comparisons": [
+        {
+          "fn": "median",
+          "field": "burning_rate_mms",
+          "group_key": null,
+          "got_value": 0.54,
+          "expected_value": 0.54,
+          "got_n_used": 107,
+          "expected_n_used": 107,
+          "value_match": true,
+          "used_match": true
+        }
+      ]
+    },
+    {
+      "id": "q22",
+      "category": "aggregation",
+      "question": "What is the mean burn time for NASA-STD-6001 upward flammability screening tests?",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "comparisons": [
+        {
+          "fn": "mean",
+          "field": "burn_time_s",
+          "group_key": null,
+          "got_value": 34.7322033898305,
+          "expected_value": 34.7322033898305,
+          "got_n_used": 59,
+          "expected_n_used": 59,
+          "value_match": true,
+          "used_match": true
+        }
+      ]
+    },
+    {
+      "id": "q23",
+      "category": "aggregation",
+      "question": "What is the mean burning rate for all tests in the GRC Drop Tower family?",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "comparisons": [
+        {
+          "fn": "mean",
+          "field": "burning_rate_mms",
+          "group_key": null,
+          "got_value": 0.8120000000000003,
+          "expected_value": 0.8120000000000002,
+          "got_n_used": 95,
+          "expected_n_used": 95,
+          "value_match": true,
+          "used_match": true
+        }
+      ]
+    },
+    {
+      "id": "q24",
+      "category": "aggregation",
+      "question": "What is the mean microgravity duration in seconds for GRC Drop Tower experiments?",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "comparisons": [
+        {
+          "fn": "mean",
+          "field": "microgravity_duration_s",
+          "group_key": null,
+          "got_value": 3.248842105263159,
+          "expected_value": 3.2488421052631575,
+          "got_n_used": 95,
+          "expected_n_used": 95,
+          "value_match": true,
+          "used_match": true
+        }
+      ]
+    },
+    {
+      "id": "q25",
+      "category": "aggregation",
+      "question": "What is the maximum microgravity duration in seconds recorded for GRC Drop Tower tests?",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "comparisons": [
+        {
+          "fn": "max",
+          "field": "microgravity_duration_s",
+          "group_key": null,
+          "got_value": 4.99,
+          "expected_value": 4.99,
+          "got_n_used": 95,
+          "expected_n_used": 95,
+          "value_match": true,
+          "used_match": true
+        }
+      ]
+    },
+    {
+      "id": "q26",
+      "category": "aggregation",
+      "question": "What is the mean igniter power in Watts for MGM smoldering experiments?",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "comparisons": [
+        {
+          "fn": "mean",
+          "field": "ignition_power_w",
+          "group_key": null,
+          "got_value": 31.04923076923077,
+          "expected_value": 31.049230769230775,
+          "got_n_used": 65,
+          "expected_n_used": 65,
+          "value_match": true,
+          "used_match": true
+        }
+      ]
+    },
+    {
+      "id": "q27",
+      "category": "aggregation",
+      "question": "What is the mean flame temperature in Kelvin for FLARE (JAXA/Kibo) experiments?",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "comparisons": [
+        {
+          "fn": "mean",
+          "field": "flame_temp_k",
+          "group_key": null,
+          "got_value": 1275.6266666666668,
+          "expected_value": 1275.6266666666666,
+          "got_n_used": 30,
+          "expected_n_used": 30,
+          "value_match": true,
+          "used_match": true
+        }
+      ]
+    },
+    {
+      "id": "q28",
+      "category": "aggregation",
+      "question": "What is the mean burning rate for PMMA Cylinder specimens in the SOFIE family?",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "comparisons": [
+        {
+          "fn": "mean",
+          "field": "burning_rate_mms",
+          "group_key": null,
+          "got_value": 0.23666666666666666,
+          "expected_value": 0.23666666666666666,
+          "got_n_used": 3,
+          "expected_n_used": 3,
+          "value_match": true,
+          "used_match": true
+        }
+      ]
+    },
+    {
+      "id": "q29",
+      "category": "aggregation",
+      "question": "What is the mean airflow velocity in BASS-II excluding quarantined readings?",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "comparisons": [
+        {
+          "fn": "mean",
+          "field": "airflow_velocity_cms",
+          "group_key": null,
+          "got_value": 127.29410256410254,
+          "expected_value": 127.29410256410257,
+          "got_n_used": 78,
+          "expected_n_used": 78,
+          "value_match": true,
+          "used_match": true
+        }
+      ]
+    },
+    {
+      "id": "q30",
+      "category": "aggregation",
+      "question": "Count the number of experiments in FLEX grouped by extinction outcome.",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "comparisons": [
+        {
+          "fn": "count",
+          "field": "experiment_id",
+          "group_key": {
+            "extinction_outcome": "Completion"
+          },
+          "got_value": 27,
+          "expected_value": 27,
+          "got_n_used": 27,
+          "expected_n_used": 27,
+          "value_match": true,
+          "used_match": true
+        },
+        {
+          "fn": "count",
+          "field": "experiment_id",
+          "group_key": {
+            "extinction_outcome": "Disruption"
+          },
+          "got_value": 61,
+          "expected_value": 61,
+          "got_n_used": 61,
+          "expected_n_used": 61,
+          "value_match": true,
+          "used_match": true
+        },
+        {
+          "fn": "count",
+          "field": "experiment_id",
+          "group_key": {
+            "extinction_outcome": "Extinction"
+          },
+          "got_value": 186,
+          "expected_value": 186,
+          "got_n_used": 186,
+          "expected_n_used": 186,
+          "value_match": true,
+          "used_match": true
+        }
+      ]
+    },
+    {
+      "id": "q31",
+      "category": "explain_experiment",
+      "question": "Explain the experimental conditions and results for BASS-II test 'BASS-B1'.",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "count_matched": 1
+    },
+    {
+      "id": "q32",
+      "category": "explain_experiment",
+      "question": "Explain droplet burning test 'FLEX-001' including burning rate and extinction outcome.",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "count_matched": 1
+    },
+    {
+      "id": "q33",
+      "category": "explain_experiment",
+      "question": "Explain the anomalies and quality flags for test 'FLEX-114'.",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "count_matched": 1
+    },
+    {
+      "id": "q34",
+      "category": "explain_experiment",
+      "question": "Explain the drop tower test conditions for 'GRC-DROP-001'.",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "count_matched": 1
+    },
+    {
+      "id": "q35",
+      "category": "explain_experiment",
+      "question": "Explain the smoldering combustion test 'MGM-ISS-001' on polyurethane foam.",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "count_matched": 1
+    },
+    {
+      "id": "q36",
+      "category": "explain_experiment",
+      "question": "Explain the flight test 'SOFIE-001' conducted on a PMMA cylinder.",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "count_matched": 1
+    },
+    {
+      "id": "q37",
+      "category": "explain_experiment",
+      "question": "Explain the solid polymer combustion test 'FLARE-KIBO-001' on the ISS Kibo module.",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "count_matched": 1
+    },
+    {
+      "id": "q38",
+      "category": "explain_experiment",
+      "question": "Explain the preflight partial-gravity reference model 'FM2-BOUND-002'.",
+      "needs_expert": false,
+      "status": "pass",
+      "errors": [],
+      "count_matched": 1
+    },
+    {
+      "id": "q39",
+      "category": "qualitative",
+      "question": "Why are modeled rows excluded by default from retrieval and aggregation results?",
+      "needs_expert": false,
+      "status": "skipped_qualitative",
+      "errors": []
+    },
+    {
+      "id": "q40",
+      "category": "qualitative",
+      "question": "What is the reason for quarantining 42 airflow velocity readings in BASS-II?",
+      "needs_expert": false,
+      "status": "skipped_qualitative",
+      "errors": []
+    },
+    {
+      "id": "q41",
+      "category": "qualitative",
+      "question": "Why is burning_rate_mms marked as semantically different across families?",
+      "needs_expert": false,
+      "status": "skipped_qualitative",
+      "errors": []
+    },
+    {
+      "id": "q42",
+      "category": "qualitative",
+      "question": "Why are campaign-range dates like '2019-2022' nulled in test_date?",
+      "needs_expert": false,
+      "status": "skipped_qualitative",
+      "errors": []
+    },
+    {
+      "id": "q43",
+      "category": "qualitative",
+      "question": "What is the basis and provenance caution regarding he_pct in the dataset?",
+      "needs_expert": false,
+      "status": "skipped_qualitative",
+      "errors": []
+    },
+    {
+      "id": "q44",
+      "category": "qualitative",
+      "question": "How does the retrieval engine handle null values and quarantined values in aggregates?",
+      "needs_expert": false,
+      "status": "skipped_qualitative",
+      "errors": []
+    },
+    {
+      "id": "q45",
+      "category": "out_of_scope",
+      "question": "Extrapolate the burning rate of PMMA to partial gravity of 0.25g on Mars.",
+      "needs_expert": true,
+      "status": "needs_expert",
+      "errors": [],
+      "message": "Marked as requiring expert or unanswerable / out of scope."
+    },
+    {
+      "id": "q46",
+      "category": "out_of_scope",
+      "question": "What was the exact raw airflow velocity for BASS-II test BASS-M5 without quarantine?",
+      "needs_expert": true,
+      "status": "needs_expert",
+      "errors": [],
+      "message": "Marked as requiring expert or unanswerable / out of scope."
+    },
+    {
+      "id": "q47",
+      "category": "out_of_scope",
+      "question": "Compute the average burning rate across all 30 families combined into a single grand mean.",
+      "needs_expert": true,
+      "status": "needs_expert",
+      "errors": [],
+      "message": "Marked as requiring expert or unanswerable / out of scope."
+    },
+    {
+      "id": "q48",
+      "category": "out_of_scope",
+      "question": "What is the exact single calendar date for ACME test ACME-BRE-01?",
+      "needs_expert": true,
+      "status": "needs_expert",
+      "errors": [],
+      "message": "Marked as requiring expert or unanswerable / out of scope."
+    },
+    {
+      "id": "q49",
+      "category": "out_of_scope",
+      "question": "What is the absolute pressure in kPa for test FLEX-114?",
+      "needs_expert": true,
+      "status": "needs_expert",
+      "errors": [],
+      "message": "Marked as requiring expert or unanswerable / out of scope."
+    },
+    {
+      "id": "q50",
+      "category": "out_of_scope",
+      "question": "Predict the soot concentration and radiative emission spectrum for a hypothetical fuel.",
+      "needs_expert": true,
+      "status": "needs_expert",
+      "errors": [],
+      "message": "Marked as requiring expert or unanswerable / out of scope."
+    }
+  ]
+}

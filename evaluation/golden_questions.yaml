@@ -1,0 +1,2351 @@
+questions:
+- id: q01
+  category: lookup
+  question: Which non-modeled experiments tested Methanol fuel in the FLEX dataset
+    family?
+  plan:
+    intent: lookup
+    filters:
+    - field: dataset_family
+      op: eq
+      value: FLEX
+    - field: fuel_material
+      op: eq
+      value: Methanol
+    select_fields:
+    - experiment_id
+    sort:
+    - experiment_id
+    limit: 1000
+  expected_experiment_ids:
+  - FLEX-001
+  - FLEX-002
+  - FLEX-003
+  - FLEX-004
+  - FLEX-005
+  - FLEX-006
+  - FLEX-010
+  - FLEX-011
+  - FLEX-013
+  - FLEX-014
+  - FLEX-015
+  - FLEX-016
+  - FLEX-017
+  - FLEX-020
+  - FLEX-021
+  - FLEX-022
+  - FLEX-025
+  - FLEX-026
+  - FLEX-029
+  - FLEX-030
+  - FLEX-033
+  - FLEX-034
+  - FLEX-036
+  - FLEX-037
+  - FLEX-038
+  - FLEX-040
+  - FLEX-041
+  - FLEX-044
+  - FLEX-045
+  - FLEX-046
+  - FLEX-048
+  - FLEX-054
+  - FLEX-055
+  - FLEX-058
+  - FLEX-059
+  - FLEX-060
+  - FLEX-061
+  - FLEX-065
+  - FLEX-066
+  - FLEX-067
+  - FLEX-068
+  - FLEX-071
+  - FLEX-075
+  - FLEX-076
+  - FLEX-077
+  - FLEX-078
+  - FLEX-082
+  - FLEX-083
+  - FLEX-084
+  - FLEX-085
+  - FLEX-086
+  - FLEX-087
+  - FLEX-088
+  - FLEX-089
+  - FLEX-090
+  - FLEX-091
+  - FLEX-097
+  - FLEX-098
+  - FLEX-099
+  - FLEX-104
+  - FLEX-105
+  - FLEX-106
+  - FLEX-107
+  - FLEX-108
+  - FLEX-109
+  - FLEX-110
+  - FLEX-111
+  - FLEX-112
+  - FLEX-113
+  - FLEX-114
+  - FLEX-115
+  - FLEX-116
+  - FLEX-121
+  - FLEX-122
+  - FLEX-123
+  - FLEX-124
+  - FLEX-125
+  - FLEX-126
+  - FLEX-127
+  - FLEX-128
+  - FLEX-140
+  - FLEX-141
+  - FLEX-142
+  - FLEX-143
+  - FLEX-144
+  - FLEX-145
+  - FLEX-146
+  - FLEX-147
+  - FLEX-151
+  - FLEX-152
+  - FLEX-153
+  - FLEX-157
+  - FLEX-158
+  - FLEX-159
+  - FLEX-160
+  - FLEX-161
+  - FLEX-162
+  - FLEX-163
+  - FLEX-164
+  - FLEX-166
+  - FLEX-167
+  - FLEX-168
+  - FLEX-169
+  - FLEX-170
+  - FLEX-176
+  - FLEX-177
+  - FLEX-183
+  - FLEX-184
+  - FLEX-185
+  - FLEX-186
+  - FLEX-187
+  - FLEX-188
+  - FLEX-189
+  - FLEX-190
+  - FLEX-191
+  - FLEX-192
+  - FLEX-193
+  - FLEX-199
+  - FLEX-200
+  - FLEX-201
+  - FLEX-202
+  - FLEX-203
+  - FLEX-215
+  - FLEX-216
+  - FLEX-217
+  - FLEX-218
+  - FLEX-219
+  - FLEX-220
+  - FLEX-221
+  - FLEX-222
+  - FLEX-223
+  - FLEX-225
+  - FLEX-226
+  - FLEX-227
+  - FLEX-239
+  - FLEX-240
+  - FLEX-241
+  - FLEX-242
+  - FLEX-244
+  - FLEX-245
+  - FLEX-246
+  - FLEX-247
+  - FLEX-248
+  - FLEX-251
+  - FLEX-252
+  - FLEX-253
+  - FLEX-254
+  - FLEX-255
+  - FLEX-256
+  - FLEX-257
+  - FLEX-262
+  - FLEX-263
+  - FLEX-264
+  - FLEX-265
+  - FLEX-266
+  - FLEX-271
+  - FLEX-272
+  caveats:
+  - modeled rows excluded by default
+  needs_expert: false
+- id: q02
+  category: lookup
+  question: "List all experiments conducted under Normal Gravity (1.0g \u2014 WSTF\
+    \ Upward Screening Bound)."
+  plan:
+    intent: lookup
+    filters:
+    - field: gravity_condition
+      op: eq
+      value: "Normal Gravity (1.0g \u2014 WSTF Upward Screening Bound)"
+    select_fields:
+    - experiment_id
+    sort:
+    - experiment_id
+    limit: 1000
+  expected_experiment_ids:
+  - STD6001-001
+  - STD6001-002
+  - STD6001-003
+  - STD6001-004
+  - STD6001-005
+  - STD6001-006
+  - STD6001-007
+  - STD6001-008
+  - STD6001-009
+  - STD6001-010
+  - STD6001-011
+  - STD6001-012
+  - STD6001-013
+  - STD6001-014
+  - STD6001-EXT-001
+  - STD6001-EXT-002
+  - STD6001-EXT-003
+  - STD6001-EXT-004
+  - STD6001-EXT-005
+  - STD6001-EXT-006
+  - STD6001-EXT-007
+  - STD6001-EXT-008
+  - STD6001-EXT-009
+  - STD6001-EXT-010
+  - STD6001-EXT-011
+  - STD6001-EXT-012
+  - STD6001-EXT-013
+  - STD6001-EXT-014
+  - STD6001-EXT-015
+  - STD6001-EXT-016
+  - STD6001-EXT-017
+  - STD6001-EXT-018
+  - STD6001-EXT-019
+  - STD6001-EXT-020
+  - STD6001-EXT-021
+  - STD6001-EXT-022
+  - STD6001-EXT-023
+  - STD6001-EXT-024
+  - STD6001-EXT-025
+  - STD6001-EXT-026
+  - STD6001-EXT-027
+  - STD6001-EXT-028
+  - STD6001-EXT-029
+  - STD6001-EXT-030
+  - STD6001-EXT-031
+  - STD6001-EXT-032
+  - STD6001-EXT-033
+  - STD6001-EXT-034
+  - STD6001-EXT-035
+  - STD6001-EXT-036
+  - STD6001-EXT-037
+  - STD6001-EXT-038
+  - STD6001-EXT-039
+  - STD6001-EXT-040
+  - STD6001-EXT-041
+  - STD6001-EXT-042
+  - STD6001-EXT-043
+  - STD6001-EXT-044
+  - STD6001-EXT-045
+  caveats:
+  - modeled rows excluded by default
+  needs_expert: false
+- id: q03
+  category: lookup
+  question: Find all experiments in the BASS-I dataset family.
+  plan:
+    intent: lookup
+    filters:
+    - field: dataset_family
+      op: eq
+      value: BASS-I
+    select_fields:
+    - experiment_id
+    sort:
+    - experiment_id
+    limit: 1000
+  expected_experiment_ids:
+  - BASS1-001
+  - BASS1-002
+  - BASS1-003
+  - BASS1-004
+  - BASS1-005
+  - BASS1-006
+  - BASS1-007
+  - BASS1-008
+  caveats:
+  - modeled rows excluded by default
+  needs_expert: false
+- id: q04
+  category: lookup
+  question: Which experiments have an extinction outcome of 'Disruption'?
+  plan:
+    intent: lookup
+    filters:
+    - field: extinction_outcome
+      op: eq
+      value: Disruption
+    select_fields:
+    - experiment_id
+    sort:
+    - experiment_id
+    limit: 1000
+  expected_experiment_ids:
+  - FLEX-001
+  - FLEX-007
+  - FLEX-008
+  - FLEX-009
+  - FLEX-012
+  - FLEX-017
+  - FLEX-019
+  - FLEX-021
+  - FLEX-022
+  - FLEX-023
+  - FLEX-024
+  - FLEX-026
+  - FLEX-027
+  - FLEX-028
+  - FLEX-031
+  - FLEX-037
+  - FLEX-038
+  - FLEX-039
+  - FLEX-040
+  - FLEX-041
+  - FLEX-042
+  - FLEX-043
+  - FLEX-044
+  - FLEX-046
+  - FLEX-048
+  - FLEX-052
+  - FLEX-053
+  - FLEX-055
+  - FLEX-088
+  - FLEX-089
+  - FLEX-090
+  - FLEX-091
+  - FLEX-092
+  - FLEX-093
+  - FLEX-096
+  - FLEX-105
+  - FLEX-106
+  - FLEX-107
+  - FLEX-131
+  - FLEX-132
+  - FLEX-133
+  - FLEX-137
+  - FLEX-138
+  - FLEX-139
+  - FLEX-148
+  - FLEX-149
+  - FLEX-168
+  - FLEX-173
+  - FLEX-174
+  - FLEX-175
+  - FLEX-179
+  - FLEX-182
+  - FLEX-198
+  - FLEX-204
+  - FLEX-205
+  - FLEX-206
+  - FLEX-229
+  - FLEX-231
+  - FLEX-237
+  - FLEX-252
+  - FLEX-254
+  caveats:
+  - modeled rows excluded by default
+  needs_expert: false
+- id: q05
+  category: lookup
+  question: Find all experiments where test_date is null due to campaign range or
+    lack of exact date.
+  plan:
+    intent: lookup
+    filters:
+    - field: test_date
+      op: is_null
+    select_fields:
+    - experiment_id
+    sort:
+    - experiment_id
+    limit: 1000
+  expected_experiment_ids:
+  - ACME-BRE-01
+  - ACME-BRE-02
+  - ACME-BRE-03
+  - ACME-CFI-01
+  - ACME-CFI-02
+  - ACME-CFI-03
+  - ACME-CLD-01
+  - ACME-EFIELD-01
+  - SAFFIREII-S2-1
+  - SAFFIREII-S2-2
+  - SAFFIREII-S2-3
+  - SAFFIREII-S2-4
+  - SAFFIREII-S2-5
+  - SAFFIREIII-S3-1
+  - SAFFIREIII-S3-2
+  - SAFFIREIV-S4-1
+  - SAFFIREIV-S4-2
+  - SAFFIREIV-S4-3
+  - SAFFIREV-S5-1
+  - SAFFIREV-S5-2
+  - SAFFIREV-S5-3
+  - SAFFIREVI-S6-1
+  - SAFFIREVI-S6-2
+  caveats:
+  - campaign ranges nulled and flagged
+  needs_expert: false
+- id: q06
+  category: lookup
+  question: Which experiments have a quarantined airflow reading (raw value >= 1000
+    cm/s)?
+  plan:
+    intent: lookup
+    filters:
+    - field: airflow_velocity_cms
+      op: is_null
+    - field: airflow_velocity_cms_raw
+      op: gte
+      value: 1000.0
+    select_fields:
+    - experiment_id
+    sort:
+    - field: experiment_id
+      direction: asc
+    limit: 1000
+  expected_experiment_ids:
+  - BASS-B10
+  - BASS-B11
+  - BASS-B13
+  - BASS-B6
+  - BASS-M10
+  - BASS-M11
+  - BASS-M15
+  - BASS-M16
+  - BASS-M17
+  - BASS-M18
+  - BASS-M19
+  - BASS-M2
+  - BASS-M3
+  - BASS-M5
+  - BASS-M6
+  - BASS-M7
+  - BASS-M8
+  - BASS-M9
+  - BASS-O1
+  - BASS-O13a
+  - BASS-O13b
+  - BASS-O17
+  - BASS-O18
+  - BASS-O20
+  - BASS-O3b
+  - BASS-O5a
+  - BASS-P10
+  - BASS-P12
+  - BASS-P14
+  - BASS-P17
+  - BASS-P18
+  - BASS-P19
+  - BASS-P20
+  - BASS-P23
+  - BASS-P24
+  - BASS-P4
+  - BASS-P6
+  - BASS-P8
+  - BASS-T21
+  - BASS-T5
+  - BASS-T6
+  - BASS-T7
+  caveats:
+  - quarantined airflow readings are nulled in clean column, raw value exceeds 1000
+    cm/s threshold
+  needs_expert: false
+- id: q07
+  category: lookup
+  question: Find all experiments tested on or after 2022-01-01.
+  plan:
+    intent: lookup
+    filters:
+    - field: test_date
+      op: gte
+      value: '2022-01-01'
+    select_fields:
+    - experiment_id
+    sort:
+    - experiment_id
+    limit: 1000
+  expected_experiment_ids:
+  - ACME-BRE-003
+  - ACME-BRE-009
+  - ACME-BRE-042
+  - ACME-BRE-049
+  - ACME-BRE-057
+  - ACME-CFI-001
+  - ACME-CFI-005
+  - ACME-CFI-012
+  - ACME-CFI-013
+  - ACME-CFI-014
+  - ACME-CFI-024
+  - ACME-CFI-026
+  - ACME-CFI-036
+  - ACME-CFI-047
+  - ACME-CFI-052
+  - ACME-CFI-054
+  - ACME-CLD-007
+  - ACME-CLD-011
+  - ACME-CLD-016
+  - ACME-CLD-017
+  - ACME-CLD-031
+  - ACME-CLD-039
+  - ACME-CLD-043
+  - ACME-CLD-046
+  - ACME-CLD-051
+  - ACME-CLD-058
+  - ACME-EFIELD-002
+  - ACME-EFIELD-027
+  - ACME-EFIELD-032
+  - ACME-EFIELD-045
+  - ACME-EFIELD-055
+  - FLARE-KIBO-001
+  - FLARE-KIBO-002
+  - FLARE-KIBO-003
+  - FLARE-KIBO-004
+  - FLARE-KIBO-005
+  - FLARE-KIBO-006
+  - FLARE-KIBO-007
+  - FLARE-KIBO-009
+  - FLARE-KIBO-010
+  - FLARE-KIBO-012
+  - FLARE-KIBO-014
+  - FLARE-KIBO-016
+  - FLARE-KIBO-017
+  - FLARE-KIBO-018
+  - FLARE-KIBO-020
+  - FLARE-KIBO-023
+  - FLARE-KIBO-027
+  - FLARE-KIBO-028
+  - FLARE-KIBO-029
+  - NTRS-2024-02
+  - SOFIE-001
+  - SOFIE-002
+  - SOFIE-003
+  - SOFIE-004
+  - SOFIE-005
+  - SOFIE-006
+  - SOFIE-007
+  - SOFIE-008
+  - SOFIE-009
+  - SOFIE-010
+  - SOFIE-011
+  - SOFIE-012
+  - STD6001-EXT-003
+  - STD6001-EXT-004
+  - STD6001-EXT-005
+  - STD6001-EXT-008
+  - STD6001-EXT-009
+  - STD6001-EXT-010
+  - STD6001-EXT-012
+  - STD6001-EXT-014
+  - STD6001-EXT-015
+  - STD6001-EXT-016
+  - STD6001-EXT-017
+  - STD6001-EXT-022
+  - STD6001-EXT-024
+  - STD6001-EXT-025
+  - STD6001-EXT-026
+  - STD6001-EXT-030
+  - STD6001-EXT-031
+  - STD6001-EXT-032
+  - STD6001-EXT-033
+  - STD6001-EXT-035
+  - STD6001-EXT-037
+  - STD6001-EXT-040
+  - STD6001-EXT-042
+  - STD6001-EXT-044
+  - STD6001-EXT-045
+  caveats:
+  - modeled rows excluded by default
+  needs_expert: false
+- id: q08
+  category: lookup
+  question: Find all experiments tested on or before 2010-12-31.
+  plan:
+    intent: lookup
+    filters:
+    - field: test_date
+      op: lte
+      value: '2010-12-31'
+    select_fields:
+    - experiment_id
+    sort:
+    - experiment_id
+    limit: 1000
+  expected_experiment_ids:
+  - FLEX-001
+  - FLEX-002
+  - FLEX-003
+  - FLEX-004
+  - FLEX-005
+  - FLEX-006
+  - FLEX-007
+  - FLEX-008
+  - FLEX-009
+  - FLEX-010
+  - FLEX-011
+  - FLEX-012
+  - FLEX-013
+  - FLEX-014
+  - FLEX-015
+  - FLEX-016
+  - FLEX-017
+  - FLEX-018
+  - FLEX-019
+  - FLEX-020
+  - FLEX-021
+  - FLEX-022
+  - FLEX-023
+  - FLEX-024
+  - FLEX-025
+  - FLEX-026
+  - FLEX-027
+  - FLEX-028
+  - FLEX-029
+  - FLEX-030
+  - FLEX-031
+  - FLEX-032
+  - FLEX-033
+  - FLEX-034
+  - FLEX-035
+  - FLEX-036
+  - FLEX-037
+  - FLEX-038
+  - FLEX-039
+  - FLEX-040
+  - FLEX-041
+  - FLEX-042
+  - FLEX-043
+  - FLEX-044
+  - FLEX-045
+  - FLEX-046
+  - FLEX-047
+  - FLEX-048
+  - FLEX-049
+  - FLEX-050
+  - FLEX-051
+  - FLEX-052
+  - FLEX-053
+  - FLEX-054
+  - FLEX-055
+  - FLEX-056
+  - FLEX-057
+  - FLEX-058
+  - FLEX-059
+  - FLEX-060
+  - FLEX-061
+  - FLEX-062
+  - FLEX-063
+  - FLEX-064
+  - FLEX-065
+  - FLEX-066
+  - FLEX-067
+  - FLEX-068
+  - FLEX-069
+  - FLEX-070
+  - FLEX-071
+  - FLEX-072
+  - FLEX-073
+  - FLEX-074
+  - FLEX-075
+  - FLEX-076
+  - FLEX-077
+  - FLEX-078
+  - FLEX-079
+  - FLEX-080
+  - FLEX-081
+  - FLEX-082
+  - FLEX-083
+  - FLEX-084
+  - FLEX-085
+  - FLEX-086
+  - FLEX-087
+  - FLEX-088
+  - FLEX-089
+  - FLEX-090
+  - FLEX-091
+  - FLEX-092
+  - FLEX-093
+  - FLEX-094
+  - FLEX-095
+  - FLEX-096
+  - FLEX-097
+  - FLEX-098
+  - FLEX-099
+  - FLEX-100
+  - FLEX-101
+  - FLEX-102
+  - FLEX-103
+  - FLEX-104
+  - FLEX-105
+  - FLEX-106
+  - FLEX-107
+  - FLEX-108
+  - FLEX-109
+  - FLEX-110
+  - FLEX-111
+  - FLEX-112
+  - FLEX-113
+  - FLEX-114
+  - FLEX-115
+  - FLEX-116
+  - FLEX-117
+  - FLEX-118
+  - FLEX-119
+  - FLEX-120
+  - FLEX-121
+  - FLEX-122
+  - FLEX-123
+  - FLEX-124
+  - FLEX-125
+  - FLEX-126
+  - FLEX-127
+  - FLEX-128
+  - FLEX-129
+  - FLEX-130
+  - FLEX-131
+  - FLEX-132
+  - FLEX-133
+  - FLEX-134
+  - FLEX-135
+  - FLEX-136
+  - FLEX-137
+  - FLEX-138
+  - FLEX-139
+  - FLEX-140
+  - FLEX-141
+  - FLEX-142
+  - FLEX-143
+  - FLEX-144
+  - FLEX-145
+  - FLEX-146
+  - FLEX-147
+  - FLEX-148
+  - FLEX-149
+  - FLEX-150
+  - FLEX-151
+  - FLEX-152
+  - FLEX-153
+  - FLEX-154
+  - FLEX-155
+  - FLEX-156
+  - FLEX-157
+  - FLEX-158
+  - FLEX-159
+  - FLEX-160
+  - FLEX-161
+  - FLEX-162
+  - FLEX-163
+  - FLEX-164
+  - FLEX-165
+  - GRC-DROP-008
+  - GRC-DROP-009
+  - GRC-DROP-013
+  - GRC-DROP-015
+  - GRC-DROP-019
+  - GRC-DROP-020
+  - GRC-DROP-026
+  - GRC-DROP-029
+  - GRC-DROP-036
+  - GRC-DROP-062
+  - GRC-DROP-063
+  - GRC-DROP-070
+  - GRC-DROP-072
+  - GRC-DROP-075
+  - GRC-DROP-077
+  - GRC-DROP-080
+  - SAMER-MSG-001
+  - SAMER-MSG-002
+  - SPICE-MSG-001
+  - SPICE-MSG-002
+  - SPICE-MSG-003
+  caveats:
+  - modeled rows excluded by default
+  needs_expert: false
+- id: q09
+  category: lookup
+  question: Which experiments in the GRC Drop Tower family used Ethanol Droplet as
+    fuel?
+  plan:
+    intent: lookup
+    filters:
+    - field: dataset_family
+      op: eq
+      value: GRC Drop Tower
+    - field: fuel_material
+      op: eq
+      value: Ethanol Droplet
+    select_fields:
+    - experiment_id
+    sort:
+    - experiment_id
+    limit: 1000
+  expected_experiment_ids:
+  - GRC-DROP-001
+  - GRC-DROP-002
+  - GRC-DROP-003
+  - GRC-DROP-006
+  - GRC-DROP-010
+  - GRC-DROP-013
+  - GRC-DROP-019
+  - GRC-DROP-043
+  - GRC-DROP-052
+  - GRC-DROP-066
+  - GRC-DROP-067
+  - GRC-DROP-068
+  - GRC-DROP-069
+  - GRC-DROP-081
+  - GRC-DROP-083
+  - GRC-DROP-084
+  - GRC-DROP-085
+  - GRC-DROP-088
+  caveats:
+  - modeled rows excluded by default
+  needs_expert: false
+- id: q10
+  category: lookup
+  question: List all experiments that tested PMMA (Acrylic) fuel.
+  plan:
+    intent: lookup
+    filters:
+    - field: fuel_material
+      op: eq
+      value: PMMA (Acrylic)
+    select_fields:
+    - experiment_id
+    sort:
+    - experiment_id
+    limit: 1000
+  expected_experiment_ids:
+  - BASS-B1
+  - BASS-B10
+  - BASS-B11
+  - BASS-B14
+  - BASS-B15
+  - BASS-B16
+  - BASS-B17
+  - BASS-B18
+  - BASS-B19
+  - BASS-B2
+  - BASS-B20
+  - BASS-B21
+  - BASS-B22
+  - BASS-B4
+  - BASS-B6
+  - BASS-B8
+  - BASS-B9
+  - BASS-M1
+  - BASS-M10
+  - BASS-M11
+  - BASS-M12
+  - BASS-M13
+  - BASS-M14
+  - BASS-M15
+  - BASS-M16
+  - BASS-M17
+  - BASS-M18
+  - BASS-M19
+  - BASS-M2
+  - BASS-M20
+  - BASS-M3
+  - BASS-M4
+  - BASS-M5
+  - BASS-M6
+  - BASS-M7
+  - BASS-M8
+  - BASS-M9
+  - BASS-O13a
+  - BASS-O13b
+  - BASS-O5a
+  - BASS-O5b
+  - SAFFIREVI-S6-1
+  caveats:
+  - modeled rows excluded by default
+  needs_expert: false
+- id: q11
+  category: lookup
+  question: Retrieve all experiments with fuel_material containing the substring 'Heptane'.
+  plan:
+    intent: lookup
+    filters:
+    - field: fuel_material
+      op: contains
+      value: Heptane
+    select_fields:
+    - experiment_id
+    sort:
+    - experiment_id
+    limit: 1000
+  expected_experiment_ids:
+  - ACME-BRE-003
+  - ACME-BRE-008
+  - ACME-BRE-009
+  - ACME-BRE-018
+  - ACME-BRE-019
+  - ACME-BRE-023
+  - ACME-BRE-030
+  - ACME-BRE-041
+  - ACME-BRE-042
+  - ACME-BRE-048
+  - ACME-BRE-049
+  - ACME-BRE-053
+  - ACME-BRE-057
+  - FLEX-007
+  - FLEX-008
+  - FLEX-009
+  - FLEX-012
+  - FLEX-018
+  - FLEX-019
+  - FLEX-023
+  - FLEX-024
+  - FLEX-027
+  - FLEX-028
+  - FLEX-031
+  - FLEX-032
+  - FLEX-035
+  - FLEX-039
+  - FLEX-042
+  - FLEX-043
+  - FLEX-047
+  - FLEX-049
+  - FLEX-050
+  - FLEX-051
+  - FLEX-052
+  - FLEX-053
+  - FLEX-056
+  - FLEX-057
+  - FLEX-062
+  - FLEX-063
+  - FLEX-064
+  - FLEX-069
+  - FLEX-070
+  - FLEX-072
+  - FLEX-073
+  - FLEX-074
+  - FLEX-079
+  - FLEX-080
+  - FLEX-081
+  - FLEX-092
+  - FLEX-093
+  - FLEX-094
+  - FLEX-095
+  - FLEX-096
+  - FLEX-100
+  - FLEX-101
+  - FLEX-102
+  - FLEX-103
+  - FLEX-117
+  - FLEX-118
+  - FLEX-119
+  - FLEX-120
+  - FLEX-129
+  - FLEX-130
+  - FLEX-131
+  - FLEX-132
+  - FLEX-133
+  - FLEX-134
+  - FLEX-135
+  - FLEX-136
+  - FLEX-137
+  - FLEX-138
+  - FLEX-139
+  - FLEX-148
+  - FLEX-149
+  - FLEX-150
+  - FLEX-154
+  - FLEX-155
+  - FLEX-156
+  - FLEX-165
+  - FLEX-171
+  - FLEX-172
+  - FLEX-173
+  - FLEX-174
+  - FLEX-175
+  - FLEX-178
+  - FLEX-179
+  - FLEX-180
+  - FLEX-181
+  - FLEX-182
+  - FLEX-194
+  - FLEX-195
+  - FLEX-196
+  - FLEX-197
+  - FLEX-198
+  - FLEX-204
+  - FLEX-205
+  - FLEX-206
+  - FLEX-207
+  - FLEX-208
+  - FLEX-209
+  - FLEX-210
+  - FLEX-211
+  - FLEX-212
+  - FLEX-213
+  - FLEX-214
+  - FLEX-224
+  - FLEX-228
+  - FLEX-229
+  - FLEX-230
+  - FLEX-231
+  - FLEX-232
+  - FLEX-233
+  - FLEX-234
+  - FLEX-235
+  - FLEX-236
+  - FLEX-237
+  - FLEX-238
+  - FLEX-243
+  - FLEX-249
+  - FLEX-250
+  - FLEX-258
+  - FLEX-259
+  - FLEX-260
+  - FLEX-261
+  - FLEX-267
+  - FLEX-268
+  - FLEX-269
+  - FLEX-270
+  - FLEX-273
+  - FLEX-274
+  - FLEX2-F2-01
+  - FLEX2-F2-03
+  - FLEX2-F2-09
+  - GRC-DROP-022
+  - GRC-DROP-032
+  - GRC-DROP-050
+  - GRC-DROP-055
+  - GRC-DROP-060
+  - GRC-DROP-065
+  - GRC-DROP-070
+  - GRC-DROP-074
+  - GRC-DROP-076
+  - GRC-DROP-087
+  - SLICE-005
+  - SLICE-006
+  caveats:
+  - modeled rows excluded by default
+  needs_expert: false
+- id: q12
+  category: lookup
+  question: Find all experiments with an oxygen percentage between 20.0% and 30.0%
+    inclusive.
+  plan:
+    intent: lookup
+    filters:
+    - field: oxygen_pct
+      op: between
+      value:
+      - 20.0
+      - 30.0
+    select_fields:
+    - experiment_id
+    sort:
+    - experiment_id
+    limit: 1000
+  expected_experiment_ids:
+  - ACME-BRE-008
+  - ACME-BRE-01
+  - ACME-BRE-019
+  - ACME-BRE-02
+  - ACME-BRE-023
+  - ACME-BRE-042
+  - ACME-BRE-049
+  - ACME-BRE-053
+  - ACME-CFI-001
+  - ACME-CFI-014
+  - ACME-CFI-02
+  - ACME-CFI-024
+  - ACME-CFI-03
+  - ACME-CFI-040
+  - ACME-CFI-052
+  - ACME-CFI-054
+  - ACME-CFI-056
+  - ACME-CLD-007
+  - ACME-CLD-015
+  - ACME-CLD-016
+  - ACME-CLD-017
+  - ACME-CLD-020
+  - ACME-CLD-031
+  - ACME-CLD-033
+  - ACME-CLD-034
+  - ACME-CLD-038
+  - ACME-CLD-039
+  - ACME-CLD-046
+  - ACME-CLD-058
+  - ACME-CLD-059
+  - ACME-CLD-060
+  - ACME-EFIELD-004
+  - ACME-EFIELD-01
+  - ACME-EFIELD-010
+  - ACME-EFIELD-021
+  - ACME-EFIELD-022
+  - ACME-EFIELD-025
+  - ACME-EFIELD-027
+  - ACME-EFIELD-028
+  - ACME-EFIELD-045
+  - ACME-EFIELD-055
+  - BASS-B1
+  - BASS-B10
+  - BASS-B11
+  - BASS-B12
+  - BASS-B13
+  - BASS-B15
+  - BASS-B2
+  - BASS-B21
+  - BASS-B22
+  - BASS-B3
+  - BASS-B4
+  - BASS-B5
+  - BASS-B6
+  - BASS-B7
+  - BASS-B8
+  - BASS-B9
+  - BASS-F1
+  - BASS-F2
+  - BASS-F3
+  - BASS-M1
+  - BASS-M10
+  - BASS-M11
+  - BASS-M12
+  - BASS-M13
+  - BASS-M14
+  - BASS-M15
+  - BASS-M2
+  - BASS-M3
+  - BASS-M4
+  - BASS-M5
+  - BASS-M6
+  - BASS-O1
+  - BASS-O2
+  - BASS-P13a
+  - BASS-P13b
+  - BASS-P18
+  - BASS-P22a
+  - BASS-P22b
+  - BASS-P25
+  - BASS-T25
+  - BASS-T26
+  - BASS-T27
+  - BASS-T28a
+  - BASS-T28b
+  - BASS-T29
+  - BASS1-001
+  - BASS1-002
+  - BASS1-003
+  - BASS1-004
+  - BASS1-006
+  - BASS1-008
+  - DAFT-MSG-001
+  - FLARE-KIBO-003
+  - FLARE-KIBO-004
+  - FLARE-KIBO-005
+  - FLARE-KIBO-009
+  - FLARE-KIBO-010
+  - FLARE-KIBO-011
+  - FLARE-KIBO-015
+  - FLARE-KIBO-016
+  - FLARE-KIBO-017
+  - FLARE-KIBO-021
+  - FLARE-KIBO-022
+  - FLARE-KIBO-023
+  - FLARE-KIBO-027
+  - FLARE-KIBO-028
+  - FLARE-KIBO-029
+  - FLEX-001
+  - FLEX-002
+  - FLEX-003
+  - FLEX-004
+  - FLEX-005
+  - FLEX-006
+  - FLEX-007
+  - FLEX-008
+  - FLEX-009
+  - FLEX-010
+  - FLEX-011
+  - FLEX-012
+  - FLEX-013
+  - FLEX-014
+  - FLEX-015
+  - FLEX-016
+  - FLEX-017
+  - FLEX-018
+  - FLEX-025
+  - FLEX-026
+  - FLEX-027
+  - FLEX-028
+  - FLEX-029
+  - FLEX-030
+  - FLEX-031
+  - FLEX-032
+  - FLEX-033
+  - FLEX-034
+  - FLEX-035
+  - FLEX-036
+  - FLEX-040
+  - FLEX-041
+  - FLEX-042
+  - FLEX-043
+  - FLEX-044
+  - FLEX-045
+  - FLEX-046
+  - FLEX-047
+  - FLEX-048
+  - FLEX-049
+  - FLEX-050
+  - FLEX-051
+  - FLEX-052
+  - FLEX-053
+  - FLEX-054
+  - FLEX-055
+  - FLEX-056
+  - FLEX-057
+  - FLEX-088
+  - FLEX-089
+  - FLEX-090
+  - FLEX-091
+  - FLEX-092
+  - FLEX-093
+  - FLEX-094
+  - FLEX-095
+  - FLEX-096
+  - FLEX-097
+  - FLEX-098
+  - FLEX-099
+  - FLEX-100
+  - FLEX-101
+  - FLEX-102
+  - FLEX-103
+  - FLEX-104
+  - FLEX-105
+  - FLEX-106
+  - FLEX-107
+  - FLEX-108
+  - FLEX-109
+  - FLEX-110
+  - FLEX-111
+  - FLEX-112
+  - FLEX-113
+  - FLEX-114
+  - FLEX-115
+  - FLEX-116
+  - FLEX-117
+  - FLEX-118
+  - FLEX-131
+  - FLEX-132
+  - FLEX-133
+  - FLEX-134
+  - FLEX-135
+  - FLEX-136
+  - FLEX-137
+  - FLEX-138
+  - FLEX-139
+  - FLEX-144
+  - FLEX-145
+  - FLEX-146
+  - FLEX-148
+  - FLEX-149
+  - FLEX-150
+  - FLEX-168
+  - FLEX-169
+  - FLEX-170
+  - FLEX-174
+  - FLEX-175
+  - FLEX-176
+  - FLEX-177
+  - FLEX-178
+  - FLEX-179
+  - FLEX-183
+  - FLEX-184
+  - FLEX-185
+  - FLEX-186
+  - FLEX-196
+  - FLEX-197
+  - FLEX-198
+  - FLEX-199
+  - FLEX-200
+  - FLEX-201
+  - FLEX-202
+  - FLEX-203
+  - FLEX-204
+  - FLEX-205
+  - FLEX-206
+  - FLEX-207
+  - FLEX-208
+  - FLEX-222
+  - FLEX-223
+  - FLEX-224
+  - FLEX-228
+  - FLEX-229
+  - FLEX-230
+  - FLEX-249
+  - FLEX-250
+  - FLEX-251
+  - FLEX-252
+  - FLEX-253
+  - FLEX-254
+  - FLEX-255
+  - FLEX-256
+  - FLEX-257
+  - FLEX-258
+  - FLEX-259
+  - FLEX-260
+  - FLEX-261
+  - FLEX-262
+  - FLEX-263
+  - FLEX-273
+  - FLEX-274
+  - FLEX2-F2-01
+  - FLEX2-F2-03
+  - FLEX2-F2-04
+  - FLEX2-F2-05
+  - FLEX2-F2-06
+  - FLEX2-F2-07
+  - FLEX2-F2-09
+  - FLEX2-F2-10
+  - GRC-DROP-006
+  - GRC-DROP-009
+  - GRC-DROP-011
+  - GRC-DROP-012
+  - GRC-DROP-013
+  - GRC-DROP-014
+  - GRC-DROP-015
+  - GRC-DROP-018
+  - GRC-DROP-019
+  - GRC-DROP-020
+  - GRC-DROP-021
+  - GRC-DROP-028
+  - GRC-DROP-033
+  - GRC-DROP-034
+  - GRC-DROP-037
+  - GRC-DROP-042
+  - GRC-DROP-043
+  - GRC-DROP-046
+  - GRC-DROP-048
+  - GRC-DROP-049
+  - GRC-DROP-054
+  - GRC-DROP-057
+  - GRC-DROP-062
+  - GRC-DROP-070
+  - GRC-DROP-072
+  - GRC-DROP-076
+  - GRC-DROP-081
+  - GRC-DROP-082
+  - GRC-DROP-084
+  - GRC-DROP-086
+  - GRC-DROP-090
+  - GRC-DROP-092
+  - MGM-ISS-001
+  - MGM-ISS-004
+  - MGM-ISS-005
+  - MGM-ISS-007
+  - MGM-ISS-008
+  - MGM-ISS-010
+  - MGM-ISS-011
+  - MGM-ISS-012
+  - MGM-ISS-015
+  - MGM-ISS-016
+  - MGM-ISS-017
+  - MGM-ISS-020
+  - MGM-ISS-021
+  - MGM-ISS-022
+  - MGM-ISS-023
+  - MGM-ISS-024
+  - MGM-ISS-027
+  - MGM-ISS-028
+  - MGM-ISS-029
+  - MGM-ISS-030
+  - MGM-ISS-031
+  - MGM-ISS-033
+  - MGM-ISS-034
+  - MGM-ISS-035
+  - MGM-ISS-037
+  - MGM-ISS-038
+  - MGM-ISS-039
+  - MGM-ISS-043
+  - MGM-ISS-044
+  - MGM-ISS-046
+  - MGM-ISS-047
+  - MGM-ISS-048
+  - MGM-ISS-049
+  - MGM-ISS-050
+  - MGM-ISS-051
+  - MGM-ISS-052
+  - MGM-ISS-053
+  - MGM-ISS-055
+  - MGM-ISS-056
+  - MGM-ISS-058
+  - MGM-ISS-059
+  - MGM-ISS-060
+  - MGM-ISS-061
+  - MGM-ISS-062
+  - MGM-ISS-063
+  - MGM-ISS-065
+  - NTRS-2024-02
+  - SAF1-S1
+  - SAF1-S2
+  - SAFFIREII-S2-1
+  - SAFFIREII-S2-2
+  - SAFFIREII-S2-3
+  - SAFFIREII-S2-4
+  - SAFFIREII-S2-5
+  - SAFFIREIII-S3-1
+  - SAFFIREIII-S3-2
+  - SAFFIREIV-S4-1
+  - SAFFIREIV-S4-2
+  - SAFFIREIV-S4-3
+  - SAFFIREVI-S6-2
+  - SAME-AERO-001
+  - SAME-AERO-002
+  - SAME-AERO-003
+  - SAME-AERO-004
+  - SAME-AERO-005
+  - SAME-AERO-006
+  - SAME-AERO-007
+  - SAME-AERO-008
+  - SAME-AERO-009
+  - SAME-AERO-010
+  - SAME-AERO-011
+  - SAME-AERO-012
+  - SAME-AERO-013
+  - SAME-AERO-014
+  - SAME-AERO-015
+  - SAME-AERO-016
+  - SAME-AERO-017
+  - SAME-AERO-018
+  - SAME-AERO-019
+  - SAME-AERO-020
+  - SAME-AERO-021
+  - SAME-AERO-022
+  - SAME-AERO-023
+  - SAME-AERO-024
+  - SAME-AERO-025
+  - SAME-AERO-026
+  - SAME-AERO-027
+  - SAME-AERO-028
+  - SAME-AERO-029
+  - SAME-AERO-030
+  - SAME-AERO-031
+  - SAME-AERO-032
+  - SAME-AERO-033
+  - SAME-AERO-034
+  - SAME-AERO-035
+  - SAME-AERO-036
+  - SAME-AERO-037
+  - SAME-AERO-038
+  - SAME-AERO-039
+  - SAME-AERO-040
+  - SAME-AERO-041
+  - SAME-AERO-042
+  - SAME-AERO-043
+  - SAME-AERO-044
+  - SAME-AERO-045
+  - SAME-AERO-046
+  - SAME-AERO-047
+  - SAME-AERO-048
+  - SAME-AERO-049
+  - SAME-AERO-050
+  - SAMER-MSG-001
+  - SAMER-MSG-002
+  - SLICE-001
+  - SLICE-002
+  - SLICE-003
+  - SLICE-004
+  - SLICE-005
+  - SLICE-006
+  - SLICE-007
+  - SLICE-008
+  - SOFIE-001
+  - SOFIE-003
+  - SOFIE-004
+  - SOFIE-006
+  - SOFIE-008
+  - SOFIE-011
+  - SPICE-MSG-001
+  - SPICE-MSG-002
+  - SPICE-MSG-003
+  - STD6001-001
+  - STD6001-003
+  - STD6001-005
+  - STD6001-007
+  - STD6001-008
+  - STD6001-010
+  - STD6001-011
+  - STD6001-012
+  - STD6001-014
+  - STD6001-EXT-001
+  - STD6001-EXT-002
+  - STD6001-EXT-004
+  - STD6001-EXT-007
+  - STD6001-EXT-009
+  - STD6001-EXT-010
+  - STD6001-EXT-011
+  - STD6001-EXT-012
+  - STD6001-EXT-013
+  - STD6001-EXT-014
+  - STD6001-EXT-015
+  - STD6001-EXT-017
+  - STD6001-EXT-018
+  - STD6001-EXT-021
+  - STD6001-EXT-022
+  - STD6001-EXT-024
+  - STD6001-EXT-025
+  - STD6001-EXT-026
+  - STD6001-EXT-027
+  - STD6001-EXT-028
+  - STD6001-EXT-029
+  - STD6001-EXT-030
+  - STD6001-EXT-031
+  - STD6001-EXT-032
+  - STD6001-EXT-033
+  - STD6001-EXT-034
+  - STD6001-EXT-035
+  - STD6001-EXT-036
+  - STD6001-EXT-037
+  - STD6001-EXT-039
+  - STD6001-EXT-040
+  - STD6001-EXT-043
+  - STD6001-EXT-044
+  - STD6001-EXT-045
+  caveats:
+  - modeled rows excluded by default
+  needs_expert: false
+- id: q13
+  category: lookup
+  question: Which experiment has a missing pressure_kpa and zero pressure_mmhg?
+  plan:
+    intent: lookup
+    filters:
+    - field: pressure_kpa
+      op: is_null
+    select_fields:
+    - experiment_id
+    sort:
+    - experiment_id
+    limit: 1000
+  expected_experiment_ids:
+  - FLEX-114
+  caveats:
+  - flagged PRESSURE_KPA_MISSING and PRESSURE_MMHG_ZERO
+  needs_expert: false
+- id: q14
+  category: lookup
+  question: List all modeled engineering bounding and reference rows.
+  plan:
+    intent: lookup
+    include_modeled: true
+    filters:
+    - field: is_modeled
+      op: eq
+      value: true
+    select_fields:
+    - experiment_id
+    sort:
+    - experiment_id
+    limit: 1000
+  expected_experiment_ids:
+  - FLARE-KIBO-031
+  - FLARE-KIBO-032
+  - FLARE-KIBO-033
+  - FLARE-KIBO-034
+  - FLARE-KIBO-035
+  - FLARE-KIBO-036
+  - FLARE-KIBO-037
+  - FLARE-KIBO-038
+  - FLARE-KIBO-039
+  - FLARE-KIBO-040
+  - FLARE-KIBO-041
+  - FLARE-KIBO-042
+  - FLARE-KIBO-043
+  - FLARE-KIBO-044
+  - FLARE-KIBO-045
+  - FLARE-KIBO-046
+  - FLARE-KIBO-047
+  - FLARE-KIBO-048
+  - FLARE-KIBO-049
+  - FLARE-KIBO-050
+  - FLARE-KIBO-051
+  - FLARE-KIBO-052
+  - FLARE-KIBO-053
+  - FLARE-KIBO-054
+  - FLARE-KIBO-055
+  - FLARE-KIBO-056
+  - FLARE-KIBO-057
+  - FLARE-KIBO-058
+  - FLARE-KIBO-059
+  - FLARE-KIBO-060
+  - FLARE-KIBO-061
+  - FLARE-KIBO-062
+  - FLARE-KIBO-063
+  - FLARE-KIBO-064
+  - FLARE-KIBO-065
+  - FLARE-KIBO-066
+  - FLARE-KIBO-067
+  - FLARE-KIBO-068
+  - FLARE-KIBO-069
+  - FLARE-KIBO-070
+  - FLARE-KIBO-071
+  - FLARE-KIBO-072
+  - FLARE-KIBO-073
+  - FLARE-KIBO-074
+  - FLARE-KIBO-075
+  - FLARE-KIBO-076
+  - FLARE-KIBO-077
+  - FLARE-KIBO-078
+  - FLARE-KIBO-079
+  - FLARE-KIBO-080
+  - FM2-BOUND-002
+  - LUCI-BOUND-001
+  caveats:
+  - modeled rows explicitly included
+  needs_expert: false
+- id: q15
+  category: lookup
+  question: Find all experiments in the SOFIE flight dataset family.
+  plan:
+    intent: lookup
+    filters:
+    - field: dataset_family
+      op: eq
+      value: SOFIE
+    select_fields:
+    - experiment_id
+    sort:
+    - experiment_id
+    limit: 1000
+  expected_experiment_ids:
+  - SOFIE-001
+  - SOFIE-002
+  - SOFIE-003
+  - SOFIE-004
+  - SOFIE-005
+  - SOFIE-006
+  - SOFIE-007
+  - SOFIE-008
+  - SOFIE-009
+  - SOFIE-010
+  - SOFIE-011
+  - SOFIE-012
+  caveats:
+  - modeled rows excluded by default
+  needs_expert: false
+- id: q16
+  category: aggregation
+  question: What is the mean burning rate for Heptane droplets in the FLEX family?
+  plan:
+    intent: aggregate
+    filters:
+    - field: dataset_family
+      op: eq
+      value: FLEX
+    - field: fuel_material
+      op: eq
+      value: Heptane
+    aggregates:
+    - fn: mean
+      field: burning_rate_mms
+  expected_aggregates:
+  - fn: mean
+    field: burning_rate_mms
+    value: 0.5447663551401869
+    n_used: 107
+    n_null_excluded: 10
+    n_quarantined_excluded: 0
+    group_key: null
+  caveats:
+  - single family to avoid cross-family semantic differences
+  - modeled rows excluded
+  needs_expert: false
+- id: q17
+  category: aggregation
+  question: What is the mean burning rate for Methanol droplets in the FLEX family?
+  plan:
+    intent: aggregate
+    filters:
+    - field: dataset_family
+      op: eq
+      value: FLEX
+    - field: fuel_material
+      op: eq
+      value: Methanol
+    aggregates:
+    - fn: mean
+      field: burning_rate_mms
+  expected_aggregates:
+  - fn: mean
+    field: burning_rate_mms
+    value: 0.47152317880794714
+    n_used: 151
+    n_null_excluded: 6
+    n_quarantined_excluded: 0
+    group_key: null
+  caveats:
+  - single family to avoid cross-family semantic differences
+  - modeled rows excluded
+  needs_expert: false
+- id: q18
+  category: aggregation
+  question: What is the mean burning rate for Methanol droplets at 21% O2 in the FLEX
+    family?
+  plan:
+    intent: aggregate
+    filters:
+    - field: dataset_family
+      op: eq
+      value: FLEX
+    - field: fuel_material
+      op: eq
+      value: Methanol
+    - field: oxygen_pct
+      op: eq
+      value: 21.0
+    aggregates:
+    - fn: mean
+      field: burning_rate_mms
+  expected_aggregates:
+  - fn: mean
+    field: burning_rate_mms
+    value: 0.4965384615384615
+    n_used: 26
+    n_null_excluded: 3
+    n_quarantined_excluded: 0
+    group_key: null
+  caveats:
+  - acceptance criterion benchmark query
+  - modeled rows excluded
+  needs_expert: false
+- id: q19
+  category: aggregation
+  question: What is the maximum burning rate for Heptane droplets in the FLEX family?
+  plan:
+    intent: aggregate
+    filters:
+    - field: dataset_family
+      op: eq
+      value: FLEX
+    - field: fuel_material
+      op: eq
+      value: Heptane
+    aggregates:
+    - fn: max
+      field: burning_rate_mms
+  expected_aggregates:
+  - fn: max
+    field: burning_rate_mms
+    value: 1.06
+    n_used: 107
+    n_null_excluded: 10
+    n_quarantined_excluded: 0
+    group_key: null
+  caveats:
+  - modeled rows excluded
+  needs_expert: false
+- id: q20
+  category: aggregation
+  question: What is the minimum burning rate for Heptane droplets in the FLEX family?
+  plan:
+    intent: aggregate
+    filters:
+    - field: dataset_family
+      op: eq
+      value: FLEX
+    - field: fuel_material
+      op: eq
+      value: Heptane
+    aggregates:
+    - fn: min
+      field: burning_rate_mms
+  expected_aggregates:
+  - fn: min
+    field: burning_rate_mms
+    value: 0.05
+    n_used: 107
+    n_null_excluded: 10
+    n_quarantined_excluded: 0
+    group_key: null
+  caveats:
+  - modeled rows excluded
+  needs_expert: false
+- id: q21
+  category: aggregation
+  question: What is the median burning rate for Heptane droplets in the FLEX family?
+  plan:
+    intent: aggregate
+    filters:
+    - field: dataset_family
+      op: eq
+      value: FLEX
+    - field: fuel_material
+      op: eq
+      value: Heptane
+    aggregates:
+    - fn: median
+      field: burning_rate_mms
+  expected_aggregates:
+  - fn: median
+    field: burning_rate_mms
+    value: 0.54
+    n_used: 107
+    n_null_excluded: 10
+    n_quarantined_excluded: 0
+    group_key: null
+  caveats:
+  - modeled rows excluded
+  needs_expert: false
+- id: q22
+  category: aggregation
+  question: What is the mean burn time for NASA-STD-6001 upward flammability screening
+    tests?
+  plan:
+    intent: aggregate
+    filters:
+    - field: dataset_family
+      op: eq
+      value: NASA-STD-6001
+    aggregates:
+    - fn: mean
+      field: burn_time_s
+  expected_aggregates:
+  - fn: mean
+    field: burn_time_s
+    value: 34.7322033898305
+    n_used: 59
+    n_null_excluded: 0
+    n_quarantined_excluded: 0
+    group_key: null
+  caveats:
+  - single family to avoid cross-family duration definition mixing
+  - modeled rows excluded
+  needs_expert: false
+- id: q23
+  category: aggregation
+  question: What is the mean burning rate for all tests in the GRC Drop Tower family?
+  plan:
+    intent: aggregate
+    filters:
+    - field: dataset_family
+      op: eq
+      value: GRC Drop Tower
+    aggregates:
+    - fn: mean
+      field: burning_rate_mms
+  expected_aggregates:
+  - fn: mean
+    field: burning_rate_mms
+    value: 0.8120000000000002
+    n_used: 95
+    n_null_excluded: 0
+    n_quarantined_excluded: 0
+    group_key: null
+  caveats:
+  - single family drop tower rate
+  - modeled rows excluded
+  needs_expert: false
+- id: q24
+  category: aggregation
+  question: What is the mean microgravity duration in seconds for GRC Drop Tower experiments?
+  plan:
+    intent: aggregate
+    filters:
+    - field: dataset_family
+      op: eq
+      value: GRC Drop Tower
+    aggregates:
+    - fn: mean
+      field: microgravity_duration_s
+  expected_aggregates:
+  - fn: mean
+    field: microgravity_duration_s
+    value: 3.2488421052631575
+    n_used: 95
+    n_null_excluded: 0
+    n_quarantined_excluded: 0
+    group_key: null
+  caveats:
+  - enriched drop tower duration
+  - modeled rows excluded
+  needs_expert: false
+- id: q25
+  category: aggregation
+  question: What is the maximum microgravity duration in seconds recorded for GRC
+    Drop Tower tests?
+  plan:
+    intent: aggregate
+    filters:
+    - field: dataset_family
+      op: eq
+      value: GRC Drop Tower
+    aggregates:
+    - fn: max
+      field: microgravity_duration_s
+  expected_aggregates:
+  - fn: max
+    field: microgravity_duration_s
+    value: 4.99
+    n_used: 95
+    n_null_excluded: 0
+    n_quarantined_excluded: 0
+    group_key: null
+  caveats:
+  - enriched drop tower duration
+  - modeled rows excluded
+  needs_expert: false
+- id: q26
+  category: aggregation
+  question: What is the mean igniter power in Watts for MGM smoldering experiments?
+  plan:
+    intent: aggregate
+    filters:
+    - field: dataset_family
+      op: eq
+      value: MGM (Smoldering)
+    aggregates:
+    - fn: mean
+      field: ignition_power_w
+  expected_aggregates:
+  - fn: mean
+    field: ignition_power_w
+    value: 31.049230769230775
+    n_used: 65
+    n_null_excluded: 0
+    n_quarantined_excluded: 0
+    group_key: null
+  caveats:
+  - single family igniter power
+  - modeled rows excluded
+  needs_expert: false
+- id: q27
+  category: aggregation
+  question: What is the mean flame temperature in Kelvin for FLARE (JAXA/Kibo) experiments?
+  plan:
+    intent: aggregate
+    filters:
+    - field: dataset_family
+      op: eq
+      value: FLARE (JAXA/Kibo)
+    aggregates:
+    - fn: mean
+      field: flame_temp_k
+  expected_aggregates:
+  - fn: mean
+    field: flame_temp_k
+    value: 1275.6266666666666
+    n_used: 30
+    n_null_excluded: 0
+    n_quarantined_excluded: 0
+    group_key: null
+  caveats:
+  - single family flame temp
+  - modeled rows excluded
+  needs_expert: false
+- id: q28
+  category: aggregation
+  question: What is the mean burning rate for PMMA Cylinder specimens in the SOFIE
+    family?
+  plan:
+    intent: aggregate
+    filters:
+    - field: dataset_family
+      op: eq
+      value: SOFIE
+    - field: fuel_material
+      op: eq
+      value: PMMA Cylinder (Cast Acrylic)
+    aggregates:
+    - fn: mean
+      field: burning_rate_mms
+  expected_aggregates:
+  - fn: mean
+    field: burning_rate_mms
+    value: 0.23666666666666666
+    n_used: 3
+    n_null_excluded: 0
+    n_quarantined_excluded: 0
+    group_key: null
+  caveats:
+  - single family flight rate
+  - modeled rows excluded
+  needs_expert: false
+- id: q29
+  category: aggregation
+  question: What is the mean airflow velocity in BASS-II excluding quarantined readings?
+  plan:
+    intent: aggregate
+    filters:
+    - field: dataset_family
+      op: eq
+      value: BASS-II
+    aggregates:
+    - fn: mean
+      field: airflow_velocity_cms
+  expected_aggregates:
+  - fn: mean
+    field: airflow_velocity_cms
+    value: 127.29410256410257
+    n_used: 78
+    n_null_excluded: 9
+    n_quarantined_excluded: 42
+    group_key: null
+  caveats:
+  - quarantined airflow readings are excluded and counted
+  - modeled rows excluded
+  needs_expert: false
+- id: q30
+  category: aggregation
+  question: Count the number of experiments in FLEX grouped by extinction outcome.
+  plan:
+    intent: aggregate
+    filters:
+    - field: dataset_family
+      op: eq
+      value: FLEX
+    group_by:
+    - extinction_outcome
+    aggregates:
+    - fn: count
+      field: experiment_id
+  expected_aggregates:
+  - fn: count
+    field: experiment_id
+    value: 27
+    n_used: 27
+    n_null_excluded: 0
+    n_quarantined_excluded: 0
+    group_key:
+      extinction_outcome: Completion
+  - fn: count
+    field: experiment_id
+    value: 61
+    n_used: 61
+    n_null_excluded: 0
+    n_quarantined_excluded: 0
+    group_key:
+      extinction_outcome: Disruption
+  - fn: count
+    field: experiment_id
+    value: 186
+    n_used: 186
+    n_null_excluded: 0
+    n_quarantined_excluded: 0
+    group_key:
+      extinction_outcome: Extinction
+  caveats:
+  - grouped by outcome within family
+  - modeled rows excluded
+  needs_expert: false
+- id: q31
+  category: explain_experiment
+  question: Explain the experimental conditions and results for BASS-II test 'BASS-B1'.
+  plan:
+    intent: explain_experiment
+    experiment_ids:
+    - BASS-B1
+  expected_experiment_ids:
+  - BASS-B1
+  expected_details:
+    dataset_family: BASS-II
+    fuel_material: PMMA (Acrylic)
+    material_category: Solid Polymer / Film
+    gravity_condition: Microgravity (~0g)
+    airflow_velocity_cms: 5.0
+    test_date: '2014-02-19'
+    extinction_outcome: Flame Spread & Extinction
+  caveats:
+  - traceability columns mandatory
+  - modeled rows excluded by default
+  needs_expert: false
+- id: q32
+  category: explain_experiment
+  question: Explain droplet burning test 'FLEX-001' including burning rate and extinction
+    outcome.
+  plan:
+    intent: explain_experiment
+    experiment_ids:
+    - FLEX-001
+  expected_experiment_ids:
+  - FLEX-001
+  expected_details:
+    dataset_family: FLEX
+    fuel_material: Methanol
+    material_category: Liquid Droplet
+    burning_rate_mms: 0.52
+    oxygen_pct: 21.0
+    extinction_outcome: Disruption
+  caveats:
+  - traceability columns mandatory
+  - modeled rows excluded by default
+  needs_expert: false
+- id: q33
+  category: explain_experiment
+  question: Explain the anomalies and quality flags for test 'FLEX-114'.
+  plan:
+    intent: explain_experiment
+    experiment_ids:
+    - FLEX-114
+  expected_experiment_ids:
+  - FLEX-114
+  expected_details:
+    dataset_family: FLEX
+    fuel_material: Methanol
+    pressure_mmhg: 0.0
+    pressure_kpa: null
+    data_quality_flags:
+    - PRESSURE_KPA_MISSING
+    - PRESSURE_MMHG_ZERO
+  caveats:
+  - contains pressure flags
+  - modeled rows excluded by default
+  needs_expert: false
+- id: q34
+  category: explain_experiment
+  question: Explain the drop tower test conditions for 'GRC-DROP-001'.
+  plan:
+    intent: explain_experiment
+    experiment_ids:
+    - GRC-DROP-001
+  expected_experiment_ids:
+  - GRC-DROP-001
+  expected_details:
+    dataset_family: GRC Drop Tower
+    fuel_material: Ethanol Droplet
+    gravity_condition: Drop Tower Microgravity (10^-5 g)
+    microgravity_duration_s: 3.87
+    burning_rate_mms: 0.96
+  caveats:
+  - drop tower microgravity duration extracted
+  - modeled rows excluded by default
+  needs_expert: false
+- id: q35
+  category: explain_experiment
+  question: Explain the smoldering combustion test 'MGM-ISS-001' on polyurethane foam.
+  plan:
+    intent: explain_experiment
+    experiment_ids:
+    - MGM-ISS-001
+  expected_experiment_ids:
+  - MGM-ISS-001
+  expected_details:
+    dataset_family: MGM (Smoldering)
+    fuel_material: Reticulated Polyurethane Foam
+    extinction_outcome: Self-Sustained Smolder
+    ignition_power_w: 38.5
+  caveats:
+  - traceability columns mandatory
+  - modeled rows excluded by default
+  needs_expert: false
+- id: q36
+  category: explain_experiment
+  question: Explain the flight test 'SOFIE-001' conducted on a PMMA cylinder.
+  plan:
+    intent: explain_experiment
+    experiment_ids:
+    - SOFIE-001
+  expected_experiment_ids:
+  - SOFIE-001
+  expected_details:
+    dataset_family: SOFIE
+    fuel_material: PMMA Cylinder (Cast Acrylic)
+    test_date: '2022-04-12'
+    burn_time_s: 38.5
+  caveats:
+  - traceability columns mandatory
+  - modeled rows excluded by default
+  needs_expert: false
+- id: q37
+  category: explain_experiment
+  question: Explain the solid polymer combustion test 'FLARE-KIBO-001' on the ISS
+    Kibo module.
+  plan:
+    intent: explain_experiment
+    experiment_ids:
+    - FLARE-KIBO-001
+  expected_experiment_ids:
+  - FLARE-KIBO-001
+  expected_details:
+    dataset_family: FLARE (JAXA/Kibo)
+    fuel_material: PMMA (Polymethyl Methacrylate)
+    airflow_velocity_cms: 15.0
+    flame_temp_k: 1332.7
+  caveats:
+  - traceability columns mandatory
+  - modeled rows excluded by default
+  needs_expert: false
+- id: q38
+  category: explain_experiment
+  question: Explain the preflight partial-gravity reference model 'FM2-BOUND-002'.
+  plan:
+    intent: explain_experiment
+    include_modeled: true
+    experiment_ids:
+    - FM2-BOUND-002
+  expected_experiment_ids:
+  - FM2-BOUND-002
+  expected_details:
+    dataset_family: LUCI / FM2 (Future Partial-g)
+    fuel_material: Nomex / Cotton-Fiberglass SIBAL (FM2 Reference)
+    gravity_condition: "Partial-g Bounded Model: Lunar (0.16g \u2014 Pre-FM2 Flight\
+      \ Reference)"
+    is_modeled: true
+  caveats:
+  - modeled reference row explicitly requested
+  needs_expert: false
+- id: q39
+  category: qualitative
+  question: Why are modeled rows excluded by default from retrieval and aggregation
+    results?
+  plan:
+    intent: qualitative
+  expected_answer: The 52 modeled rows (50 Partial-g Bounded + 2 LUCI/FM2 reference
+    rows) represent engineering bounding models and pre-flight reference calculations
+    rather than empirical microgravity flight or drop tower measurements. They are
+    excluded by default to prevent contaminating empirical scientific analyses with
+    synthetic boundary models.
+  caveats:
+  - is_modeled flag documented in data dictionary
+  needs_expert: false
+  expected_experiment_ids: []
+- id: q40
+  category: qualitative
+  question: What is the reason for quarantining 42 airflow velocity readings in BASS-II?
+  plan:
+    intent: qualitative
+  expected_answer: In the legacy BASS-II data, 42 rows contained concatenated free-text
+    notes in the airflow field (such as fan display and air display strings), producing
+    unphysical values exceeding the 1000 cm/s threshold (up to 5.105e15 cm/s). These
+    were nulled in airflow_velocity_cms, flagged AIRFLOW_QUARANTINED, and preserved
+    in airflow_velocity_cms_raw.
+  caveats:
+  - documented in docs/data_dictionary.md and quality report
+  needs_expert: false
+  expected_experiment_ids: []
+- id: q41
+  category: qualitative
+  question: Why is burning_rate_mms marked as semantically different across families?
+  plan:
+    intent: qualitative
+  expected_answer: 'Different experiment families measure burning rate under incompatible
+    physical definitions: droplet regression rate in FLEX/FLEX-2 (d(d^2)/dt), concurrent
+    or opposed flame spread rate along solid slabs/fabrics in BASS/SAFFIRE/FLARE,
+    regression rate in smoldering foam in MGM, and burning rate emulator burner rates
+    in ACME. Cross-family aggregation is invalid without per-family definition checking.'
+  caveats:
+  - documented in docs/data_dictionary.md and compiler warning rules
+  needs_expert: false
+  expected_experiment_ids: []
+- id: q42
+  category: qualitative
+  question: Why are campaign-range dates like '2019-2022' nulled in test_date?
+  plan:
+    intent: qualitative
+  expected_answer: Campaign date ranges represent multi-year testing windows rather
+    than discrete ISO 8601 test dates. The pipeline sets test_date to null and applies
+    the TEST_DATE_CAMPAIGN_RANGE flag to prevent temporal filtering errors, while
+    preserving the original string in test_date_raw.
+  caveats:
+  - documented in docs/data_dictionary.md
+  needs_expert: false
+  expected_experiment_ids: []
+- id: q43
+  category: qualitative
+  question: What is the basis and provenance caution regarding he_pct in the dataset?
+  plan:
+    intent: qualitative
+  expected_answer: he_pct is carried solely from the legacy canonical CSV and is absent
+    from Schema A/B raw files. Only FLEX contains non-zero helium percentages (5-45%),
+    while all other 842 rows are set to 0.0. The exact provenance and whether 0.0
+    means 'no helium' or 'not reported' is UNVERIFIED.
+  caveats:
+  - documented in docs/data_dictionary.md UNVERIFIED items
+  needs_expert: false
+  expected_experiment_ids: []
+- id: q44
+  category: qualitative
+  question: How does the retrieval engine handle null values and quarantined values
+    in aggregates?
+  plan:
+    intent: qualitative
+  expected_answer: Aggregates strictly ignore null and quarantined values and never
+    silently impute or include them. Every AggregateResult explicitly reports n_used,
+    n_null_excluded, and n_quarantined_excluded for full traceability.
+  caveats:
+  - enforced in structured retrieval engine
+  needs_expert: false
+  expected_experiment_ids: []
+- id: q45
+  category: out_of_scope
+  question: Extrapolate the burning rate of PMMA to partial gravity of 0.25g on Mars.
+  plan:
+    intent: out_of_scope
+  expected_answer: null
+  caveats:
+  - partial-gravity extrapolation is unsupported without verified flight data
+  needs_expert: true
+  expected_experiment_ids: []
+- id: q46
+  category: out_of_scope
+  question: What was the exact raw airflow velocity for BASS-II test BASS-M5 without
+    quarantine?
+  plan:
+    intent: out_of_scope
+  expected_answer: null
+  caveats:
+  - requires using quarantined or corrupted source text as physical measurement
+  needs_expert: true
+  expected_experiment_ids: []
+- id: q47
+  category: out_of_scope
+  question: Compute the average burning rate across all 30 families combined into
+    a single grand mean.
+  plan:
+    intent: out_of_scope
+  expected_answer: null
+  caveats:
+  - cross-family aggregation of burning_rate_mms is semantically invalid across incompatible
+    definitions
+  needs_expert: true
+  expected_experiment_ids: []
+- id: q48
+  category: out_of_scope
+  question: What is the exact single calendar date for ACME test ACME-BRE-01?
+  plan:
+    intent: out_of_scope
+  expected_answer: null
+  caveats:
+  - test date was only recorded as campaign range 2019-2022 and is nulled
+  needs_expert: true
+  expected_experiment_ids: []
+- id: q49
+  category: out_of_scope
+  question: What is the absolute pressure in kPa for test FLEX-114?
+  plan:
+    intent: out_of_scope
+  expected_answer: null
+  caveats:
+  - pressure_kpa is null and pressure_mmhg is 0.0 with PRESSURE_KPA_MISSING flag
+  needs_expert: true
+  expected_experiment_ids: []
+- id: q50
+  category: out_of_scope
+  question: Predict the soot concentration and radiative emission spectrum for a hypothetical
+    fuel.
+  plan:
+    intent: out_of_scope
+  expected_answer: null
+  caveats:
+  - hypothetical fuel prediction without dataset measurements is out of scope
+  needs_expert: true
+  expected_experiment_ids: []

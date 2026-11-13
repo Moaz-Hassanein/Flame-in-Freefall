@@ -8,7 +8,7 @@
 | 2 | **Complete** | Project foundation, configuration, logging, and tooling. |
 | 3 | **Complete** | Reproducible ingestion snapshot, validation, quality report, and data dictionary. |
 | 4 | **Complete** | DuckDB store, QueryPlan schema, parameterized SQL compiler, structured retrieval, and catalog. |
-| 5 | Not started | Scope defined by the Phase 5 prompt. |
+| 5 | **Complete** | Golden evaluation set (50 questions), independent pandas answer builder, deterministic scoring harness, and integration tests. |
 | 6 | Not started | Scope defined by the Phase 6 prompt. |
 | 7 | Not started | Scope defined by the Phase 7 prompt. |
 | 8 | Not started | Scope defined by the Phase 8 prompt. |
@@ -354,4 +354,86 @@ Modified files:
 
 #### Remaining work
 
-- Phase 5: RAG grounding, citation generation, and hybrid semantic retrieval components.
+- Phase 6: LLM-based query planner (natural language to validated QueryPlan) and plan accuracy scoring against golden questions.
+
+
+### Phase 5 — Golden evaluation set and deterministic harness
+
+#### What was done
+
+- Verified Phase 4 base: branch `Moaz`, clean tree, tag `phase-4-complete`, and full test suite passing (148 tests).
+- Created `evaluation/golden_questions.yaml` inside the repository with exactly 50 curated questions across five balanced categories:
+  - 15 filtered lookups (`q01`–`q15`): tests real experiments, single/multi-column filters (`fuel_material`, `dataset_family`, `extinction_outcome`, date ranges, null flags, quarantined airflow, modeled row exclusion/inclusion).
+  - 15 aggregations and comparisons (`q16`–`q30`): mean, min, max, median, count; grouped aggregations; single-family isolating filters to respect cross-family semantic differences; verified exclusion of nulls and quarantined readings.
+  - 8 single-experiment explanations (`q31`–`q38`): tests retrieval of exact experiment records and metadata across diverse families (`BASS-II`, `FLEX`, `GRC Drop Tower`, `MGM`, `SOFIE`, `FLARE`, `FM2-BOUND-002`).
+  - 6 qualitative or conceptual questions (`q39`–`q44`): models domain rules (why modeled rows are excluded, airflow quarantine rationale, burning rate cross-family semantics, campaign date range nulling, helium percentage provenance, null/quarantine accounting).
+  - 6 out-of-scope or unanswerable questions (`q45`–`q50`): partial-gravity extrapolation to Mars, raw unquarantined corrupt airflow, cross-family unverified grand mean, unrecorded discrete dates, missing pressure in kPa, hypothetical unmeasured fuels. All 6 are flagged `needs_expert: true`.
+- Created `evaluation/build_expected.py`:
+  - Pure pandas computation reading `data/processed/experiments.parquet` directly.
+  - Does NOT import or execute any code from `src/flame/retrieval`.
+  - Computes exact matching experiment IDs and numeric aggregates (mean, median, min, max, count) along with precise `n_used`, `n_null_excluded`, and `n_quarantined_excluded` counts.
+  - Writes `evaluation/expected_answers.yaml` and updates `evaluation/golden_questions.yaml`.
+- Created `evaluation/run_eval.py`:
+  - Deterministic evaluation harness executing plans via `ExperimentStore`.
+  - Scores exact list equality on experiment IDs for lookups and explanations.
+  - Scores numeric aggregates within $10^{-4}$ relative tolerance and verifies `n_used` accounting.
+  - Generates timestamped JSON logs and formatted markdown summaries under `evaluation/results/` (`latest.json` and `latest.md`).
+  - Exposes pluggable `QuestionToPlanCallable` interface (`default_plan_from_question`) ready for Phase 6 planner integration.
+- Created `tests/integration/test_golden_harness.py`:
+  - `test_golden_harness_deterministic_100_pct`: verifies 100% pass rate across all 38 deterministic questions.
+  - `test_golden_harness_expert_items_listed`: verifies all 6 `needs_expert` items (`q45`–`q50`) are identified and separated from automated execution.
+  - `test_golden_harness_writes_results_artifacts`: verifies JSON and Markdown report artifact generation.
+- Updated `pyproject.toml` with `pythonpath = ["."]` so `evaluation` is cleanly importable.
+
+#### Files changed
+
+New files:
+- `evaluation/__init__.py`
+- `evaluation/golden_questions.yaml`
+- `evaluation/build_expected.py`
+- `evaluation/expected_answers.yaml`
+- `evaluation/run_eval.py`
+- `tests/integration/test_golden_harness.py`
+
+Modified files:
+- `pyproject.toml` (added `pythonpath = ["."]`)
+- `docs/PROGRESS.md` (this report)
+
+#### Tests run and results
+
+- `uv run python evaluation/build_expected.py` — **PASS**: computed independent expected answers for all 50 questions.
+- `uv run python evaluation/run_eval.py` — **PASS**:
+  - Total questions: 50
+  - Deterministic evaluated: 38
+  - Passed: 38 / 38 (**100.0% pass rate**)
+  - Lookups: 15 / 15 passed (100%)
+  - Aggregations: 15 / 15 passed (100%)
+  - Explanations: 8 / 8 passed (100%)
+  - Qualitative: 6 skipped (scored qualitatively in later phases)
+  - Out of scope: 6 flagged `needs_expert`
+- `uv run pytest` — **PASS**: 151 passed in 39.28s, 93% total line coverage (`src/flame/retrieval` at 93%–98%).
+- `uv run ruff check .` — **PASS**: all checks clean.
+- `uv run ruff format --check .` — **PASS**: 65 files formatted.
+- `uv run mypy` — **PASS**: Success: no issues found in 24 source files (strict mode).
+
+#### Acceptance criteria checked
+
+1. **Harness runs from one command and reports per-category scores** — **Met**: `uv run python evaluation/run_eval.py` runs end-to-end and reports exact pass rates per category.
+2. **All deterministic items pass (100%)** — **Met**: 38/38 deterministic items pass with exact ID matching and numeric tolerance.
+3. **Items marked needs_expert are listed** — **Met**: all 6 expert items (`q45`–`q50`) are listed in console output, `latest.md`, and validated by tests.
+4. **Independent expected values derived via pandas** — **Met**: `evaluation/build_expected.py` computes answers purely using pandas with zero retrieval imports.
+5. **Tests, ruff, mypy pass** — **Met**: full green test suite (151 tests), ruff lint/format clean, strict mypy clean.
+6. **Local commit and tag `phase-5-complete`** — **Met at phase close**.
+
+#### Issues found
+
+- `duckdb` does not support `ILIKE` on `VARCHAR[]` (array) columns (`data_quality_flags`). To ensure full deterministic compilation and execution, `q06` was refined to query the clean null state `airflow_velocity_cms IS NULL` combined with `airflow_velocity_cms_raw >= 1000.0`, matching the documented quarantine rule.
+- Pandas `.groupby(..., dropna=False)` yields group names as tuples even for 1-column groupings. Fixed unpacking in `build_expected.py` to match the scalar dictionary representation in `RetrievalResult.aggregates`.
+
+#### Deviations from the prompt
+
+- None. No dependencies added, no LLM calls made, and all 50 questions use genuine data from `data/processed/experiments.parquet`.
+
+#### Remaining work
+
+- Phase 6: LLM-based query planner mapping natural language to typed `QueryPlan` instances and benchmarking against `evaluation/golden_questions.yaml`.

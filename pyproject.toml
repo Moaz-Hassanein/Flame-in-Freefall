@@ -61,6 +61,7 @@ show_error_codes = true
 testpaths = ["tests"]
 addopts = "-ra --strict-markers --cov=flame --cov-report=term-missing"
 markers = ["integration: tests that exercise more than one module"]
+pythonpath = ["."]
 
 [tool.coverage.run]
 source = ["flame"]
