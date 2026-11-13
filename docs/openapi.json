@@ -1,0 +1,905 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Flame in Freefall",
+    "description": "Deterministic structured retrieval and grounded RAG API for NASA/JAXA microgravity combustion experiment data.",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/health": {
+      "get": {
+        "tags": [
+          "Observability"
+        ],
+        "summary": "Health",
+        "description": "Liveness probe.",
+        "operationId": "health_api_v1_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/ready": {
+      "get": {
+        "tags": [
+          "Observability"
+        ],
+        "summary": "Ready",
+        "description": "Readiness probe checking snapshot accessibility and manifest.",
+        "operationId": "ready_api_v1_ready_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReadyResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/meta": {
+      "get": {
+        "tags": [
+          "Metadata"
+        ],
+        "summary": "Get Meta",
+        "description": "Return dataset metadata, catalog definitions, and UI constraints.",
+        "operationId": "get_meta_api_v1_meta_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MetaResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/experiments": {
+      "get": {
+        "tags": [
+          "Experiments"
+        ],
+        "summary": "List Experiments",
+        "description": "Filtered, paginated experiment records using QueryPlan validation.",
+        "operationId": "list_experiments_api_v1_experiments_get",
+        "parameters": [
+          {
+            "name": "dataset_family",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by dataset family.",
+              "title": "Dataset Family"
+            },
+            "description": "Filter by dataset family."
+          },
+          {
+            "name": "fuel_material",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by fuel material.",
+              "title": "Fuel Material"
+            },
+            "description": "Filter by fuel material."
+          },
+          {
+            "name": "is_modeled",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter modeled status.",
+              "title": "Is Modeled"
+            },
+            "description": "Filter modeled status."
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000,
+              "minimum": 1,
+              "description": "Page limit.",
+              "default": 50,
+              "title": "Limit"
+            },
+            "description": "Page limit."
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Page offset.",
+              "default": 0,
+              "title": "Offset"
+            },
+            "description": "Page offset."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedExperimentsResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/experiments/{experiment_id}": {
+      "get": {
+        "tags": [
+          "Experiments"
+        ],
+        "summary": "Get Experiment By Id",
+        "description": "Retrieve full experiment record with provenance links and flags.",
+        "operationId": "get_experiment_by_id_api_v1_experiments__experiment_id__get",
+        "parameters": [
+          {
+            "name": "experiment_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Experiment Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Get Experiment By Id Api V1 Experiments  Experiment Id  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/ask": {
+      "post": {
+        "tags": [
+          "RAG"
+        ],
+        "summary": "Ask Question",
+        "description": "Process natural-language question through the RAG pipeline.",
+        "operationId": "ask_question_api_v1_ask_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AskRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AskResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AnswerStatus": {
+        "type": "string",
+        "enum": [
+          "answered",
+          "insufficient_evidence",
+          "out_of_scope",
+          "clarification_needed",
+          "error"
+        ],
+        "title": "AnswerStatus",
+        "description": "Status of the pipeline response."
+      },
+      "AskRequest": {
+        "properties": {
+          "question": {
+            "type": "string",
+            "maxLength": 1000,
+            "minLength": 1,
+            "title": "Question",
+            "description": "Natural-language question about microgravity combustion experiments."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "question"
+        ],
+        "title": "AskRequest",
+        "description": "Request body for the /ask endpoint."
+      },
+      "AskResponse": {
+        "properties": {
+          "question": {
+            "type": "string",
+            "title": "Question",
+            "description": "The original natural-language question."
+          },
+          "answer_markdown": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Answer Markdown",
+            "description": "Grounded markdown answer with inline [EXP-ID] citation markers."
+          },
+          "citations": {
+            "items": {
+              "$ref": "#/components/schemas/CitationRecord"
+            },
+            "type": "array",
+            "title": "Citations",
+            "description": "Verified citations for every experiment_id referenced in the answer."
+          },
+          "evidence": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Evidence",
+            "description": "Capped evidence rows passed to the LLM (experiment_id, key fields, etc.)."
+          },
+          "aggregates": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Aggregates",
+            "description": "Computed aggregate results (AggregateResult dumps) with exclusion counts."
+          },
+          "plan": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Plan",
+            "description": "The interpreted QueryPlan echoed back for transparency."
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Limitations",
+            "description": "Limitations the user must be aware of (exclusions, caps, caveats)."
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings",
+            "description": "Non-fatal warnings raised during retrieval or guardrails."
+          },
+          "status": {
+            "$ref": "#/components/schemas/AnswerStatus",
+            "description": "Pipeline outcome status."
+          },
+          "dataset_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dataset Version",
+            "description": "First 8 chars of the Parquet SHA256 for data provenance tracing."
+          },
+          "timings": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Timings",
+            "description": "Wall-clock seconds for each pipeline stage (plan_s, retrieval_s, etc.)."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "question",
+          "status"
+        ],
+        "title": "AskResponse",
+        "description": "Full pipeline response for a natural-language question.\n\nProduced by ask() after planning, retrieval, generation, and guardrails."
+      },
+      "CitationRecord": {
+        "properties": {
+          "experiment_id": {
+            "type": "string",
+            "title": "Experiment Id",
+            "description": "Unique experiment identifier."
+          },
+          "source_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Url",
+            "description": "URL of the original data source."
+          },
+          "investigation_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Investigation Id",
+            "description": "Investigation or campaign identifier."
+          },
+          "dataset_family": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dataset Family",
+            "description": "Dataset family the experiment belongs to."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "experiment_id"
+        ],
+        "title": "CitationRecord",
+        "description": "A verified citation linking an inline marker to an experiment record."
+      },
+      "DatasetVersionInfo": {
+        "properties": {
+          "git_commit": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Git Commit",
+            "description": "Git commit hash when the snapshot was generated."
+          },
+          "generated_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Generated At",
+            "description": "ISO timestamp of snapshot generation."
+          },
+          "parquet_path": {
+            "type": "string",
+            "title": "Parquet Path",
+            "description": "Filesystem path of the Parquet snapshot."
+          },
+          "manifest_path": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Manifest Path",
+            "description": "Filesystem path of provenance manifest."
+          },
+          "parquet_sha256": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parquet Sha256",
+            "description": "SHA256 checksum of the Parquet snapshot."
+          },
+          "total_rows": {
+            "type": "integer",
+            "title": "Total Rows",
+            "description": "Total rows in the snapshot.",
+            "default": 0
+          },
+          "raw_rebuild_rows": {
+            "type": "integer",
+            "title": "Raw Rebuild Rows",
+            "description": "Rows rebuilt from raw sources.",
+            "default": 0
+          },
+          "canonical_legacy_rows": {
+            "type": "integer",
+            "title": "Canonical Legacy Rows",
+            "description": "Rows carried from legacy canonical data.",
+            "default": 0
+          },
+          "flags": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "type": "object",
+            "title": "Flags",
+            "description": "Quality flag counts."
+          },
+          "source_policy": {
+            "additionalProperties": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "type": "object",
+            "title": "Source Policy",
+            "description": "Mapping of source policies to dataset families."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "parquet_path"
+        ],
+        "title": "DatasetVersionInfo",
+        "description": "Dataset version and provenance information loaded from the manifest."
+      },
+      "FieldCatalog": {
+        "properties": {
+          "fields": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/FieldInfo"
+            },
+            "type": "object",
+            "title": "Fields",
+            "description": "Map of field name to FieldInfo."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "fields"
+        ],
+        "title": "FieldCatalog",
+        "description": "Catalog of all fields in the trusted experiment snapshot."
+      },
+      "FieldInfo": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Column name."
+          },
+          "data_type": {
+            "type": "string",
+            "title": "Data Type",
+            "description": "Logical data type (string, float, int, boolean, date, list[str])."
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unit",
+            "description": "Physical unit of measurement."
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "description": "Field documentation."
+          },
+          "caveat": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Caveat",
+            "description": "Documented limitations or caveats."
+          },
+          "is_canonical": {
+            "type": "boolean",
+            "title": "Is Canonical",
+            "description": "True if one of the 28 original canonical columns."
+          },
+          "is_enrichment": {
+            "type": "boolean",
+            "title": "Is Enrichment",
+            "description": "True if an enrichment or provenance column."
+          },
+          "is_numeric": {
+            "type": "boolean",
+            "title": "Is Numeric",
+            "description": "True if numeric (float or integer)."
+          },
+          "is_categorical": {
+            "type": "boolean",
+            "title": "Is Categorical",
+            "description": "True if categorical string with bounded domain."
+          },
+          "allowed_values": {
+            "anyOf": [
+              {
+                "items": {},
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Allowed Values",
+            "description": "Observed distinct non-null values for categorical columns."
+          },
+          "min_value": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Min Value",
+            "description": "Minimum observed non-null value for numeric columns."
+          },
+          "max_value": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Value",
+            "description": "Maximum observed non-null value for numeric columns."
+          },
+          "null_count": {
+            "type": "integer",
+            "title": "Null Count",
+            "description": "Total null count in the snapshot.",
+            "default": 0
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "name",
+          "data_type",
+          "is_canonical",
+          "is_enrichment",
+          "is_numeric",
+          "is_categorical"
+        ],
+        "title": "FieldInfo",
+        "description": "Metadata and bounds for a single dataset column."
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HealthResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Liveness status.",
+            "default": "ok"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "HealthResponse",
+        "description": "Liveness probe response."
+      },
+      "MetaResponse": {
+        "properties": {
+          "version_info": {
+            "$ref": "#/components/schemas/DatasetVersionInfo",
+            "description": "Provenance manifest metadata."
+          },
+          "field_catalog": {
+            "$ref": "#/components/schemas/FieldCatalog",
+            "description": "Column definitions, units, and allowed values."
+          },
+          "dataset_families": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Dataset Families",
+            "description": "Distinct dataset families present in snapshot."
+          },
+          "modeled_rows_count": {
+            "type": "integer",
+            "title": "Modeled Rows Count",
+            "description": "Count of rows marked with is_modeled=True."
+          },
+          "data_limitations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Data Limitations",
+            "description": "Summary of critical scientific caveats for UI display."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "version_info",
+          "field_catalog",
+          "dataset_families",
+          "modeled_rows_count",
+          "data_limitations"
+        ],
+        "title": "MetaResponse",
+        "description": "Dataset metadata, versions, and frontend display constraints."
+      },
+      "PaginatedExperimentsResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Items",
+            "description": "List of experiment records."
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total",
+            "description": "Total matching rows."
+          },
+          "limit": {
+            "type": "integer",
+            "title": "Limit",
+            "description": "Pagination page size limit."
+          },
+          "offset": {
+            "type": "integer",
+            "title": "Offset",
+            "description": "Pagination offset."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "items",
+          "total",
+          "limit",
+          "offset"
+        ],
+        "title": "PaginatedExperimentsResponse",
+        "description": "Paginated listing of experiments."
+      },
+      "ReadyResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Readiness status ('ready' or 'not_ready')."
+          },
+          "dataset_loaded": {
+            "type": "boolean",
+            "title": "Dataset Loaded",
+            "description": "True if Parquet snapshot is readable."
+          },
+          "manifest_loaded": {
+            "type": "boolean",
+            "title": "Manifest Loaded",
+            "description": "True if provenance manifest is loaded."
+          },
+          "total_rows": {
+            "type": "integer",
+            "title": "Total Rows",
+            "description": "Total rows in the snapshot."
+          },
+          "llm_configured": {
+            "type": "boolean",
+            "title": "Llm Configured",
+            "description": "True if LLM provider and API key are configured."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "status",
+          "dataset_loaded",
+          "manifest_loaded",
+          "total_rows",
+          "llm_configured"
+        ],
+        "title": "ReadyResponse",
+        "description": "Readiness probe response verifying storage and LLM configuration."
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

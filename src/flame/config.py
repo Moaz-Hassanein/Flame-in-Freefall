@@ -73,6 +73,19 @@ class Settings(BaseSettings):
     llm_model: str | None = None
     llm_api_key: SecretStr | None = None
 
+    # API configuration
+    api_host: str = "0.0.0.0"
+    api_port: int = 8000
+    cors_origins: list[str] = [
+        "http://localhost:3000",
+        "http://localhost:5173",
+        "http://127.0.0.1:3000",
+        "http://127.0.0.1:5173",
+    ]
+    rate_limit_per_minute: int = 60
+    max_question_length: int = 1000
+    max_log_text_length: int = 200
+
     @field_validator("log_level", mode="before")
     @classmethod
     def _normalize_log_level(cls, value: object) -> object:

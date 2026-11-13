@@ -595,3 +595,76 @@ Modified files:
 #### Remaining work
 
 - Phase 8: Multi-turn conversation and context management.
+
+### Phase 8: HTTP API, Reliability and Observability
+
+#### What was done
+
+- **Application Factory & Lifespan (`src/flame/api/main.py`)**:
+  - Implemented `create_app` factory with async `lifespan` managing `ExperimentStore` lifecycle and provider-agnostic `LLMClient` initialization.
+  - Added global exception handlers mapping `HTTPException`, `RequestValidationError`, `PlanValidationError`, and unhandled server errors to uniform JSON error structures `{"error_code", "message", "request_id"}` without leaking stack traces or secrets.
+  - Added CORS middleware restricted to configured origins (`cors_origins`).
+- **Endpoints (`src/flame/api/routes.py`)**:
+  - `POST /api/v1/ask`: Validated request body `{question}` (1-1000 chars) processed through the RAG pipeline; logs plan summary, row counts, status, latency, and request correlation.
+  - `GET /api/v1/experiments`: Filtered and paginated listing backed by deterministic `QueryPlan` validation.
+  - `GET /api/v1/experiments/{experiment_id}`: Full experiment record retrieval with data quality flags and provenance metadata (404 on missing ID).
+  - `GET /api/v1/meta`: Dataset version, row counts, families, field catalog, modeled-row count, and frontend data limitation summary.
+  - `GET /api/v1/health`: Lightweight liveness probe returning `{"status": "ok"}`.
+  - `GET /api/v1/ready`: Readiness probe verifying storage and dataset manifest loading, and reporting LLM configuration status without external calls.
+- **Middleware & Reliability (`src/flame/api/middleware.py`, `src/flame/api/rate_limit.py`)**:
+  - `RequestContextMiddleware`: Injects correlation `request_id` (header `x-request-id` in and out, bound to contextvar) and emits structured JSON access telemetry with request timings.
+  - `InMemoryRateLimiter`: Thread-safe in-process sliding window rate limiter per client IP.
+- **OpenAPI Schema Generation (`scripts/generate_openapi.py`)**:
+  - Created generator script exporting complete OpenAPI schema to `docs/openapi.json`.
+- **Architectural Decision Record (`docs/decisions/0002-no-auth.md`)**:
+  - Documented rationale for read-only service without authentication, along with required security controls for public exposure.
+- **Testing (`tests/unit/test_api.py`)**:
+  - 11 comprehensive tests with `httpx.AsyncClient` verifying all endpoints, pagination, ID lookup, error mappings, rate limiting, and request ID propagation.
+
+#### Files changed
+
+New files:
+- `src/flame/api/main.py`
+- `src/flame/api/routes.py`
+- `src/flame/api/schemas.py`
+- `src/flame/api/middleware.py`
+- `src/flame/api/rate_limit.py`
+- `scripts/generate_openapi.py`
+- `docs/openapi.json`
+- `docs/decisions/0002-no-auth.md`
+- `tests/unit/test_api.py`
+
+Modified files:
+- `src/flame/api/__init__.py`
+- `src/flame/config.py`
+- `docs/PROGRESS.md` (this report)
+
+#### Tests run and results
+
+- `uv run pytest -m "not live" -q` — **PASS**: 201 passed, 3 deselected in 51.47s (90% overall coverage).
+- `uv run ruff check .` — **PASS**: 0 errors.
+- `uv run ruff format --check .` — **PASS**: 116 files already formatted.
+- `uv run mypy src/flame` — **PASS**: Success: no issues found in 36 source files (strict mode).
+- Uvicorn startup verified: service starts cleanly, routes `/health`, `/ready`, `/meta`, `/experiments`, and `/ask` verified.
+
+#### Acceptance criteria checked
+
+1. **Uvicorn starts and answers endpoints** — **Met**: Verified via live curl and httpx integration tests against running uvicorn instance.
+2. **All error paths return documented JSON shape** — **Met**: Typed error handler maps all exceptions to `{"error_code", "message", "request_id"}`.
+3. **Every response carries request_id** — **Met**: Tested on all status codes (200, 404, 422, 429, 503).
+4. **OpenAPI generated** — **Met**: `docs/openapi.json` generated.
+5. **No auth ADR documented** — **Met**: `docs/decisions/0002-no-auth.md` written.
+6. **Tests, ruff, mypy pass** — **Met**: 201 tests passing.
+
+#### Issues found
+
+- `FastAPI` dependency injection in route parameters triggered Ruff B008 warnings; refactored to use `typing.Annotated` dependencies.
+- Starlette deprecation warning noted for status code `HTTP_422_UNPROCESSABLE_ENTITY` (informational only).
+
+#### Deviations from the prompt
+
+- None.
+
+#### Remaining work
+
+- Phase 9: Evaluation dashboard, error categorization and failure analysis.
