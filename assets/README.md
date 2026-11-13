@@ -2,7 +2,7 @@
 
 This directory contains the primary and canonical microgravity combustion datasets powering **FIRE-X** for the **NASA Space Apps Challenge 2026** (*Flame in Freefall: AI-Powered Fire Safety Insights from Microgravity Combustion Data*).
 
-All datasets are curated, calibrated, and normalized into a unified schema encompassing **892 flight, drop-tower, and 1g-bounding experiments** across **29 investigations**.
+The catalog below spans **892 flight, drop-tower, and 1g-bounding records** across **35 investigation identifiers**. The canonical file also contains modeled and untraceable values; see the provenance note at the end of this document.
 
 ---
 
@@ -40,11 +40,11 @@ All datasets are curated, calibrated, and normalized into a unified schema encom
 
 ---
 
-## 🔄 Canonical Processed Master Dataset
+## 🔄 Canonical Processed Dataset (legacy, provenance unresolved)
 
-All above raw and flight tables are ingested and unified by [`scripts/pipeline.py`](../scripts/pipeline.py) into:
+The existing **[`data/processed/canonical_experiments.csv`](../data/processed/canonical_experiments.csv)** has **892 rows** and **28 columns** (including `co2_pct`, `he_pct`, and `facility_hardware`).
 
-👉 **[`data/processed/canonical_experiments.csv`](../data/processed/canonical_experiments.csv)** (**892 rows**, **28 normalized physical telemetry attributes** including `co2_pct`, `he_pct`, and `facility_hardware`)
+This file is a legacy artifact. There is no ingestion or canonicalization script in the repository, and the CSV contains values that cannot be derived from `data/raw` (including 52 modeled partial-gravity rows, 2 rows with no raw source, templated campaign-level constants, and 42 corrupt airflow values). It must be treated as a read-only reference until a documented, deterministic pipeline re-derives a validated snapshot. Full findings: [`docs/audit/repo_audit.md`](../docs/audit/repo_audit.md).
 
 ---
 
