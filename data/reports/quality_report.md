@@ -2,7 +2,7 @@
 
 - Generated at: `2025-11-13T21:40:00+00:00`
 - Pipeline version: `0.3.0`
-- Git commit: `020d82174263b901712485fdfb529ca8795ef30d`
+- Git commit: `b89048e694713f8f685fa6fad991a37ec59f6693`
 - Rows: **892**
 
 ## Row counts
@@ -82,7 +82,12 @@ Expected final-output differences are: date normalisation (M/D/YYYY and M/D/YY c
 
 | Flag | Count | Meaning |
 |:--|--:|:--|
-| (none) | 0 | — |
+| `AIRFLOW_QUARANTINED` | 42 | airflow_velocity_cms above the quarantine threshold; nulled. |
+| `BURN_TIME_IMPLAUSIBLE` | 1 | burn_time_s exceeds the plausibility maximum; value retained. |
+| `BURN_TIME_ZERO` | 7 | burn_time_s is zero; value retained. |
+| `PRESSURE_KPA_MISSING` | 1 | pressure_kpa is null; value retained. |
+| `PRESSURE_MMHG_ZERO` | 1 | pressure_mmhg is zero; value retained. |
+| `TEST_DATE_CAMPAIGN_RANGE` | 23 | test_date was a campaign range, not a date; nulled. |
 
 ## Per-family null rates
 

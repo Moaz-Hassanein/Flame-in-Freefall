@@ -193,9 +193,8 @@ def _extract_flow_direction(
     unmatched_counts = Counter(unmatched.tolist())
     exception_counts = Counter(descriptions[exception_mask].tolist())
     in_family = families.isin(_DIMENSION_FAMILIES)
-    verified = (
-        int(matched_mask.sum()) + int(exception_mask.sum())
-        == int((candidate_mask & in_family).sum())
+    verified = int(matched_mask.sum()) + int(exception_mask.sum()) == int(
+        (candidate_mask & in_family).sum()
     )
 
     return PatternStats(
@@ -232,9 +231,7 @@ def _extract_microgravity_duration(
     )
 
 
-def _extract_pi_name(
-    frame: pd.DataFrame, notes: pd.Series, families: pd.Series
-) -> PatternStats:
+def _extract_pi_name(frame: pd.DataFrame, notes: pd.Series, families: pd.Series) -> PatternStats:
     in_family = families == _PI_FAMILY
     candidate_mask = in_family & notes.str.contains("PI:", regex=False)
     extracted = notes.str.extract(_PI_NAME)

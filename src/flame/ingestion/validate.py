@@ -114,9 +114,7 @@ def _build_hard_schema() -> pa.DataFrameSchema:
     columns["original_test_id"] = pa.Column(str, nullable=False)
     for name in _NUMERIC_COLUMNS:
         columns[name] = pa.Column(float, nullable=True, coerce=True)
-    columns["source_row"] = pa.Column(
-        int, nullable=False, checks=pa.Check.ge(0), coerce=True
-    )
+    columns["source_row"] = pa.Column(int, nullable=False, checks=pa.Check.ge(0), coerce=True)
     columns["record_source"] = pa.Column(
         str,
         nullable=False,
@@ -164,9 +162,7 @@ def _format_schema_failures(frame: pd.DataFrame, error: Exception) -> list[str]:
             check = row.get("check")
             failure = row.get("failure_case")
             location = _row_location(frame, index)
-            failures.append(
-                f"{location}: column={column!r} check={check!r} value={failure!r}"
-            )
+            failures.append(f"{location}: column={column!r} check={check!r} value={failure!r}")
     else:
         failures.append(str(error).splitlines()[0])
     if isinstance(cases, pd.DataFrame) and len(cases) > 20:
@@ -182,16 +178,17 @@ def _row_location(frame: pd.DataFrame, index: object) -> str:
     experiment_id = row.get("experiment_id", "?")
     source_file = row.get("source_file", "?")
     source_row = row.get("source_row", "?")
-    return (
-        f"source_file={source_file!r} source_row={source_row!r} "
-        f"experiment_id={experiment_id!r}"
-    )
+    return f"source_file={source_file!r} source_row={source_row!r} experiment_id={experiment_id!r}"
 
 
 def collect_soft_flags(frame: pd.DataFrame) -> tuple[pd.DataFrame, SoftValidationStats]:
     """Add a flag for every soft range violation, without altering values."""
 
     flagged = frame.copy()
+    if "_flags" not in flagged.columns:
+        flagged["_flags"] = pd.Series(
+            [[] for _ in range(len(flagged))], index=flagged.index, dtype=object
+        )
     violations: list[SoftViolation] = []
     counts: Counter[str] = Counter()
 
@@ -379,6 +376,4 @@ def require_verified_patterns(stats: object) -> None:
                 f"{getattr(pattern, 'candidate_rows', '?')} candidates"
             )
     if unverified:
-        raise PipelineError(
-            "text extraction pattern failed verification: " + "; ".join(unverified)
-        )
+        raise PipelineError("text extraction pattern failed verification: " + "; ".join(unverified))

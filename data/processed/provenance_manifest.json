@@ -1,7 +1,14 @@
 {
-  "flags": {},
+  "flags": {
+    "AIRFLOW_QUARANTINED": 42,
+    "BURN_TIME_IMPLAUSIBLE": 1,
+    "BURN_TIME_ZERO": 7,
+    "PRESSURE_KPA_MISSING": 1,
+    "PRESSURE_MMHG_ZERO": 1,
+    "TEST_DATE_CAMPAIGN_RANGE": 23
+  },
   "generated_at": "2025-11-13T21:40:00+00:00",
-  "git_commit": "020d82174263b901712485fdfb529ca8795ef30d",
+  "git_commit": "b89048e694713f8f685fa6fad991a37ec59f6693",
   "inputs": [
     {
       "kind": "canonical_legacy",
@@ -103,7 +110,7 @@
   },
   "outputs": {
     "parquet_path": "data/processed/experiments.parquet",
-    "parquet_sha256": "ff1cfe48260fd176eb304789ec7d6f254a6bcb5f2a4dac0f5a82470dd404e9f2",
+    "parquet_sha256": "4b3139dc07546aa01ab89b3a0b02411a25c02be681275b9619bda57aba7b33cf",
     "rows": 892
   },
   "pipeline": {

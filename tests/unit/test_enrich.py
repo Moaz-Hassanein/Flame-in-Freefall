@@ -96,10 +96,14 @@ def test_text_facts_are_extracted_and_counted() -> None:
 
     enriched, stats = extract_text_facts(frame)
 
-    assert enriched["specimen_length_cm"].tolist()[:2] == [40.0, None]
+    lengths = enriched["specimen_length_cm"].tolist()
+    assert lengths[0] == 40.0
+    assert pd.isna(lengths[1])
     assert enriched["specimen_width_cm"].tolist()[0] == 10.0
     assert enriched["specimen_thickness_cm"].tolist()[0] == 1.0
-    assert enriched["flow_direction"].tolist()[:2] == ["Concurrent", None]
+    flows = enriched["flow_direction"].tolist()
+    assert flows[0] == "Concurrent"
+    assert pd.isna(flows[1])
     assert enriched["microgravity_duration_s"].tolist()[2] == pytest.approx(3.87)
     assert enriched["pi_name"].tolist()[3] == "Bhattacharjee"
 

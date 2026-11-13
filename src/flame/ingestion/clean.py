@@ -271,8 +271,7 @@ def normalize_vocabulary(
         total_non_null=sum(applied_counter.values()) + sum(identity_counter.values()),
         null_count=null_count,
         applied=tuple(
-            (source, target, count)
-            for (source, target), count in sorted(applied_counter.items())
+            (source, target, count) for (source, target), count in sorted(applied_counter.items())
         ),
         identity=dict(sorted(identity_counter.items())),
     )
@@ -366,15 +365,11 @@ def flag_pressure_and_burn_time(
         for index in cleaned.index[mask]:
             _append_flag(cleaned, index, flag)
 
-    pressure_zero = tuple(
-        str(value) for value in cleaned.loc[pressure_zero_mask, "experiment_id"]
-    )
+    pressure_zero = tuple(str(value) for value in cleaned.loc[pressure_zero_mask, "experiment_id"])
     pressure_kpa_missing = tuple(
         str(value) for value in cleaned.loc[kpa_missing_mask, "experiment_id"]
     )
-    burn_time_zero = tuple(
-        str(value) for value in cleaned.loc[burn_zero_mask, "experiment_id"]
-    )
+    burn_time_zero = tuple(str(value) for value in cleaned.loc[burn_zero_mask, "experiment_id"])
     burn_time_implausible = tuple(
         (
             str(cleaned.at[index, "experiment_id"]),
@@ -405,9 +400,8 @@ def _append_flag(frame: pd.DataFrame, index: Any, flag: str) -> None:
         frame["_flags"] = pd.Series(
             [[] for _ in range(len(frame))], index=frame.index, dtype=object
         )
-    flags: Any = frame["_flags"]
-    current = flags.at[index]
+    current: Any = frame.at[index, "_flags"]
     if not isinstance(current, list):
         current = []
     if flag not in current:
-        flags.at[index] = sorted({*current, flag})
+        frame.at[index, "_flags"] = cast(Any, sorted({*current, flag}))

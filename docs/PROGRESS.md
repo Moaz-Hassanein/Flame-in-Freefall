@@ -6,7 +6,7 @@
 |:--:|:--|:--|
 | 1 | **Complete** | Repository audit and agent rules. Dispositions approved at the start of Phase 2. |
 | 2 | **Complete** | Project foundation, configuration, logging, and tooling. |
-| 3 | Not started | Scope defined by the Phase 3 prompt. |
+| 3 | **Complete** | Reproducible ingestion snapshot, validation, quality report, and data dictionary. |
 | 4 | Not started | Scope defined by the Phase 4 prompt. |
 | 5 | Not started | Scope defined by the Phase 5 prompt. |
 | 6 | Not started | Scope defined by the Phase 6 prompt. |

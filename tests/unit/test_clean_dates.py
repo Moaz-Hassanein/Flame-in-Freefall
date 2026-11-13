@@ -59,12 +59,10 @@ def test_clean_test_dates_preserves_raw_and_counts() -> None:
 
     cleaned, stats = clean_test_dates(frame)
 
-    assert cleaned["test_date"].tolist()[:4] == [
-        "2021-06-25",
-        "2014-02-19",
-        "2009-10-24",
-        "2017-2024",
-    ]
+    parsed_dates = cleaned["test_date"].tolist()
+    assert parsed_dates[:3] == ["2021-06-25", "2014-02-19", "2009-10-24"]
+    assert pd.isna(parsed_dates[3])
+    assert pd.isna(parsed_dates[4])
     assert cleaned["test_date"].isna().sum() == 2
     assert cleaned["test_date_raw"].tolist() == frame["test_date"].tolist()
     assert stats.total == 5

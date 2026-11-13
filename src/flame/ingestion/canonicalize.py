@@ -77,9 +77,7 @@ _NUMERIC_COLUMNS = (
     "co_ppm",
 )
 
-_TEXT_COLUMNS = tuple(
-    column for column in CANONICAL_COLUMNS if column not in _NUMERIC_COLUMNS
-)
+_TEXT_COLUMNS = tuple(column for column in CANONICAL_COLUMNS if column not in _NUMERIC_COLUMNS)
 
 
 @dataclass(frozen=True)
@@ -327,8 +325,7 @@ def assemble(
     missing_metadata = set(raw["experiment_id"]) - set(metadata.index)
     if missing_metadata:
         raise PipelineError(
-            "raw-rebuild rows have no legacy metadata row: "
-            f"{sorted(missing_metadata)[:10]}"
+            f"raw-rebuild rows have no legacy metadata row: {sorted(missing_metadata)[:10]}"
         )
 
     rebuilt = pd.DataFrame(index=raw.index)

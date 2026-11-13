@@ -14,9 +14,7 @@ def _config() -> dict[str, object]:
     return {
         "version": 7,
         "extinction_outcome": {
-            "mappings": {
-                "Self-extinguished": {"to": "Self-Extinction", "reason": "case only"}
-            }
+            "mappings": {"Self-extinguished": {"to": "Self-Extinction", "reason": "case only"}}
         },
         "material_category": {"mappings": {}},
     }
@@ -30,16 +28,14 @@ def test_mapping_is_applied_and_original_is_preserved() -> None:
         }
     )
 
-    cleaned, stats = normalize_vocabulary(
-        frame, column="extinction_outcome", config=_config()
-    )
+    cleaned, stats = normalize_vocabulary(frame, column="extinction_outcome", config=_config())
 
-    assert cleaned["extinction_outcome"].tolist() == ["Self-Extinction", "Extinction", None]
-    assert cleaned["extinction_outcome_raw"].tolist() == [
-        "Self-extinguished",
-        "Extinction",
-        None,
-    ]
+    outcomes = cleaned["extinction_outcome"].tolist()
+    assert outcomes[:2] == ["Self-Extinction", "Extinction"]
+    assert pd.isna(outcomes[2])
+    originals = cleaned["extinction_outcome_raw"].tolist()
+    assert originals[:2] == ["Self-extinguished", "Extinction"]
+    assert pd.isna(originals[2])
     assert stats.mapping_version == "7"
     assert stats.applied == (("Self-extinguished", "Self-Extinction", 1),)
     assert stats.identity == {"Extinction": 1}
@@ -50,9 +46,7 @@ def test_mapping_is_applied_and_original_is_preserved() -> None:
 def test_empty_mapping_is_identity_only() -> None:
     frame = pd.DataFrame({"material_category": ["Polymer", "Polymer"]})
 
-    cleaned, stats = normalize_vocabulary(
-        frame, column="material_category", config=_config()
-    )
+    cleaned, stats = normalize_vocabulary(frame, column="material_category", config=_config())
 
     assert cleaned["material_category"].tolist() == ["Polymer", "Polymer"]
     assert stats.applied == ()

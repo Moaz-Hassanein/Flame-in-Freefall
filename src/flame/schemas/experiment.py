@@ -66,6 +66,7 @@ ENRICHMENT_COLUMNS: tuple[str, ...] = (
     "record_source",
 )
 
+
 class Experiment(BaseModel):
     """One experiment record with the 28 canonical columns."""
 
@@ -89,9 +90,7 @@ class Experiment(BaseModel):
     pressure_kpa: float | None = Field(
         default=None, json_schema_extra={"unit": "kPa", "minimum": 0.0}
     )
-    burn_time_s: float | None = Field(
-        default=None, json_schema_extra={"unit": "s", "minimum": 0.0}
-    )
+    burn_time_s: float | None = Field(default=None, json_schema_extra={"unit": "s", "minimum": 0.0})
     extinction_outcome: str = Field(description="Normalised outcome label.")
     extinction_diameter_mm: float | None = Field(
         default=None, json_schema_extra={"unit": "mm", "minimum": 0.0}

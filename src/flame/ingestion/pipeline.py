@@ -178,14 +178,10 @@ def run_pipeline(config: PipelineConfig) -> PipelineResult:
     vocabulary_config = load_vocabulary_config(config.vocabularies_path)
     vocabulary_stats: list[VocabularyStats] = []
     for column in _VOCABULARY_COLUMNS:
-        frame, stats = normalize_vocabulary(
-            frame, column=column, config=vocabulary_config
-        )
+        frame, stats = normalize_vocabulary(frame, column=column, config=vocabulary_config)
         vocabulary_stats.append(stats)
 
-    frame, airflow_stats = quarantine_airflow(
-        frame, threshold_cms=config.airflow_threshold_cms
-    )
+    frame, airflow_stats = quarantine_airflow(frame, threshold_cms=config.airflow_threshold_cms)
     frame, numeric_stats = flag_pressure_and_burn_time(
         frame, burn_time_max_s=config.burn_time_max_s
     )
@@ -529,8 +525,7 @@ def _section_vocabularies(result: PipelineResult) -> list[str]:
             lines.append("No value is remapped in this build.")
         lines.append("")
         lines.append(
-            f"- Non-null values: **{stats.total_non_null}**; "
-            f"null values: **{stats.null_count}**."
+            f"- Non-null values: **{stats.total_non_null}**; null values: **{stats.null_count}**."
         )
         identity_values = ", ".join(f"`{value}`" for value in stats.identity)
         if identity_values:
@@ -635,16 +630,13 @@ def _summarise_counter(stats: PatternStats) -> str:
         parts.append(
             "documented exceptions: "
             + ", ".join(
-                f"`{value}` x {count}"
-                for value, count in stats.documented_exceptions.items()
+                f"`{value}` x {count}" for value, count in stats.documented_exceptions.items()
             )
         )
     if stats.unmatched_values:
         parts.append(
             "unmatched: "
-            + ", ".join(
-                f"`{value}` x {count}" for value, count in stats.unmatched_values.items()
-            )
+            + ", ".join(f"`{value}` x {count}" for value, count in stats.unmatched_values.items())
         )
     return "; ".join(parts) if parts else "—"
 
@@ -674,9 +666,7 @@ def _section_inputs(manifest: dict[str, Any]) -> list[str]:
         "|:--|:--|--:|:--|",
     ]
     for item in manifest["inputs"]:
-        lines.append(
-            f"| `{item['path']}` | {item['kind']} | {item['rows']} | `{item['sha256']}` |"
-        )
+        lines.append(f"| `{item['path']}` | {item['kind']} | {item['rows']} | `{item['sha256']}` |")
     lines.append("")
     return lines
 
