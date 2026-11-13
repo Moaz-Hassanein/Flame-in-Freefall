@@ -7,7 +7,7 @@
 | 1 | **Complete** | Repository audit and agent rules. Dispositions approved at the start of Phase 2. |
 | 2 | **Complete** | Project foundation, configuration, logging, and tooling. |
 | 3 | **Complete** | Reproducible ingestion snapshot, validation, quality report, and data dictionary. |
-| 4 | Not started | Scope defined by the Phase 4 prompt. |
+| 4 | **Complete** | DuckDB store, QueryPlan schema, parameterized SQL compiler, structured retrieval, and catalog. |
 | 5 | Not started | Scope defined by the Phase 5 prompt. |
 | 6 | Not started | Scope defined by the Phase 6 prompt. |
 | 7 | Not started | Scope defined by the Phase 7 prompt. |
@@ -266,3 +266,92 @@ No file under `data/raw` and no `data/processed/canonical_experiments.csv` was m
 - Owner approval is required for the vocabulary mappings, the 1000 cm/s airflow quarantine threshold, the 3600 s burn-time plausibility maximum, and the `UNVERIFIED` items in `docs/data_dictionary.md`.
 - Later phases must not treat `is_modeled` rows as direct partial-gravity measurements, must not compare `burning_rate_mms` across families without source definitions, and must not treat legacy-carried fields as raw-verified measurements.
 - Database loading, retrieval indices, and LLM/RAG components remain out of scope until their phases.
+
+
+### Phase 4 — Storage and structured retrieval
+
+#### What was done
+
+- Verified Phase 3 acceptance state: tag `phase-3-complete`, 71 passing tests, clean tree, and confirmed `data/processed/experiments.parquet` exists and validates against the schema.
+- Built `src/flame/retrieval/store.py`: `ExperimentStore` providing a DuckDB-backed read-only view over `experiments.parquet`. Utilizes one persistent DuckDB connection with a fresh cursor per request to ensure thread safety and concurrency. Exposes structured dataset version information from `provenance_manifest.json` (`git_commit`, `generated_at`, `total_rows`, `raw_rebuild_rows`, `canonical_legacy_rows`, `flags`, and `source_policy`).
+- Built `src/flame/schemas/query_plan.py`: Pydantic v2 `QueryPlan` contract between any future planner and the retrieval core.
+  - Intents: `lookup`, `aggregate`, `compare`, `explain_experiment`, `qualitative`, `out_of_scope`.
+  - Filter operators: `eq`, `in`, `gte`, `lte`, `between`, `contains`, `is_null`, `not_null`.
+  - Strict whitelist validation generated from the `DatasetRecord` schema (all 44 canonical and enrichment columns).
+  - Validation: raises typed `UnknownFieldError` for unwhitelisted field names, `UnknownOperatorError` for invalid operators/functions, and `PlanValidationError` for invalid plan structures.
+  - Server-side limit enforcement: default limit 100, hard maximum limit 1000.
+  - Sorting specification and modeled-row inclusion flag (defaulting to false).
+- Built `src/flame/retrieval/compiler.py`: Parameterized SQL compiler that maps a `QueryPlan` to parameterized DuckDB SQL.
+  - Ensures no user or LLM strings are ever formatted or interpolated into SQL text; all values use positional DB-API placeholders (`?`).
+  - Implements parameterized case-insensitive `contains` via `ILIKE '%' || ? || '%'`.
+  - Automatically excludes modeled rows (`is_modeled = FALSE`) by default unless `include_modeled` is True.
+  - Enforces cross-family semantic differences: aggregating columns documented as semantically different across families (`burning_rate_mms`, `co2_pct`, `burn_time_s`, `initial_diameter_mm`, `extinction_diameter_mm`, `flame_temp_k`, `he_pct`) defaults grouping to `dataset_family` and attaches explicit warnings.
+- Built `src/flame/retrieval/structured.py`: Deterministic query executor returning `RetrievalResult`.
+  - Rows always include citation/traceability columns: `experiment_id`, `source_url`, `investigation_id`, `data_quality_flags`, and `is_modeled`.
+  - Aggregates explicitly calculate `n_used`, `n_null_excluded`, and `n_quarantined_excluded` (correctly isolating the 42 quarantined airflow readings).
+  - Empty results return an explicit empty `RetrievalResult` (never an exception).
+- Built `src/flame/retrieval/catalog.py`: Field catalog extracting names, logical types, physical units, caveats, null counts, allowed values for categorical fields, and min/max for numeric fields.
+- Implemented comprehensive test suites:
+  - SQL injection defense tests verifying parameterization across arbitrary injection strings.
+  - Concurrency test running 20 parallel queries with fresh cursors.
+  - 16 independent numeric comparison tests matching exact store results against pandas computations.
+  - The acceptance test for methanol droplets at 21% O2 returning the exact matching rows (30 rows) and mean burning rate (0.4965 mm/s for FLEX) as pandas.
+
+#### Files changed
+
+New files:
+- `src/flame/retrieval/catalog.py`
+- `src/flame/retrieval/compiler.py`
+- `src/flame/retrieval/errors.py`
+- `src/flame/retrieval/store.py`
+- `src/flame/retrieval/structured.py`
+- `src/flame/schemas/query_plan.py`
+- `tests/unit/test_retrieval_plan.py`
+- `tests/unit/test_retrieval_compiler.py`
+- `tests/unit/test_retrieval_executor.py`
+- `tests/unit/test_retrieval_catalog.py`
+- `tests/unit/test_retrieval_store_unit.py`
+- `tests/integration/test_retrieval_store.py`
+- `tests/integration/test_retrieval_numeric_validation.py`
+
+Modified files:
+- `src/flame/retrieval/__init__.py`
+- `docs/PROGRESS.md`
+
+#### Tests run and results
+
+- `uv run pytest` — **PASS**: 148 passed in 4.58s.
+- `uv run ruff check .` — **PASS**: all checks passed.
+- `uv run ruff format --check .` — **PASS**: 52 files already formatted.
+- `uv run mypy` — **PASS**: Success, no issues found in 24 source files (strict mode).
+- Line coverage on `src/flame/retrieval`:
+  - `src/flame/retrieval/catalog.py`: 95%
+  - `src/flame/retrieval/compiler.py`: 97%
+  - `src/flame/retrieval/store.py`: 98%
+  - `src/flame/retrieval/structured.py`: 93%
+  - `src/flame/schemas/query_plan.py`: 96%
+  - Total project coverage: 93%.
+
+#### Acceptance criteria checked
+
+1. **All tests pass with at least 90% line coverage on `src/flame/retrieval`** — **Met**: 148 tests pass; coverage on retrieval modules is 93% to 98% (overall 93%).
+2. **A query for methanol droplets at 21% O2 returns the same rows and mean burning rate as an independent computation** — **Met**: verified in `tests/integration/test_retrieval_store.py::test_methanol_droplets_at_21_pct_o2_acceptance_criterion` matching pandas results.
+3. **Modeled rows never appear in default results** — **Met**: verified in `tests/unit/test_retrieval_executor.py::test_modeled_rows_never_appear_in_default_results` (all 840 default rows have `is_modeled=False`).
+4. **Compiler tests proving injection strings cannot alter SQL structure** — **Met**: verified in `tests/unit/test_retrieval_compiler.py`.
+5. **Numeric tests comparing store results with independent pandas computation for >= 15 queries** — **Met**: 16 numeric validation queries in `tests/integration/test_retrieval_numeric_validation.py`.
+6. **Tests for null exclusion counts, modeled-row exclusion/inclusion, empty results, limit enforcement, unknown-field rejection** — **Met**: verified across unit tests.
+7. **Concurrency test running parallel queries** — **Met**: verified in `test_store_concurrency_parallel_queries` running 20 parallel queries across 5 worker threads.
+
+#### Issues found
+
+- **DuckDB DDL Prepared Statement Restriction:** DuckDB does not permit prepared parameters (`?`) inside `CREATE VIEW ... AS SELECT * FROM read_parquet(?)`. Resolved by formatting the verified POSIX path into the DDL string while keeping all DML queries strictly parameterized.
+- **Pydantic v2 Exception Wrapping:** Pydantic v2 wraps custom exceptions raised in field validators inside `ValidationError`. Resolved via `BasePlanModel` which unwraps and raises the exact typed domain exception (`UnknownFieldError`, `UnknownOperatorError`, `PlanValidationError`).
+- **Provenance Manifest JSON Schema:** Manifest records counts under `row_counts` rather than `counts`, and output checksum under `outputs.parquet_sha256`. Store loader was aligned with this structure.
+
+#### Deviations from the prompt
+
+- None. All requested components, contracts, constraints, and test suites were implemented exactly as specified. No dependencies were added, and no LLM, vector DB, or external API code was introduced.
+
+#### Remaining work
+
+- Phase 5: RAG grounding, citation generation, and hybrid semantic retrieval components.
