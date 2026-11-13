@@ -65,9 +65,7 @@ def _remove_invalid_citations(
     removed = invalid_in_text | invalid_in_list
     if removed:
         for rid in sorted(removed):
-            warnings.append(
-                f"Citation [{rid}] removed: not found in evidence rows."
-            )
+            warnings.append(f"Citation [{rid}] removed: not found in evidence rows.")
             logger.warning("Guardrail: removed invalid citation [%s]", rid)
         # Strip invalid markers from text
         for rid in invalid_in_text:
@@ -87,7 +85,7 @@ def _check_numeric_grounding(
     """Check that every number in the answer text matches evidence or aggregates.
 
     Returns a list of warning strings for numbers that could not be matched.
-    Year-like four-digit integers (1900–2100) are excluded from checking.
+    Year-like four-digit integers (1900-2100) are excluded from checking.
     """
     # Collect all numeric values from evidence rows
     evidence_values: set[float] = set()
@@ -120,10 +118,7 @@ def _check_numeric_grounding(
         # Check if this number matches any evidence value within tolerance
         matched = False
         for ev in evidence_values:
-            if abs(ev) < 1e-9:
-                matched = abs(num) <= tol
-            else:
-                matched = abs(num - ev) / abs(ev) <= tol
+            matched = abs(num) <= tol if abs(ev) < 1e-9 else abs(num - ev) / abs(ev) <= tol
             if matched:
                 break
 
@@ -240,9 +235,7 @@ def run_guardrails(
     limitations = list(limitations)  # make mutable copy
 
     # 1. Citation validity
-    valid_ids: set[str] = {
-        str(row.get("experiment_id", "")) for row in evidence_rows
-    } - {""}
+    valid_ids: set[str] = {str(row.get("experiment_id", "")) for row in evidence_rows} - {""}
     answer_text, cited_ids, citation_warnings = _remove_invalid_citations(
         answer_text, cited_ids, valid_ids
     )

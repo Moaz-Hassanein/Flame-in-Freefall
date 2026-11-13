@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from flame.rag.guardrails import (
-    GuardrailResult,
     _check_cross_family_caveat,
     _check_modeled_disclosure,
     _check_numeric_grounding,
@@ -21,10 +20,10 @@ from flame.schemas.query_plan import (
     QueryPlan,
 )
 
-
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
+
 
 def _make_catalog() -> FieldCatalog:
     """Return a minimal FieldCatalog for testing."""
@@ -101,6 +100,7 @@ def _make_aggregate(
 # 1. Citation validity
 # ---------------------------------------------------------------------------
 
+
 def test_remove_invalid_citations_cleans_text_and_list():
     text = "Experiments [EXP-001] and [FAKE-999] were tested."
     cited = ["EXP-001", "FAKE-999"]
@@ -130,6 +130,7 @@ def test_remove_invalid_citations_all_valid_no_change():
 # ---------------------------------------------------------------------------
 # 2. Numeric grounding
 # ---------------------------------------------------------------------------
+
 
 def test_numeric_grounding_matched_values_no_warnings():
     rows = [{"experiment_id": "EXP-001", "oxygen_pct": 21.0}]
@@ -167,6 +168,7 @@ def test_numeric_grounding_zero_matched_exactly():
 # 3. Modeled row disclosure
 # ---------------------------------------------------------------------------
 
+
 def test_modeled_disclosure_missing_returns_warning():
     rows = [{"experiment_id": "EXP-001", "is_modeled": True}]
     warning = _check_modeled_disclosure("The experiment showed combustion.", rows)
@@ -190,6 +192,7 @@ def test_modeled_disclosure_no_modeled_rows_no_warning():
 # 4. Exclusion auto-caveats
 # ---------------------------------------------------------------------------
 
+
 def test_exclusion_limitations_null_values():
     from flame.rag.guardrails import _build_exclusion_limitations
 
@@ -206,7 +209,7 @@ def test_exclusion_limitations_quarantined_values():
     agg = _make_aggregate(n_null=0, n_quar=42)
     lims = _build_exclusion_limitations([agg])
 
-    assert any("42 quarantined" in l for l in lims)
+    assert any("42 quarantined" in item for item in lims)
 
 
 def test_exclusion_limitations_no_exclusions_empty():
@@ -220,6 +223,7 @@ def test_exclusion_limitations_no_exclusions_empty():
 # ---------------------------------------------------------------------------
 # 5. Cross-family caveat
 # ---------------------------------------------------------------------------
+
 
 def test_cross_family_caveat_no_family_filter_warns():
     plan = _make_plan(
@@ -255,6 +259,7 @@ def test_cross_family_caveat_no_burning_rate_no_warning():
 # ---------------------------------------------------------------------------
 # 6. run_guardrails integration
 # ---------------------------------------------------------------------------
+
 
 def test_run_guardrails_happy_path_passes():
     rows = _make_evidence_rows(2, modeled=False)

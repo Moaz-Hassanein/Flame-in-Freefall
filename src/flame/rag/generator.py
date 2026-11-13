@@ -50,9 +50,7 @@ _SUMMARY_FIELDS = (
 def load_generator_system_prompt() -> str:
     """Load the versioned generator prompt template from disk."""
     if not GENERATOR_PROMPT_PATH.exists():
-        raise FileNotFoundError(
-            f"Generator prompt template not found at {GENERATOR_PROMPT_PATH}"
-        )
+        raise FileNotFoundError(f"Generator prompt template not found at {GENERATOR_PROMPT_PATH}")
     return GENERATOR_PROMPT_PATH.read_text(encoding="utf-8")
 
 
@@ -104,8 +102,7 @@ def format_aggregate_summary(aggregates: list[AggregateResult]) -> str:
             excl_parts.append(f"{agg.n_quarantined_excluded} quarantined excluded")
         excl_str = f" ({', '.join(excl_parts)})" if excl_parts else ""
         lines.append(
-            f"- {agg.fn}({agg.field}){group_str} = {val_str}"
-            f"  [n_used={agg.n_used}{excl_str}]"
+            f"- {agg.fn}({agg.field}){group_str} = {val_str}  [n_used={agg.n_used}{excl_str}]"
         )
     return "\n".join(lines)
 
@@ -176,8 +173,7 @@ class AnswerGenerator:
         caveats_text = "\n".join(f"- {c}" for c in caveats) if caveats else "(none)"
 
         system_prompt = (
-            self._system_prompt_template
-            .replace("{{question}}", question)
+            self._system_prompt_template.replace("{{question}}", question)
             .replace("{{evidence_summary}}", evidence_summary)
             .replace("{{aggregate_summary}}", aggregate_summary)
             .replace("{{caveats}}", caveats_text)

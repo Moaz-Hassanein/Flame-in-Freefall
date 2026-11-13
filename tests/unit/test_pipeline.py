@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from flame.rag.pipeline import PipelineConfig, ask
+from flame.rag.pipeline import ask
 from flame.retrieval.catalog import build_field_catalog
 from flame.retrieval.store import ExperimentStore
 from flame.schemas.answer import AnswerStatus
@@ -51,9 +51,7 @@ def test_ask_insufficient_evidence(store: ExperimentStore, catalog):
     fake_llm.enqueue_structured(
         {
             "intent": "lookup",
-            "filters": [
-                {"field": "fuel_material", "op": "eq", "value": "NON_EXISTENT_FUEL_XYZ"}
-            ],
+            "filters": [{"field": "fuel_material", "op": "eq", "value": "NON_EXISTENT_FUEL_XYZ"}],
             "limit": 10,
         }
     )
@@ -80,7 +78,7 @@ def test_ask_happy_path_lookup(store: ExperimentStore, catalog):
             "intent": "lookup",
             "filters": [
                 {"field": "dataset_family", "op": "eq", "value": "BASS-II"},
-                {"field": "fuel_material", "op": "eq", "value": "PMMA Cast"},
+                {"field": "fuel_material", "op": "eq", "value": "PMMA (Acrylic)"},
             ],
             "limit": 5,
         }

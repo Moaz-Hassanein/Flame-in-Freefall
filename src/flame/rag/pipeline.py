@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import logging
 import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any
 
 from flame.llm.client import LLMClient, LLMError
@@ -18,7 +18,7 @@ from flame.rag.planner import QueryPlanner
 from flame.retrieval.catalog import FieldCatalog
 from flame.retrieval.store import ExperimentStore
 from flame.retrieval.structured import AggregateResult
-from flame.schemas.answer import AskResponse, AnswerStatus, CitationRecord
+from flame.schemas.answer import AnswerStatus, AskResponse, CitationRecord
 from flame.schemas.query_plan import PlanIntent
 
 logger = logging.getLogger(__name__)
@@ -48,8 +48,7 @@ def _build_caveats(
         )
 
     has_airflow_null = any(
-        agg.field == "airflow_velocity_cms" and agg.n_null_excluded > 0
-        for agg in aggregates
+        agg.field == "airflow_velocity_cms" and agg.n_null_excluded > 0 for agg in aggregates
     )
     if has_airflow_null:
         caveats.append(
@@ -80,11 +79,14 @@ def _lookup_citation_meta(
     """Build a CitationRecord from evidence rows for a given experiment_id."""
     for row in evidence_rows:
         if str(row.get("experiment_id", "")) == experiment_id:
+            src_url = row.get("source_url")
+            inv_id = row.get("investigation_id")
+            fam = row.get("dataset_family")
             return CitationRecord(
                 experiment_id=experiment_id,
-                source_url=row.get("source_url"),  # type: ignore[arg-type]
-                investigation_id=row.get("investigation_id"),  # type: ignore[arg-type]
-                dataset_family=row.get("dataset_family"),  # type: ignore[arg-type]
+                source_url=str(src_url) if src_url is not None else None,
+                investigation_id=str(inv_id) if inv_id is not None else None,
+                dataset_family=str(fam) if fam is not None else None,
             )
     # Fallback: ID was cited but row not in evidence (should not happen post-guardrails)
     return CitationRecord(experiment_id=experiment_id)
@@ -156,7 +158,7 @@ def ask(
             question=question,
             answer_markdown=(
                 "This question is outside the scope of the Flame in Freefall dataset. "
-                "Only questions about the indexed microgravity combustion experiments can be answered."
+                "Only questions about indexed microgravity combustion experiments can be answered."
             ),
             plan=plan_result.plan.model_dump(),
             status=AnswerStatus.out_of_scope,
@@ -267,9 +269,10 @@ def ask(
             len(guard_result.failures),
         )
         try:
-            retry_caveats = caveats + [
+            retry_caveats = [
+                *caveats,
                 f"Previous generation had these failures: {'; '.join(guard_result.failures)}. "
-                "Please ensure all cited IDs exist in the evidence rows provided."
+                "Please ensure all cited IDs exist in the evidence rows provided.",
             ]
             gen_result2 = generator.generate(
                 question=question,
@@ -296,8 +299,7 @@ def ask(
 
     # ── 7. ASSEMBLE ───────────────────────────────────────────────────────────
     citations: list[CitationRecord] = [
-        _lookup_citation_meta(eid, retrieval_result.rows)
-        for eid in guard_result.cited_ids
+        _lookup_citation_meta(eid, retrieval_result.rows) for eid in guard_result.cited_ids
     ]
 
     all_warnings: list[str] = list(retrieval_result.warnings) + guard_result.warnings

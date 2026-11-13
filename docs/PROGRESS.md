@@ -526,3 +526,72 @@ Modified files:
 #### Remaining work
 
 - Phase 7: Grounded answer generator and citation verification across structured query results.
+
+### Phase 7: Grounded Generation, Citations and Orchestration
+
+#### What was done
+
+- Implemented `AskResponse`, `CitationRecord`, and `AnswerStatus` models in `src/flame/schemas/answer.py` with full typing for markdown answers, verified citations, evidence rows, computed aggregates, echoed plans, limitations, warnings, and timings.
+- Authored versioned answer generator prompt in `src/flame/rag/prompts/generator_system.txt`, strictly enforcing that no external domain knowledge is used, inline `[EXP-ID]` markers are cited, and qualitative questions are answered solely from `notes` and `sample_description`.
+- Implemented `AnswerGenerator` in `src/flame/rag/generator.py` with structured tool calling via the `AnswerContent` schema and evidence row truncation at `EVIDENCE_ROW_CAP = 20` with explicit limitation statements.
+- Built deterministic post-generation guardrails in `src/flame/rag/guardrails.py`:
+  1. Citation validity verification: strips invalid `[EXP-ID]` citations from answer markdown and removes them from cited IDs.
+  2. Numeric grounding check: matches every numeric value in generated text to evidence or aggregate values within 1e-4 relative tolerance.
+  3. Modeled row disclosure: automatically detects `is_modeled=True` rows and mandates explicit disclosure.
+  4. Auto-caveats: injects explicit limitation entries for null and quarantined exclusions (`n_null_excluded`, `n_quarantined_excluded`).
+  5. Cross-family semantic caveat: warns against comparing `burning_rate_mms` across dataset families.
+- Orchestrated the full end-to-end RAG pipeline via `ask()` in `src/flame/rag/pipeline.py` connecting planning, retrieval, generation, guardrails, and assembly, with automatic one-shot retry for guardrail failures.
+- Added comprehensive unit tests in `tests/unit/test_guardrails.py` (19 test cases) and `tests/unit/test_pipeline.py` (5 test cases) covering all pipeline paths (out-of-scope, insufficient evidence, citations, timeouts).
+- Added live pipeline test in `tests/integration/test_live_pipeline.py` marked with `@pytest.mark.live`.
+- Integrated advisory Ragas metrics in `evaluation/ragas_eval.py` and built `evaluation/evaluate_pipeline.py`.
+- Formatted and validated entire codebase with ruff, ruff format, strict mypy, and full pytest suite.
+
+#### Files changed
+
+New files:
+- `src/flame/schemas/answer.py`
+- `src/flame/rag/prompts/generator_system.txt`
+- `src/flame/rag/generator.py`
+- `src/flame/rag/guardrails.py`
+- `src/flame/rag/pipeline.py`
+- `evaluation/ragas_eval.py`
+- `evaluation/evaluate_pipeline.py`
+- `tests/unit/test_guardrails.py`
+- `tests/unit/test_pipeline.py`
+- `tests/integration/test_live_pipeline.py`
+
+Modified files:
+- `pyproject.toml` (added `ragas` and `langchain-google-vertexai` to dev group)
+- `uv.lock`
+- `src/flame/rag/__init__.py`
+- `docs/PROGRESS.md` (this report)
+
+#### Tests run and results
+
+- `uv run pytest -m "not live" -q` — **PASS**: 190 passed, 3 deselected in 49.30s (90% overall test coverage).
+- `uv run python evaluation/run_eval.py` — **PASS**: 38/38 deterministic items pass (100.0% pass rate).
+- `uv run ruff check .` — **PASS**: 0 errors.
+- `uv run ruff format --check .` — **PASS**: 101 files already formatted.
+- `uv run mypy src/flame` — **PASS**: Success: no issues found in 31 source files (strict mode).
+
+#### Acceptance criteria checked
+
+1. **Every citation verified by code** — **Met**: `run_guardrails` programmatically strips any citation whose experiment ID is not present in the retrieved evidence set and automatically downgrades/retries.
+2. **Deterministic guardrails enforce zero hallucinated numbers** — **Met**: Regex-based numeric extraction verifies that every number in generated markdown matches evidence or computed aggregates within 1e-4 tolerance.
+3. **Modeled row and exclusion caveats automatically enforced** — **Met**: Automatic limitation injection adds exclusion counts and mandates modeled data disclosures.
+4. **Out-of-scope and empty queries handled without LLM generation calls** — **Met**: `ask()` returns typed `out_of_scope` or `insufficient_evidence` immediately without invoking generation models.
+5. **Advisory Ragas integration** — **Met**: `evaluation/ragas_eval.py` integrates `ragas.metrics.faithfulness`.
+6. **All tests, ruff, mypy pass cleanly without API key** — **Met**: 190 tests passing, strict mypy green.
+
+#### Issues found
+
+- `ragas` v0.4.3 requires langchain integration packages (`langchain-google-vertexai` and `langchain-community<0.4`) to resolve imports cleanly in the dev environment. Added to `pyproject.toml` dev group.
+- `test_ask_happy_path_lookup` initially queried a non-existent fuel string; aligned test fixture with `PMMA (Acrylic)` from BASS-II data snapshot.
+
+#### Deviations from the prompt
+
+- None.
+
+#### Remaining work
+
+- Phase 8: Multi-turn conversation and context management.

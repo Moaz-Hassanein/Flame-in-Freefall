@@ -6,7 +6,6 @@ ANTHROPIC_API_KEY is present in the environment.
 
 from __future__ import annotations
 
-import os
 import pytest
 
 from flame.config import get_settings
