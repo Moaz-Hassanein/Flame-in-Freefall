@@ -15,9 +15,15 @@ LogLevel = Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
 _PATH_FIELDS = (
     "data_raw_dir",
     "data_processed_dir",
+    "data_reports_dir",
     "data_interim_dir",
     "canonical_dataset_path",
     "duckdb_path",
+    "dataset_output_path",
+    "provenance_manifest_path",
+    "quality_report_path",
+    "canonical_diff_path",
+    "mappings_dir",
 )
 
 
@@ -43,9 +49,22 @@ class Settings(BaseSettings):
 
     data_raw_dir: Path = PROJECT_ROOT / "data" / "raw"
     data_processed_dir: Path = PROJECT_ROOT / "data" / "processed"
+    data_reports_dir: Path = PROJECT_ROOT / "data" / "reports"
     data_interim_dir: Path = PROJECT_ROOT / "data" / "interim"
     canonical_dataset_path: Path = PROJECT_ROOT / "data" / "processed" / "canonical_experiments.csv"
     duckdb_path: Path = PROJECT_ROOT / "data" / "interim" / "flame.duckdb"
+    dataset_output_path: Path = PROJECT_ROOT / "data" / "processed" / "experiments.parquet"
+    provenance_manifest_path: Path = (
+        PROJECT_ROOT / "data" / "processed" / "provenance_manifest.json"
+    )
+    quality_report_path: Path = PROJECT_ROOT / "data" / "reports" / "quality_report.md"
+    canonical_diff_path: Path = PROJECT_ROOT / "data" / "reports" / "canonical_diff.csv"
+    mappings_dir: Path = PROJECT_ROOT / "src" / "flame" / "ingestion" / "mappings"
+
+    # Ingestion quality thresholds. Airflow above the threshold is quarantined;
+    # burn times above the maximum are flagged but never altered.
+    airflow_quarantine_threshold_cms: float = 1000.0
+    burn_time_max_s: float = 3600.0
 
     log_level: LogLevel = "INFO"
 

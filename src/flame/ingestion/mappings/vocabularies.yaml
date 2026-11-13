@@ -1,0 +1,88 @@
+# Versioned vocabulary mappings for the ingestion pipeline.
+#
+# Rules:
+#   - A value is changed ONLY when it appears as a key below.
+#   - Every key/value pair and its reason is printed in the quality report.
+#   - Values without an entry pass through unchanged and are counted as
+#     identity values. They are never silently merged.
+#   - Do not merge two scientifically distinct categories. Propose semantic
+#     merges under `proposed_not_applied` instead.
+
+version: 1
+
+extinction_outcome:
+  description: >-
+    Outcome labels from the raw Schema A/B tables and the legacy canonical CSV.
+    The current table normalises one case variant only.
+  mappings:
+    "Self-extinguished":
+      to: "Self-Extinguished"
+      reason: "Case-only variant of an existing label. No semantic merge."
+
+material_category:
+  description: >-
+    Material class descriptors. Every observed value is already a distinct,
+    title-cased descriptor; no cross-category merge is justified from the data
+    or the audit.
+  mappings: {}
+
+fuel_material:
+  description: >-
+    Fuel/specimen labels. Entries below repair spelling, spacing, or an
+    equivalent chemical name where the sources unambiguously describe the same
+    material. Material forms (film, rod, droplet, slab) are NOT merged.
+  mappings:
+    "1/4 blac rod":
+      to: '1/4" black rod'
+      reason: "Spelling variant of the same quarter-inch black PMMA rod."
+    "1/4 black rod":
+      to: '1/4" black rod'
+      reason: "Missing inch mark; same quarter-inch black PMMA rod."
+    '1/4"  black rod':
+      to: '1/4" black rod'
+      reason: "Duplicate whitespace only."
+    "1/4 clear rod":
+      to: '1/4" clear rod'
+      reason: "Missing inch mark; same quarter-inch clear PMMA rod."
+    '3/8"clear rod':
+      to: '3/8" clear rod'
+      reason: "Missing space only; same three-eighth-inch clear PMMA rod."
+    "PEEK (Polyetheretherketone)":
+      to: "PEEK (Polyether ether ketone)"
+      reason: "Same polymer, alternative spelling of polyether ether ketone."
+    "Velcro Hook/Loop Fastener":
+      to: "Velcro Hook-and-Loop (Nylon)"
+      reason: "Same nylon hook-and-loop fastener, alternative wording."
+
+gravity_condition:
+  description: >-
+    Gravity descriptors. Raw Schema A/B files use a lowercase shorthand for
+    microgravity; the legacy canonical CSV uses the descriptive label.
+  mappings:
+    "microgravity":
+      to: "Microgravity (~0g)"
+      reason: "Case and descriptive-label normalisation; same condition."
+
+# Deliberately not applied. These would merge distinct experimental
+# descriptions or imply an equivalence the audit did not establish.
+proposed_not_applied:
+  extinction_outcome:
+    - from: "Blowoff"
+      to: "Convective Blowoff"
+      reason: "Plausible synonym but not confirmed for every row."
+    - from: "Self-extinguished Immediately"
+      to: "Self-Extinction"
+      reason: "Adds a timing qualifier that would be lost."
+  fuel_material:
+    - from: "Methanol"
+      to: "Methanol Droplet"
+      reason: "Droplet form is scientifically meaningful."
+    - from: "n-Heptane"
+      to: "n-Heptane Droplet"
+      reason: "Droplet form is scientifically meaningful."
+    - from: "SIBAL Fabric"
+      to: "SIBAL (Cotton-Fiberglass Blend)"
+      reason: "Likely the same composite, but the sources do not state it explicitly."
+    - from: "Nomex (Aramid)"
+      to: "Nomex Fabric (Aramid)"
+      reason: "Fabric form is not stated for every Nomex row."

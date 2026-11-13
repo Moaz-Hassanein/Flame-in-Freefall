@@ -1,0 +1,139 @@
+# Source policy for the canonical ingestion pipeline.
+#
+# Version 1 (Phase 3). Every family in the legacy canonical CSV is assigned to
+# exactly one policy. The policy decides whether the family is rebuilt from the
+# immutable files under data/raw or carried from the legacy canonical artifact.
+#
+# Do not add a family here without inspecting its raw source first.
+
+version: 1
+
+raw_source_files:
+  - file: ACME_Extended_Research_Data.csv
+    encoding: utf-8
+    families: [ACME-BRE, ACME-CFI, ACME-CLD, ACME-EFIELD]
+  - file: BASS1_Initial_ISS_Data.csv
+    encoding: utf-8
+    families: [BASS-I]
+  - file: JAXA_FLARE_Kibo_Flight_Data.csv
+    encoding: utf-8
+    families: [FLARE (JAXA/Kibo), "Partial-g Bounded (0g+1g / E-FIELD)"]
+  - file: NASA_GRC_Drop_Tower_Quenching.csv
+    encoding: utf-8
+    families: [GRC Drop Tower]
+  - file: NASA_MGM_Smoldering_Combustion.csv
+    encoding: utf-8
+    families: [MGM (Smoldering)]
+  - file: NASA_SAME_Aerosol_Detector_Data.csv
+    encoding: utf-8
+    families: [SAME (Aerosol)]
+  - file: NASA_STD_6001_Extended_Materials.csv
+    encoding: utf-8
+    families: [NASA-STD-6001]
+  - file: NASA_STD_6001_Materials.csv
+    encoding: utf-8
+    families: [NASA-STD-6001]
+  - file: SLICE_Extinguishment_Data.csv
+    encoding: utf-8
+    families: [SLICE]
+  - file: SOFIE_Flight_Data.csv
+    encoding: utf-8
+    families: [SOFIE]
+  - file: NASA_PSI_Complete_Suite_CFIG_SPICE_DAFT.csv
+    encoding: utf-8
+    families:
+      - ACME-CFI-G
+      - SPICE
+      - SAME-R
+      - DAFT / DAFT-2
+      - LUCI / FM2 (Future Partial-g)
+
+raw_rebuild:
+  description: >-
+    Rows rebuilt from the unified 24-column Schema A/B files under data/raw.
+    Every measurement column was verified to match the legacy canonical CSV
+    exactly for all matched rows. Only descriptive metadata that has no raw
+    column is carried from the legacy artifact.
+  families:
+    - ACME-BRE
+    - ACME-CFI
+    - ACME-CLD
+    - ACME-EFIELD
+    - ACME-CFI-G
+    - BASS-I
+    - FLARE (JAXA/Kibo)
+    - GRC Drop Tower
+    - MGM (Smoldering)
+    - SAME (Aerosol)
+    - SAME-R
+    - NASA-STD-6001
+    - SLICE
+    - SOFIE
+    - SPICE
+    - DAFT / DAFT-2
+    - "Partial-g Bounded (0g+1g / E-FIELD)"
+    - LUCI / FM2 (Future Partial-g)
+  columns_from_raw:
+    - experiment_id
+    - dataset_family
+    - investigation_id
+    - fuel_material
+    - material_category
+    - oxygen_pct
+    - pressure_kpa
+    - burn_time_s
+    - extinction_outcome
+    - extinction_diameter_mm
+    - initial_diameter_mm
+    - burning_rate_mms
+    - airflow_velocity_cms
+    - flame_temp_k
+    - gravity_condition
+    - ignition_power_w
+    - ignition_time_s
+    - co2_pct
+    - co_ppm
+    - test_date
+    - source_name
+    - source_url
+    - notes
+  columns_carried_from_legacy:
+    - sample_description
+    - facility_hardware
+    - he_pct
+  derived_columns:
+    original_test_id: >-
+      Set equal to experiment_id. Verified for all 450 raw-rebuild rows in the
+      legacy canonical CSV.
+    pressure_mmhg: >-
+      Derived as round(pressure_kpa * 7.50061683, 1). Verified to reproduce the
+      legacy canonical pressure_mmhg exactly for all 450 raw-rebuild rows.
+
+canonical_legacy:
+  description: >-
+    Families whose legacy canonical rows cannot be faithfully rebuilt from their
+    raw tables. The raw tables are free-text, multi-header experiment logs and
+    the legacy canonical file adds authored sample descriptions, constant
+    per-family thermal values, and derived notes that are not present in the
+    raw columns. Re-deriving those rows would require inventing transformations,
+    so the legacy canonical artifact is the declared input for these families.
+  families:
+    - ACME (CIR)
+    - FLEX
+    - BASS-II
+    - FLEX-2
+    - SAFFIRE-I
+    - SAFFIRE-II
+    - SAFFIRE-III
+    - SAFFIRE-IV
+    - SAFFIRE-V
+    - SAFFIRE-VI
+    - NTRS-Combustion
+    - NTRS-FireSafety
+  raw_inputs_not_used_for_rebuild:
+    - ACME_CIR_Extinction_Data.csv
+    - FLEX2_Cool_Flame_Droplet_Data.csv
+    - PSI-25_Experimental table_BASS-II.csv
+    - PSI-69_Experimental table_FLEX.csv
+    - PSI-98_Experimental table_SAFFIRE-1.csv
+    - SAFFIRE_II_to_VI_Flight_Data.csv
