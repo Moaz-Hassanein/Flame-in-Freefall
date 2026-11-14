@@ -1,8 +1,8 @@
-# Golden Set Evaluation Report — 20261114T001427Z
+# Golden Set Evaluation Report — 20261114T003401Z
 
-- **Timestamp:** `20261114T001427Z`
+- **Timestamp:** `20261114T003401Z`
 - **Planner Mode:** `Golden Reference Plans`
-- **Raw JSON Artifact:** `evaluation/results/20261114T001427Z.json`
+- **Raw JSON Artifact:** `evaluation/results/20261114T003401Z.json`
 - **Total Questions:** 65
 - **Deterministic Questions Evaluated:** 38
 - **Passed:** 38 / 38
