@@ -1,0 +1,26 @@
+# Rules that identify modeled (non-measured) rows.
+#
+# A row is modeled when ALL conditions in a rule match. Rules use column values,
+# never row identifiers. Keep this list short and reviewable.
+#
+# Expected count in the current canonical artifact: 50 + 2 = 52.
+
+version: 1
+
+rules:
+  - id: partial_g_bounded
+    description: >-
+      0g PSI data bounded by 1g WSTF upward-screening data and ACME E-FIELD
+      analog data. These are engineering bounding models, not direct
+      partial-gravity measurements.
+    dataset_family_in:
+      - "Partial-g Bounded (0g+1g / E-FIELD)"
+    gravity_condition_prefix: "Partial-g Bounded Model"
+  - id: pre_luci_fm2_reference
+    description: >-
+      Pre-LUCI and pre-FM2 flight-reference rows that define target regimes for
+      future partial-gravity investigations. They are reference models, not
+      measurements at the stated gravity level.
+    dataset_family_in:
+      - "LUCI / FM2 (Future Partial-g)"
+    gravity_condition_prefix: "Partial-g Bounded Model"

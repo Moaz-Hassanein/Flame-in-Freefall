@@ -1,0 +1,201 @@
+{
+  "flags": {
+    "AIRFLOW_QUARANTINED": 42,
+    "BURN_TIME_IMPLAUSIBLE": 1,
+    "BURN_TIME_ZERO": 7,
+    "PRESSURE_KPA_MISSING": 1,
+    "PRESSURE_MMHG_ZERO": 1,
+    "TEST_DATE_CAMPAIGN_RANGE": 23
+  },
+  "generated_at": "2025-11-13T21:40:00+00:00",
+  "git_commit": "c03126af689d3e769cc7b362705950d6f2dcef94",
+  "inputs": [
+    {
+      "kind": "canonical_legacy",
+      "path": "data/processed/canonical_experiments.csv",
+      "rows": 892,
+      "sha256": "3e72eaf1ab70ed37511aa3f2013fe0538b54fe586b010a48a554a9b568982a51"
+    },
+    {
+      "kind": "raw",
+      "path": "data/raw/ACME_Extended_Research_Data.csv",
+      "rows": 60,
+      "sha256": "4ca4c2dd981316f0fd1c6988591568999d38578060d872df81e4704724ffb3f6"
+    },
+    {
+      "kind": "raw",
+      "path": "data/raw/BASS1_Initial_ISS_Data.csv",
+      "rows": 8,
+      "sha256": "5f032fc6a54a5c85acf940d69388662062d7a52311d1fb1713fb5b06f2709a77"
+    },
+    {
+      "kind": "raw",
+      "path": "data/raw/JAXA_FLARE_Kibo_Flight_Data.csv",
+      "rows": 80,
+      "sha256": "dbe262faef08a5e63c87c846d7919e0c5d7cd9361101a312c792b9c0ea06972c"
+    },
+    {
+      "kind": "raw",
+      "path": "data/raw/NASA_GRC_Drop_Tower_Quenching.csv",
+      "rows": 95,
+      "sha256": "ac2f0724899715ca0032f86d090c1a1f5a8f16da53b857dc2cccd6a04794d360"
+    },
+    {
+      "kind": "raw",
+      "path": "data/raw/NASA_MGM_Smoldering_Combustion.csv",
+      "rows": 65,
+      "sha256": "4983408b1e427563f30d8bdad86ec8700553163b9f462da6cb14c63f43a82049"
+    },
+    {
+      "kind": "raw",
+      "path": "data/raw/NASA_PSI_Complete_Suite_CFIG_SPICE_DAFT.csv",
+      "rows": 13,
+      "sha256": "cbdb46e1260077481ca9ca74ed311690c6b49b65c71203534c2bccbd6c5314da"
+    },
+    {
+      "kind": "raw",
+      "path": "data/raw/NASA_SAME_Aerosol_Detector_Data.csv",
+      "rows": 50,
+      "sha256": "52834ffbb686214e5e6cbcaf69ca673d15c546c562f00a992c0900ffff8792ee"
+    },
+    {
+      "kind": "raw",
+      "path": "data/raw/NASA_STD_6001_Extended_Materials.csv",
+      "rows": 45,
+      "sha256": "b2d64be130d7ae66db67ce2d8557bede088c577356bd98b2b96d56fb90786f85"
+    },
+    {
+      "kind": "raw",
+      "path": "data/raw/NASA_STD_6001_Materials.csv",
+      "rows": 14,
+      "sha256": "0819910b39814a2f511c74af94488739875128dea8299f5af7bc9fecf5bc4fba"
+    },
+    {
+      "kind": "raw",
+      "path": "data/raw/SLICE_Extinguishment_Data.csv",
+      "rows": 8,
+      "sha256": "5a5eabe21fd51a27ff71d9837bd0ab98857395f2bc532d568e90a4ac4280a4db"
+    },
+    {
+      "kind": "raw",
+      "path": "data/raw/SOFIE_Flight_Data.csv",
+      "rows": 12,
+      "sha256": "9dc02c4e3053b08e2da5066113fbe6fde82884cf2ac0e9cc974aad1117a1659d"
+    },
+    {
+      "kind": "mapping",
+      "path": "src/flame/ingestion/mappings/modeled_rows.yaml",
+      "rows": 0,
+      "sha256": "1bb791623726b2198d513ac798c75726deac6a5585814f4f0b466a9768c98cad"
+    },
+    {
+      "kind": "mapping",
+      "path": "src/flame/ingestion/mappings/source_policy.yaml",
+      "rows": 0,
+      "sha256": "c7d72a48aa4f524dce6ca85f55e5727281c5cabc2d0f314851ab8d23764c1c8f"
+    },
+    {
+      "kind": "mapping",
+      "path": "src/flame/ingestion/mappings/vocabularies.yaml",
+      "rows": 0,
+      "sha256": "c28c2ea1833277b41a3bebb974e24860a990ef3979390aad309d0a8b7cc47c4b"
+    }
+  ],
+  "is_modeled": {
+    "count": 52,
+    "rule_counts": {
+      "partial_g_bounded": 50,
+      "pre_luci_fm2_reference": 2
+    }
+  },
+  "outputs": {
+    "parquet_path": "data/processed/experiments.parquet",
+    "parquet_sha256": "4b3139dc07546aa01ab89b3a0b02411a25c02be681275b9619bda57aba7b33cf",
+    "rows": 892
+  },
+  "pipeline": {
+    "name": "flame-ingestion",
+    "version": "0.3.0"
+  },
+  "quarantined_airflow": {
+    "count": 42,
+    "threshold_cms": 1000.0
+  },
+  "row_counts": {
+    "by_family": {
+      "ACME (CIR)": 8,
+      "ACME-BRE": 13,
+      "ACME-CFI": 13,
+      "ACME-CFI-G": 4,
+      "ACME-CLD": 22,
+      "ACME-EFIELD": 12,
+      "BASS-I": 8,
+      "BASS-II": 129,
+      "DAFT / DAFT-2": 2,
+      "FLARE (JAXA/Kibo)": 30,
+      "FLEX": 274,
+      "FLEX-2": 10,
+      "GRC Drop Tower": 95,
+      "LUCI / FM2 (Future Partial-g)": 2,
+      "MGM (Smoldering)": 65,
+      "NASA-STD-6001": 59,
+      "NTRS-Combustion": 1,
+      "NTRS-FireSafety": 1,
+      "Partial-g Bounded (0g+1g / E-FIELD)": 50,
+      "SAFFIRE-I": 4,
+      "SAFFIRE-II": 5,
+      "SAFFIRE-III": 2,
+      "SAFFIRE-IV": 3,
+      "SAFFIRE-V": 3,
+      "SAFFIRE-VI": 2,
+      "SAME (Aerosol)": 50,
+      "SAME-R": 2,
+      "SLICE": 8,
+      "SOFIE": 12,
+      "SPICE": 3
+    },
+    "canonical_legacy": 442,
+    "raw_rebuild": 450,
+    "total": 892
+  },
+  "source_policy": {
+    "canonical_legacy": [
+      "ACME (CIR)",
+      "BASS-II",
+      "FLEX",
+      "FLEX-2",
+      "NTRS-Combustion",
+      "NTRS-FireSafety",
+      "SAFFIRE-I",
+      "SAFFIRE-II",
+      "SAFFIRE-III",
+      "SAFFIRE-IV",
+      "SAFFIRE-V",
+      "SAFFIRE-VI"
+    ],
+    "raw_rebuild": [
+      "ACME-BRE",
+      "ACME-CFI",
+      "ACME-CFI-G",
+      "ACME-CLD",
+      "ACME-EFIELD",
+      "BASS-I",
+      "DAFT / DAFT-2",
+      "FLARE (JAXA/Kibo)",
+      "GRC Drop Tower",
+      "LUCI / FM2 (Future Partial-g)",
+      "MGM (Smoldering)",
+      "NASA-STD-6001",
+      "Partial-g Bounded (0g+1g / E-FIELD)",
+      "SAME (Aerosol)",
+      "SAME-R",
+      "SLICE",
+      "SOFIE",
+      "SPICE"
+    ]
+  },
+  "thresholds": {
+    "airflow_quarantine_threshold_cms": 1000.0,
+    "burn_time_max_s": 3600.0
+  }
+}
