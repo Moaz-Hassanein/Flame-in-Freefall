@@ -72,6 +72,8 @@ class Settings(BaseSettings):
     llm_provider: str | None = None
     llm_model: str | None = None
     llm_api_key: SecretStr | None = None
+    llm_base_url: str | None = None
+    llm_timeout_s: float | None = None
 
     # API configuration
     api_host: str = "0.0.0.0"

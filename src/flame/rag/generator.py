@@ -1,4 +1,4 @@
-"""Grounded answer generator: formats evidence and calls LLM with AnswerContent tool.
+﻿"""Grounded answer generator: formats evidence and calls LLM with AnswerContent tool.
 
 Caps evidence rows at EVIDENCE_ROW_CAP and formats them into a compact
 summary for the LLM context window. The generator only calls the LLM for
@@ -19,7 +19,7 @@ from flame.schemas.query_plan import QueryPlan
 
 logger = logging.getLogger(__name__)
 
-EVIDENCE_ROW_CAP = 20
+EVIDENCE_ROW_CAP = 50
 
 PROMPTS_DIR = Path(__file__).resolve().parent / "prompts"
 GENERATOR_PROMPT_PATH = PROMPTS_DIR / "generator_system.txt"
@@ -42,7 +42,6 @@ _SUMMARY_FIELDS = (
     "is_modeled",
     "notes",
     "sample_description",
-    "source_url",
     "data_quality_flags",
 )
 
@@ -69,6 +68,8 @@ def _format_row(row: dict[str, Any]) -> str:
         elif isinstance(val, float):
             parts.append(f"{key}={val:.4g}")
         else:
+            if isinstance(val, str) and len(val) > 140:
+                val = val[:140] + "..."
             parts.append(f"{key}={val!r}")
     return "  " + ", ".join(parts)
 
@@ -78,6 +79,11 @@ def format_evidence_summary(rows: list[dict[str, Any]], cap: int = EVIDENCE_ROW_
     if not rows:
         return "(no rows retrieved)"
     capped = rows[:cap]
+    if len(capped) > 8:
+        keep = ("experiment_id", "dataset_family", "fuel_material", "gravity_condition",
+                "oxygen_pct", "pressure_kpa", "extinction_outcome", "is_modeled",
+                "data_quality_flags")
+        capped = [{k: r.get(k) for k in keep} for r in capped]
     lines: list[str] = []
     for i, row in enumerate(capped, start=1):
         lines.append(f"{i}. {_format_row(row)}")
@@ -106,6 +112,40 @@ def format_aggregate_summary(aggregates: list[AggregateResult]) -> str:
         )
     return "\n".join(lines)
 
+
+def format_retrieval_summary(
+    plan: QueryPlan,
+    rows: list[dict[str, Any]],
+    total_matching: int,
+    cap: int,
+) -> str:
+    """Describe applied filters, total count and a gravity x outcome breakdown."""
+    lines: list[str] = []
+    if plan.filters:
+        lines.append("Filters already applied by the database (every row below satisfies them):")
+        for flt in plan.filters:
+            lines.append(f"- {flt.field} {flt.op.value} {flt.value!r}")
+    else:
+        lines.append("No filters were applied.")
+    shown_rows = rows[:cap]
+    lines.append(f"Total matching rows in the dataset: {total_matching}")
+    lines.append(f"Rows shown in the evidence list: {len(shown_rows)}")
+    groups: dict[str, dict[str, int]] = {}
+    for r in shown_rows:
+        g = str(r.get("gravity_condition") or "unknown")
+        o = str(r.get("extinction_outcome") or "unknown")
+        groups.setdefault(g, {})
+        groups[g][o] = groups[g].get(o, 0) + 1
+    if groups:
+        lines.append(
+            "Breakdown of the rows shown by gravity condition and extinction outcome "
+            "(cover ALL groups in the answer):"
+        )
+        for g in sorted(groups, key=lambda x: (x.startswith("Normal"), x)):
+            lines.append(f"- {g}: {sum(groups[g].values())} rows")
+            for o, n in sorted(groups[g].items(), key=lambda kv: -kv[1]):
+                lines.append(f"    - {o}: {n}")
+    return "\n".join(lines)
 
 # JSON schema for the AnswerContent tool
 _ANSWER_CONTENT_SCHEMA: dict[str, Any] = {
@@ -170,12 +210,16 @@ class AnswerGenerator:
 
         evidence_summary = format_evidence_summary(rows, cap=cap)
         aggregate_summary = format_aggregate_summary(retrieval_result.aggregates)
+        retrieval_summary = format_retrieval_summary(
+            plan, rows, retrieval_result.total_matching_rows, cap
+        )
         caveats_text = "\n".join(f"- {c}" for c in caveats) if caveats else "(none)"
 
         system_prompt = (
             self._system_prompt_template.replace("{{question}}", question)
             .replace("{{evidence_summary}}", evidence_summary)
             .replace("{{aggregate_summary}}", aggregate_summary)
+            .replace("{{retrieval_summary}}", retrieval_summary)
             .replace("{{caveats}}", caveats_text)
         )
 
@@ -189,7 +233,7 @@ class AnswerGenerator:
                     "the list of cited experiment IDs, and any stated limitations."
                 ),
                 tool_schema=_ANSWER_CONTENT_SCHEMA,
-                max_tokens=4096,
+                max_tokens=3500,
             )
         except LLMError:
             raise
@@ -220,5 +264,8 @@ __all__ = [
     "GeneratorResult",
     "format_aggregate_summary",
     "format_evidence_summary",
+    "format_retrieval_summary",
     "load_generator_system_prompt",
 ]
+
+

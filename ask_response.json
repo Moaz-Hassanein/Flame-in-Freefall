@@ -1,0 +1,47 @@
+﻿{
+    "question":  "Which fuels were tested?",
+    "answer_markdown":  "LLM interaction failed: Anthropic API status error (401): Error code: 401 - {\u0027type\u0027: \u0027error\u0027, \u0027error\u0027: {\u0027type\u0027: \u0027authentication_error\u0027, \u0027message\u0027: \u0027Invalid bearer token\u0027}, \u0027request_id\u0027: \u0027req_011Ch1wZLhv8vW5QopaMUyi4\u0027}",
+    "citations":  [
+
+                  ],
+    "evidence":  [
+
+                 ],
+    "aggregates":  [
+
+                   ],
+    "plan":  {
+                 "intent":  "out_of_scope",
+                 "filters":  [
+
+                             ],
+                 "group_by":  [
+
+                              ],
+                 "aggregates":  [
+
+                                ],
+                 "select_fields":  [
+
+                                   ],
+                 "sort":  [
+
+                          ],
+                 "limit":  100,
+                 "include_modeled":  false,
+                 "experiment_ids":  null,
+                 "allow_cross_family_aggregate":  false
+             },
+    "limitations":  [
+
+                    ],
+    "warnings":  [
+
+                 ],
+    "status":  "clarification_needed",
+    "dataset_version":  "4b3139dc",
+    "timings":  {
+                    "plan_s":  0.27861769999981334,
+                    "total_s":  0.2786192999992636
+                }
+}

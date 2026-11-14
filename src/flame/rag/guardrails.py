@@ -102,8 +102,29 @@ def _check_numeric_grounding(
         evidence_values.add(float(agg.n_null_excluded))
         evidence_values.add(float(agg.n_quarantined_excluded))
 
+    # Counts derived deterministically from the evidence rows are allowed numbers
+    from collections import Counter
+
+    evidence_values.add(float(len(evidence_rows)))
+    for key in ("gravity_condition", "extinction_outcome", "dataset_family"):
+        for n in Counter(str(r.get(key)) for r in evidence_rows).values():
+            evidence_values.add(float(n))
+    pair_counts = Counter(
+        (str(r.get("gravity_condition")), str(r.get("extinction_outcome")))
+        for r in evidence_rows
+    )
+    for n in pair_counts.values():
+        evidence_values.add(float(n))
+
+    # Experiment IDs contain digits; do not treat them as numeric claims
+    text_for_numbers = answer_text
+    for row in evidence_rows:
+        eid = str(row.get("experiment_id", ""))
+        if eid:
+            text_for_numbers = text_for_numbers.replace(eid, " ")
+
     warnings: list[str] = []
-    raw_numbers = _NUMBER_RE.findall(answer_text)
+    raw_numbers = _NUMBER_RE.findall(text_for_numbers)
 
     for num_str in raw_numbers:
         try:

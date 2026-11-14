@@ -17,6 +17,7 @@ from flame.api.routes import router
 from flame.config import Settings, get_settings
 from flame.llm.anthropic_client import AnthropicClient
 from flame.llm.client import LLMClient
+from flame.llm.openai_compat_client import OpenAICompatClient
 from flame.observability.logging import configure_logging, get_request_id
 from flame.retrieval.errors import PlanValidationError
 from flame.retrieval.store import ExperimentStore
@@ -46,11 +47,20 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     # Initialize LLM client if API key is provided
     if not hasattr(app.state, "llm_client") or app.state.llm_client is None:
         if settings.llm_api_key:
-            logger.info("Configuring Anthropic LLM client (model=%s)", settings.llm_model)
-            app.state.llm_client = AnthropicClient(
-                settings=settings,
-                model=settings.llm_model,
-            )
+            if settings.llm_provider == "openai_compat":
+                logger.info(
+                    "Configuring OpenAI-compatible LLM client (model=%s)", settings.llm_model
+                )
+                app.state.llm_client = OpenAICompatClient(
+                    settings=settings,
+                    model=settings.llm_model,
+                )
+            else:
+                logger.info("Configuring Anthropic LLM client (model=%s)", settings.llm_model)
+                app.state.llm_client = AnthropicClient(
+                    settings=settings,
+                    model=settings.llm_model,
+                )
         else:
             logger.warning("No LLM API key configured; /ask will be unavailable.")
             app.state.llm_client = None
@@ -172,6 +182,10 @@ def create_app(
 
     # 4. Include API routers
     app.include_router(router)
+
+    # 5. Serve the built frontend (must stay LAST so it never shadows /api routes)
+    from flame.api.frontend_mount import mount_frontend
+    mount_frontend(app)
 
     return app
 
