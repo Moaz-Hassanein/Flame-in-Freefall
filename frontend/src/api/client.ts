@@ -1,7 +1,7 @@
 import { ApiError, type AskResult, type Meta } from '../types';
 import { isObj, normalizeAsk, normalizeMeta } from './normalize';
 
-const BASE = '/api/v1';
+const BASE = `${import.meta.env.VITE_API_BASE || '/api/v1'}`;
 
 async function toApiError(res: Response): Promise<ApiError> {
   let body: unknown = null;
