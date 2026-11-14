@@ -1,15 +1,15 @@
 {
-  "timestamp": "20261114T000146Z",
+  "timestamp": "20261114T001427Z",
   "is_live_planner": false,
-  "total_questions": 50,
+  "total_questions": 65,
   "total_deterministic": 38,
   "total_passed": 38,
   "deterministic_pass_rate_pct": 100.0,
   "plan_accuracy": {
-    "total_plans": 50,
-    "exact_matches": 50,
+    "total_plans": 65,
+    "exact_matches": 65,
     "exact_match_pct": 100.0,
-    "structural_matches": 50,
+    "structural_matches": 65,
     "structural_match_pct": 100.0,
     "per_category": {
       "lookup": {
@@ -28,9 +28,9 @@
         "structural_match": 8
       },
       "qualitative": {
-        "total": 6,
-        "exact_match": 6,
-        "structural_match": 6
+        "total": 21,
+        "exact_match": 21,
+        "structural_match": 21
       },
       "out_of_scope": {
         "total": 6,
@@ -62,11 +62,11 @@
       "skipped": 0
     },
     "qualitative": {
-      "total": 6,
+      "total": 21,
       "pass": 0,
       "fail": 0,
       "needs_expert": 0,
-      "skipped": 6
+      "skipped": 21
     },
     "out_of_scope": {
       "total": 6,
@@ -2220,6 +2220,306 @@
       },
       "errors": [],
       "message": "Marked as requiring expert or unanswerable / out of scope."
+    },
+    {
+      "id": "q51",
+      "category": "qualitative",
+      "question": "Which experiments demonstrated flame suppression using Halon replacement chemical inhibitors?",
+      "needs_expert": false,
+      "status": "skipped_qualitative",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "qualitative",
+        "exp_intent": "qualitative",
+        "gen_filter_count": 0,
+        "exp_filter_count": 0
+      },
+      "errors": []
+    },
+    {
+      "id": "q52",
+      "category": "qualitative",
+      "question": "Find microgravity combustion tests evaluating water mist or fine water spray flame cooling.",
+      "needs_expert": false,
+      "status": "skipped_qualitative",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "qualitative",
+        "exp_intent": "qualitative",
+        "gen_filter_count": 0,
+        "exp_filter_count": 0
+      },
+      "errors": []
+    },
+    {
+      "id": "q53",
+      "category": "qualitative",
+      "question": "Which experiments manipulated soot dynamics or ion drift using electrical fields?",
+      "needs_expert": false,
+      "status": "skipped_qualitative",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "qualitative",
+        "exp_intent": "qualitative",
+        "gen_filter_count": 0,
+        "exp_filter_count": 0
+      },
+      "errors": []
+    },
+    {
+      "id": "q54",
+      "category": "qualitative",
+      "question": "Which inverse spherical flame experiments transitioned to low-temperature cool flames around 740 K?",
+      "needs_expert": false,
+      "status": "skipped_qualitative",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "qualitative",
+        "exp_intent": "qualitative",
+        "gen_filter_count": 0,
+        "exp_filter_count": 0
+      },
+      "errors": []
+    },
+    {
+      "id": "q55",
+      "category": "qualitative",
+      "question": "Which ACME-BRE tests accelerated thermal quenching using CO2 injection?",
+      "needs_expert": false,
+      "status": "skipped_qualitative",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "qualitative",
+        "exp_intent": "qualitative",
+        "gen_filter_count": 0,
+        "exp_filter_count": 0
+      },
+      "errors": []
+    },
+    {
+      "id": "q56",
+      "category": "qualitative",
+      "question": "Identify microgravity tests where high forced convective airflow caused flame blowoff.",
+      "needs_expert": false,
+      "status": "skipped_qualitative",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "qualitative",
+        "exp_intent": "qualitative",
+        "gen_filter_count": 0,
+        "exp_filter_count": 0
+      },
+      "errors": []
+    },
+    {
+      "id": "q57",
+      "category": "qualitative",
+      "question": "Find experiments exhibiting spherical laminar flames without a buoyant convection plume.",
+      "needs_expert": false,
+      "status": "skipped_qualitative",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "qualitative",
+        "exp_intent": "qualitative",
+        "gen_filter_count": 0,
+        "exp_filter_count": 0
+      },
+      "errors": []
+    },
+    {
+      "id": "q58",
+      "category": "qualitative",
+      "question": "Which high-oxidizer gaseous test bounds hyperoxic leaks and astronaut EVA pre-breathe scenarios?",
+      "needs_expert": false,
+      "status": "skipped_qualitative",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "qualitative",
+        "exp_intent": "qualitative",
+        "gen_filter_count": 0,
+        "exp_filter_count": 0
+      },
+      "errors": []
+    },
+    {
+      "id": "q59",
+      "category": "qualitative",
+      "question": "Which ACME test stabilized a low-temperature cool flame without an initial hot diffusion core?",
+      "needs_expert": false,
+      "status": "skipped_qualitative",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "qualitative",
+        "exp_intent": "qualitative",
+        "gen_filter_count": 0,
+        "exp_filter_count": 0
+      },
+      "errors": []
+    },
+    {
+      "id": "q60",
+      "category": "qualitative",
+      "question": "Which Saffire experiments evaluated large Cygnus spacecraft cargo vehicle combustion?",
+      "needs_expert": false,
+      "status": "skipped_qualitative",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "qualitative",
+        "exp_intent": "qualitative",
+        "gen_filter_count": 0,
+        "exp_filter_count": 0
+      },
+      "errors": []
+    },
+    {
+      "id": "q61",
+      "category": "qualitative",
+      "question": "Which microgravity solid combustion tests examined candle wax wick flames?",
+      "needs_expert": false,
+      "status": "skipped_qualitative",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "qualitative",
+        "exp_intent": "qualitative",
+        "gen_filter_count": 0,
+        "exp_filter_count": 0
+      },
+      "errors": []
+    },
+    {
+      "id": "q62",
+      "category": "qualitative",
+      "question": "Find BASS-II tests measuring flame spread over Nomex aramid fabric specimens.",
+      "needs_expert": false,
+      "status": "skipped_qualitative",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "qualitative",
+        "exp_intent": "qualitative",
+        "gen_filter_count": 0,
+        "exp_filter_count": 0
+      },
+      "errors": []
+    },
+    {
+      "id": "q63",
+      "category": "qualitative",
+      "question": "Which experiment halted combustion specifically due to combined low oxygen and N2 dilution?",
+      "needs_expert": false,
+      "status": "skipped_qualitative",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "qualitative",
+        "exp_intent": "qualitative",
+        "gen_filter_count": 0,
+        "exp_filter_count": 0
+      },
+      "errors": []
+    },
+    {
+      "id": "q64",
+      "category": "qualitative",
+      "question": "Which inverse spherical flame experiment demonstrated non-sooting cool-flame stability with 25% CO2 radiative enhancement?",
+      "needs_expert": false,
+      "status": "skipped_qualitative",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "qualitative",
+        "exp_intent": "qualitative",
+        "gen_filter_count": 0,
+        "exp_filter_count": 0
+      },
+      "errors": []
+    },
+    {
+      "id": "q65",
+      "category": "qualitative",
+      "question": "Which experiment evaluated a porous spherical burner with 85% oxygen fed internally into n-butane ambient?",
+      "needs_expert": false,
+      "status": "skipped_qualitative",
+      "plan_accuracy": {
+        "intent_match": true,
+        "exact_plan_match": true,
+        "structural_plan_match": true,
+        "filter_fields_match": true,
+        "aggs_match": true,
+        "group_by_match": true,
+        "gen_intent": "qualitative",
+        "exp_intent": "qualitative",
+        "gen_filter_count": 0,
+        "exp_filter_count": 0
+      },
+      "errors": []
     }
   ]
 }

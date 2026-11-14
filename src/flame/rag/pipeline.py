@@ -16,6 +16,7 @@ from flame.rag.generator import EVIDENCE_ROW_CAP, AnswerGenerator
 from flame.rag.guardrails import run_guardrails
 from flame.rag.planner import QueryPlanner
 from flame.retrieval.catalog import FieldCatalog
+from flame.retrieval.fusion import fuse_retrieval
 from flame.retrieval.store import ExperimentStore
 from flame.retrieval.structured import AggregateResult
 from flame.schemas.answer import AnswerStatus, AskResponse, CitationRecord
@@ -171,7 +172,11 @@ def ask(
     # ── 3. RETRIEVE ───────────────────────────────────────────────────────────
     t_retrieve = time.monotonic()
     try:
-        retrieval_result = store.execute_plan(plan_result.plan)
+        retrieval_result = fuse_retrieval(
+            question=question,
+            plan=plan_result.plan,
+            store=store,
+        )
     except Exception as err:
         logger.exception("Retrieval stage failed: %s", err)
         timings["total_s"] = time.monotonic() - t0

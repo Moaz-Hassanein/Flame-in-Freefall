@@ -86,6 +86,13 @@ class Settings(BaseSettings):
     max_question_length: int = 1000
     max_log_text_length: int = 200
 
+    # Semantic search configuration
+    enable_semantic_retrieval: bool = True
+    qdrant_path: Path = PROJECT_ROOT / "data" / "interim" / "qdrant"
+    embedding_model: str = "BAAI/bge-small-en-v1.5"
+    sparse_model: str = "Qdrant/bm25"
+    semantic_top_k: int = 10
+
     @field_validator("log_level", mode="before")
     @classmethod
     def _normalize_log_level(cls, value: object) -> object:

@@ -1,0 +1,36 @@
+# Golden Set Evaluation Report — 20261114T000231Z
+
+- **Timestamp:** `20261114T000231Z`
+- **Planner Mode:** `Golden Reference Plans`
+- **Raw JSON Artifact:** `evaluation/results/20261114T000231Z.json`
+- **Total Questions:** 50
+- **Deterministic Questions Evaluated:** 38
+- **Passed:** 38 / 38
+- **Deterministic Pass Rate:** **100.0%**
+- **Plan Exact Accuracy:** 50/50 (100.0%)
+- **Plan Structural Accuracy:** 50/50 (100.0%)
+
+## Category Performance Breakdown
+
+| Category | Total | Pass | Fail | Needs Expert | Skipped | Pass Rate (Det) | Plan Exact % | Plan Struct % |
+|:---|---:|---:|---:|---:|---:|---:|---:|---:|
+| `lookup` | 15 | 15 | 0 | 0 | 0 | 100.0% | 100.0% | 100.0% |
+| `aggregation` | 15 | 15 | 0 | 0 | 0 | 100.0% | 100.0% | 100.0% |
+| `explain_experiment` | 8 | 8 | 0 | 0 | 0 | 100.0% | 100.0% | 100.0% |
+| `qualitative` | 6 | 0 | 0 | 0 | 6 | N/A | 100.0% | 100.0% |
+| `out_of_scope` | 6 | 0 | 0 | 6 | 0 | N/A | 100.0% | 100.0% |
+
+## Questions Marked `needs_expert` (Unanswerable / Out of Scope)
+
+These items reflect domain boundaries (e.g. uncalibrated gravity extrapolations, corrupted airflow fields, or cross-family invalid combinations):
+
+- **q45** (out_of_scope): Extrapolate the burning rate of PMMA to partial gravity of 0.25g on Mars.
+- **q46** (out_of_scope): What was the exact raw airflow velocity for BASS-II test BASS-M5 without quarantine?
+- **q47** (out_of_scope): Compute the average burning rate across all 30 families combined into a single grand mean.
+- **q48** (out_of_scope): What is the exact single calendar date for ACME test ACME-BRE-01?
+- **q49** (out_of_scope): What is the absolute pressure in kPa for test FLEX-114?
+- **q50** (out_of_scope): Predict the soot concentration and radiative emission spectrum for a hypothetical fuel.
+
+## Failure Log
+
+No failures! All deterministic items passed 100%.

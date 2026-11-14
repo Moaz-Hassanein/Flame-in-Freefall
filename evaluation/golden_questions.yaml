@@ -2349,3 +2349,174 @@ questions:
   - hypothetical fuel prediction without dataset measurements is out of scope
   needs_expert: true
   expected_experiment_ids: []
+- id: q51
+  category: qualitative
+  question: Which experiments demonstrated flame suppression using Halon replacement
+    chemical inhibitors?
+  plan:
+    intent: qualitative
+  expected_experiment_ids:
+  - ACME-CFI-02
+  - SLICE-005
+  caveats:
+  - Suppressant behavior described in free-text notes
+  needs_expert: false
+- id: q52
+  category: qualitative
+  question: Find microgravity combustion tests evaluating water mist or fine water
+    spray flame cooling.
+  plan:
+    intent: qualitative
+  expected_experiment_ids:
+  - ACME-CFI-03
+  caveats:
+  - Water mist detailed in notes and sample_description
+  needs_expert: false
+- id: q53
+  category: qualitative
+  question: Which experiments manipulated soot dynamics or ion drift using electrical
+    fields?
+  plan:
+    intent: qualitative
+  expected_experiment_ids:
+  - ACME-EFIELD-01
+  caveats:
+  - Electrical field soot manipulation documented in notes
+  needs_expert: false
+- id: q54
+  category: qualitative
+  question: Which inverse spherical flame experiments transitioned to low-temperature
+    cool flames around 740 K?
+  plan:
+    intent: qualitative
+  expected_experiment_ids:
+  - ACME-CFIG-001
+  caveats:
+  - 740 K cool flame transition documented in notes
+  needs_expert: false
+- id: q55
+  category: qualitative
+  question: Which ACME-BRE tests accelerated thermal quenching using CO2 injection?
+  plan:
+    intent: qualitative
+  expected_experiment_ids:
+  - ACME-BRE-02
+  caveats:
+  - CO2 thermal quenching documented in notes
+  needs_expert: false
+- id: q56
+  category: qualitative
+  question: Identify microgravity tests where high forced convective airflow caused
+    flame blowoff.
+  plan:
+    intent: qualitative
+  expected_experiment_ids:
+  - ACME-CFI-01
+  - BASS1-003
+  - SLICE-004
+  caveats:
+  - Forced airflow blowoff recorded in notes
+  needs_expert: false
+- id: q57
+  category: qualitative
+  question: Find experiments exhibiting spherical laminar flames without a buoyant
+    convection plume.
+  plan:
+    intent: qualitative
+  expected_experiment_ids:
+  - ACME-BRE-01
+  caveats:
+  - Spherical laminar flame without buoyant plume recorded in notes
+  needs_expert: false
+- id: q58
+  category: qualitative
+  question: Which high-oxidizer gaseous test bounds hyperoxic leaks and astronaut
+    EVA pre-breathe scenarios?
+  plan:
+    intent: qualitative
+  expected_experiment_ids:
+  - ACME-CFIG-003
+  caveats:
+  - EVA pre-breathe bounds documented in notes
+  needs_expert: false
+- id: q59
+  category: qualitative
+  question: Which ACME test stabilized a low-temperature cool flame without an initial
+    hot diffusion core?
+  plan:
+    intent: qualitative
+  expected_experiment_ids:
+  - ACME-CLD-01
+  caveats:
+  - Low-temperature cool flame stabilized without hot core in notes
+  needs_expert: false
+- id: q60
+  category: qualitative
+  question: Which Saffire experiments evaluated large Cygnus spacecraft cargo vehicle
+    combustion?
+  plan:
+    intent: qualitative
+  expected_experiment_ids:
+  - SAF1-F1C1/F1C2
+  - SAF1-F2C1/F2C2
+  - SAF1-S1
+  - SAF1-S2
+  caveats:
+  - Cygnus spacecraft combustion test documented in notes
+  needs_expert: false
+- id: q61
+  category: qualitative
+  question: Which microgravity solid combustion tests examined candle wax wick flames?
+  plan:
+    intent: qualitative
+  expected_experiment_ids:
+  - BASS-F4
+  - BASS1-008
+  caveats:
+  - Candle wax recorded in fuel_material and notes
+  needs_expert: false
+- id: q62
+  category: qualitative
+  question: Find BASS-II tests measuring flame spread over Nomex aramid fabric specimens.
+  plan:
+    intent: qualitative
+  expected_experiment_ids:
+  - BASS-F1
+  - BASS-F2
+  - BASS-F3
+  caveats:
+  - Nomex Aramid documented in fuel_material in BASS-II
+  needs_expert: false
+- id: q63
+  category: qualitative
+  question: Which experiment halted combustion specifically due to combined low oxygen
+    and N2 dilution?
+  plan:
+    intent: qualitative
+  expected_experiment_ids:
+  - ACME-BRE-03
+  caveats:
+  - N2 dilution halting combustion documented in notes
+  needs_expert: false
+- id: q64
+  category: qualitative
+  question: Which inverse spherical flame experiment demonstrated non-sooting cool-flame
+    stability with 25% CO2 radiative enhancement?
+  plan:
+    intent: qualitative
+  expected_experiment_ids:
+  - ACME-CFIG-002
+  caveats:
+  - CO2 radiative enhancement non-sooting flame in notes
+  needs_expert: false
+- id: q65
+  category: qualitative
+  question: Which experiment evaluated a porous spherical burner with 85% oxygen fed
+    internally into n-butane ambient?
+  plan:
+    intent: qualitative
+  expected_experiment_ids:
+  - ACME-CFIG-001
+  caveats:
+  - Inside-out diffusion flame details in sample_description
+  needs_expert: false

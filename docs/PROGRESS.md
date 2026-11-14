@@ -668,3 +668,69 @@ Modified files:
 #### Remaining work
 
 - Phase 9: Evaluation dashboard, error categorization and failure analysis.
+
+### Phase 9: Gated Semantic Retrieval (Qdrant Hybrid)
+
+#### What was done
+
+- **Baseline Measurement & Qualitative Gap Discovery**:
+  - Ran full golden evaluation baseline pre-semantic (`evaluation/results/baseline_pre_semantic.json`), recording 100% on deterministic structured categories (38/38).
+  - Extended the golden evaluation suite with 15 hand-verified qualitative questions (`q51`–`q65`) targeting phenomena described only in free-text fields (`notes` and `sample_description`), such as Halon replacement suppressants, water mist micro-droplet cooling, electrostatic soot manipulation, radiative cool flames (~740 K), and Cygnus cargo spacecraft combustion.
+  - Measured structured retrieval performance on these 15 questions: **Recall@5 = 6.7%**, **Recall@10 = 20.0%**, **Recall across top-100 = 73.3%**. Because the structured pipeline fell well below the 90% qualitative threshold, semantic retrieval was empirically justified.
+- **Qdrant & FastEmbed Hybrid Engine (`src/flame/retrieval/semantic.py`)**:
+  - Implemented row-level retrieval document synthesis (`build_document_text`) combining conditions, outcomes, descriptions, and notes.
+  - Implemented dual-vector Qdrant index with dense (`BAAI/bge-small-en-v1.5`, 384 dimensions) and sparse BM25 (`Qdrant/bm25`) representations.
+  - Mapped `QueryPlan` filters directly to Qdrant payload filters, enforcing that modeled rows are excluded by default unless explicitly requested.
+- **Systematic Configuration Benchmark**:
+  - Compared Dense Only, BM25 Only, and Hybrid Reciprocal Rank Fusion (RRF, k=60) on the 15 qualitative questions:
+    - **Dense Only**: Recall@5 = 75.0%, Precision@5 = 22.7%
+    - **BM25 Only**: Recall@5 = 88.9%, Precision@5 = 25.3%
+    - **Hybrid RRF**: **Recall@5 = 95.6%**, **Precision@5 = 29.3%**, Recall@10 = 95.6%
+- **Gated Fusion & Freshness Verification (`src/flame/retrieval/fusion.py`)**:
+  - Created `fuse_retrieval`: strictly gates semantic retrieval to `qualitative` and `explain_experiment` intents. Structured DuckDB retrieval remains authoritative for numeric lookups and aggregations.
+  - Verifies that index metadata (`semantic_meta.json`) matches the dataset snapshot SHA-256 hash. If stale, logs a warning and cleanly falls back to structured retrieval.
+- **Idempotent Indexing Script (`scripts/build_index.py`)**:
+  - Builds the embedded Qdrant vector collection (`experiments`) from `data/processed/experiments.parquet` and records embedding model names and snapshot SHA-256 digests.
+- **Architecture Decision Record (`docs/decisions/0003-hybrid-semantic-retrieval.md`)**:
+  - Documented gap measurements, component selection, gating rules, and comparative benchmark results.
+- **Testing**:
+  - Added unit tests in `tests/unit/test_semantic.py` verifying document formatting, hybrid search execution, modeled row exclusion in payload filters, and intent gating.
+
+#### Files changed
+
+New files:
+- `src/flame/retrieval/semantic.py`
+- `src/flame/retrieval/fusion.py`
+- `scripts/build_index.py`
+- `docs/decisions/0003-hybrid-semantic-retrieval.md`
+- `tests/unit/test_semantic.py`
+- `evaluation/results/baseline_pre_semantic.json`
+- `evaluation/results/baseline_pre_semantic.md`
+
+Modified files:
+- `pyproject.toml` & `uv.lock` (added `qdrant-client` and `fastembed`)
+- `src/flame/config.py` (added semantic configuration parameters)
+- `src/flame/rag/pipeline.py` (wired `fuse_retrieval` into pipeline retrieval step)
+- `evaluation/golden_questions.yaml` (extended with q51–q65 qualitative questions)
+- `docs/PROGRESS.md` (this report)
+
+#### Tests run and results
+
+- `uv run pytest -m "not live" -q` — **PASS**: 206 passed, 3 deselected in 72.95s (89% coverage).
+- `uv run python evaluation/run_eval.py` — **PASS**: 38/38 deterministic items pass (100.0% pass rate).
+- `uv run ruff check .` — **PASS**: 0 errors.
+- `uv run ruff format --check .` — **PASS**: 130 files already formatted.
+- `uv run mypy src/flame` — **PASS**: Success: no issues found in 38 source files (strict mode).
+
+#### Acceptance criteria checked
+
+1. **Gap measured objectively** — **Met**: Documented structured qualitative baseline failure (Recall@5 = 6.7%, Recall@100 = 73.3% < 90% threshold).
+2. **Configuration comparison** — **Met**: Benchmarked Dense, BM25, and Hybrid RRF, showing Hybrid RRF achieves 95.6% Recall@5.
+3. **Structured categories preserved** — **Met**: 100% deterministic pass rate (38/38) on structured categories with zero regression.
+4. **Gated retrieval** — **Met**: Fused retrieval only executes for qualitative and explain intents; numeric lookups and aggregations bypass semantic search.
+5. **Freshness & staleness verification** — **Met**: Validates Parquet SHA-256 against index metadata with graceful fallback.
+6. **All tests, ruff, mypy pass** — **Met**: 206 tests passing, strict mypy clean.
+
+#### Remaining work
+
+- Phase 10: Interactive UI (React/Vite dashboard, chat interface, dataset explorer).
