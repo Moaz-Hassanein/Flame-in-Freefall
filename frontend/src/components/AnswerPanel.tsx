@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import ReactMarkdown, { type Components, type Options } from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { remarkCitations } from '../lib/citations';
 
 interface Props {
@@ -15,7 +16,7 @@ interface ChipProps {
 
 export function AnswerPanel({ answer, evidenceIds, onCite }: Props) {
   const plugins = useMemo<NonNullable<Options['remarkPlugins']>>(
-    () => [remarkCitations(evidenceIds)] as unknown as NonNullable<Options['remarkPlugins']>,
+    () => [remarkGfm, remarkCitations(evidenceIds)] as unknown as NonNullable<Options['remarkPlugins']>,
     [evidenceIds],
   );
   const components = useMemo(
@@ -46,7 +47,7 @@ export function AnswerPanel({ answer, evidenceIds, onCite }: Props) {
       {answer ? (
         <div className="md">
           <ReactMarkdown skipHtml remarkPlugins={plugins} components={components}>
-            {answer}
+            {answer.replace(/[\u2010-\u2015\u2212]/g, '-')}
           </ReactMarkdown>
         </div>
       ) : (

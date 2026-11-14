@@ -206,3 +206,6 @@ tbody tr:focus{outline:2px solid var(--electric-cyan);outline-offset:-2px}
 @keyframes nx-rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 @media (max-width:760px){.nx-hero{grid-template-columns:1fr}.nx-orb{order:-1;width:min(220px,60vw)}.nx-stat.wide{grid-column:auto}}
 @media (prefers-reduced-motion:reduce){.nx-bg::before,.nx-bg::after,.nx-orb,.nx-orb::before,.nx-orb::after,.nx-card,.nx-rise,.nx-fill{animation:none}}
+.md table{display:block;overflow-x:auto;border-collapse:collapse;max-width:100%;font-size:.92em;margin:12px 0}
+.md th,.md td{border:1px solid rgba(128,128,128,.35);padding:6px 10px;text-align:left}
+.md th{font-weight:700}
