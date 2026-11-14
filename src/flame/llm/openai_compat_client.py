@@ -26,7 +26,7 @@ logger = logging.getLogger(__name__)
 
 DEFAULT_BASE_URL = "http://localhost:11434/v1"
 DEFAULT_TIMEOUT_S = 180.0  # local models can be slow on CPU
-DEFAULT_MAX_RETRIES = 2
+DEFAULT_MAX_RETRIES = 4
 INITIAL_BACKOFF_S = 1.0
 BACKOFF_FACTOR = 2.0
 
@@ -42,6 +42,32 @@ def _extract_json_object(text: str) -> dict[str, Any] | None:
         if isinstance(value, dict):
             return value
     return None
+
+
+def _fix_null_lists(args: dict[str, Any], schema: dict[str, Any]) -> dict[str, Any]:
+    """Turn null into [] for properties the schema declares as arrays."""
+    props = schema.get("properties") or {}
+    for key, spec in props.items():
+        if key in args and args[key] is None and isinstance(spec, dict):
+            kind = spec.get("type")
+            if kind == "array" or (isinstance(kind, list) and "array" in kind):
+                args[key] = []
+    return args
+
+
+def _normalize_arguments(
+    args: dict[str, Any] | None, tool_name: str, schema: dict[str, Any]
+) -> dict[str, Any] | None:
+    """Unwrap {"name": tool, "arguments": {...}} and repair null list fields."""
+    if not isinstance(args, dict):
+        return args
+    inner = args.get("arguments")
+    if args.get("name") == tool_name and inner is not None:
+        if isinstance(inner, str):
+            inner = _extract_json_object(inner)
+        if isinstance(inner, dict):
+            args = inner
+    return _fix_null_lists(args, schema)
 
 
 class OpenAICompatClient(LLMClient):
@@ -100,12 +126,20 @@ class OpenAICompatClient(LLMClient):
                 if resp.status_code == 429:
                     if last:
                         raise LLMRateLimit("LLM server rate limit exceeded.")
+                    try:
+                        retry_after = float(resp.headers.get("retry-after", 0) or 0)
+                    except ValueError:
+                        retry_after = 0.0
+                    backoff = max(backoff, min(retry_after, 20.0))
                 elif resp.status_code >= 500:
                     if last:
                         raise LLMUnavailable(
                             f"LLM server error {resp.status_code}: {resp.text[:300]}"
                         )
                 elif resp.status_code >= 400:
+                    salvaged = self._salvage_failed_generation(resp)
+                    if salvaged is not None:
+                        return salvaged
                     raise LLMUnavailable(
                         f"LLM API status error ({resp.status_code}): {resp.text[:300]}"
                     )
@@ -120,6 +154,21 @@ class OpenAICompatClient(LLMClient):
             time.sleep(backoff)
             backoff *= BACKOFF_FACTOR
         raise LLMUnavailable("LLM call failed with unknown error.")
+
+    @staticmethod
+    def _salvage_failed_generation(resp: httpx.Response) -> dict[str, Any] | None:
+        """Recover the model output from a tool_use_failed 400 error, if present."""
+        if resp.status_code != 400:
+            return None
+        try:
+            err = resp.json().get("error") or {}
+        except (ValueError, AttributeError):
+            return None
+        fg = err.get("failed_generation")
+        if err.get("code") != "tool_use_failed" or not isinstance(fg, str) or not fg.strip():
+            return None
+        logger.info("Salvaging output from a failed tool-call generation.")
+        return {"choices": [{"message": {"content": fg}}], "usage": {}}
 
     @staticmethod
     def _usage(body: dict[str, Any]) -> TokenUsage:
@@ -197,6 +246,7 @@ class OpenAICompatClient(LLMClient):
             # Small models often answer with JSON in plain text instead of a tool call.
             arguments = _extract_json_object(content)
 
+        arguments = _normalize_arguments(arguments, tool_name, tool_schema)
         if not _ok(arguments):
             # Small models often ignore the tool schema. Retry once with schema-constrained
             # JSON output (response_format), which the server enforces during decoding.

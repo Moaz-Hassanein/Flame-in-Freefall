@@ -104,6 +104,9 @@ def _check_numeric_grounding(
 
     # Counts derived deterministically from the evidence rows are allowed numbers
     from collections import Counter
+    from flame.rag.generator import EVIDENCE_ROW_CAP
+
+    evidence_values.add(float(EVIDENCE_ROW_CAP))
 
     evidence_values.add(float(len(evidence_rows)))
     for key in ("gravity_condition", "extinction_outcome", "dataset_family"):
@@ -254,6 +257,9 @@ def run_guardrails(
     warnings: list[str] = []
     failures: list[str] = []
     limitations = list(limitations)  # make mutable copy
+    # Models sometimes emit Unicode dashes inside IDs; normalize to ASCII hyphen
+    answer_text = re.sub("[\u2010-\u2015\u2212]", "-", answer_text)
+    cited_ids = [re.sub("[\u2010-\u2015\u2212]", "-", cid) for cid in cited_ids]
 
     # 1. Citation validity
     valid_ids: set[str] = {str(row.get("experiment_id", "")) for row in evidence_rows} - {""}

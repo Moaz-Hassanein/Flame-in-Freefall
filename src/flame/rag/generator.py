@@ -80,9 +80,7 @@ def format_evidence_summary(rows: list[dict[str, Any]], cap: int = EVIDENCE_ROW_
         return "(no rows retrieved)"
     capped = rows[:cap]
     if len(capped) > 8:
-        keep = ("experiment_id", "dataset_family", "fuel_material", "gravity_condition",
-                "oxygen_pct", "pressure_kpa", "extinction_outcome", "is_modeled",
-                "data_quality_flags")
+        keep = tuple(k for k in _SUMMARY_FIELDS if k not in ("notes", "sample_description", "source_url", "investigation_id"))
         capped = [{k: r.get(k) for k in keep} for r in capped]
     lines: list[str] = []
     for i, row in enumerate(capped, start=1):
@@ -119,7 +117,7 @@ def format_retrieval_summary(
     total_matching: int,
     cap: int,
 ) -> str:
-    """Describe applied filters, total count and a gravity x outcome breakdown."""
+    """Describe applied filters, total count and a gravity x outcome breakdown with IDs."""
     lines: list[str] = []
     if plan.filters:
         lines.append("Filters already applied by the database (every row below satisfies them):")
@@ -130,21 +128,22 @@ def format_retrieval_summary(
     shown_rows = rows[:cap]
     lines.append(f"Total matching rows in the dataset: {total_matching}")
     lines.append(f"Rows shown in the evidence list: {len(shown_rows)}")
-    groups: dict[str, dict[str, int]] = {}
+    groups: dict[str, dict[str, list[str]]] = {}
     for r in shown_rows:
         g = str(r.get("gravity_condition") or "unknown")
         o = str(r.get("extinction_outcome") or "unknown")
-        groups.setdefault(g, {})
-        groups[g][o] = groups[g].get(o, 0) + 1
+        groups.setdefault(g, {}).setdefault(o, []).append(str(r.get("experiment_id", "")))
     if groups:
         lines.append(
-            "Breakdown of the rows shown by gravity condition and extinction outcome "
+            "Breakdown of the rows shown by gravity condition and extinction outcome. "
+            "Copy the IDs of each group exactly as listed; never move an ID to another group "
             "(cover ALL groups in the answer):"
         )
         for g in sorted(groups, key=lambda x: (x.startswith("Normal"), x)):
-            lines.append(f"- {g}: {sum(groups[g].values())} rows")
-            for o, n in sorted(groups[g].items(), key=lambda kv: -kv[1]):
-                lines.append(f"    - {o}: {n}")
+            total_g = sum(len(v) for v in groups[g].values())
+            lines.append(f"- {g}: {total_g} rows")
+            for o, ids in sorted(groups[g].items(), key=lambda kv: -len(kv[1])):
+                lines.append(f"    - {o}: {len(ids)} rows: " + ", ".join(sorted(ids)))
     return "\n".join(lines)
 
 # JSON schema for the AnswerContent tool
