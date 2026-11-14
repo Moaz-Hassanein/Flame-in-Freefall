@@ -78,3 +78,48 @@ docs/decisions/            # architecture decision records
 ## License
 
 Apache-2.0. See `LICENSE`.
+
+## Running the Application
+
+The application consists of a FastAPI backend and a React + TypeScript frontend. Run each component in a separate terminal.
+
+### 1. Start the Backend
+
+From the project root, run:
+
+```bash
+uv run uvicorn flame.api.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+The backend will be available at:
+
+- API: http://localhost:8000
+- Swagger UI: http://localhost:8000/docs
+
+### 2. Start the Frontend
+
+Open a second terminal and navigate to the frontend directory:
+
+```bash
+cd frontend
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
+
+```bash
+npm run dev -- --host 0.0.0.0
+```
+
+The frontend will be available at:
+
+- Frontend: http://localhost:5173
+
+### 3. Stop the Application
+
+Press `Ctrl + C` in each terminal to stop the backend and frontend servers.
